@@ -1,6 +1,4 @@
-
-
-bar_chart <- function(){
+bar_chart <- function() {
 
 
 }

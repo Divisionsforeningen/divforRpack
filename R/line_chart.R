@@ -1,6 +1,4 @@
-
-
-line_chart <- function(){
+line_chart <- function() {
 
 
 }

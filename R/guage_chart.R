@@ -1,6 +1,4 @@
-
-
-guage <- function(){
+guage <- function() {
 
 
 }
