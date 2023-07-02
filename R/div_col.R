@@ -6,15 +6,18 @@
 #' @return Color
 #' @export
 #'
-#' @examples div_col(color="white")
-
+#' @examples div_col(color = "white")
 div_col <- function(type = NA, color = NA) {
   # Checks for custom color and returns it if it is a color or hex code
-  if (!is.na(color) & (color %in% colors() | is_hexcolor(color))) {
+  if (!is.na(color) & (color %in% colors() | is_hexcolor(text = color)
+  )) {
     return(color)
   }
   # Checks for input - if not found throws error
-  if (is.na(type) & !(!is.na(color) & (color %in% colors() | is_hexcolor(color)))) stop("No type or color chosen")
+  if (is.na(type) & !(!is.na(color) & (color %in% colors() | is_hexcolor(text = color)
+  ))) {
+    stop("No type or color chosen")
+  }
   col <- dplyr::case_when(
     type == "bar_chart_mean" ~ "red",
     TRUE ~ NA
@@ -24,5 +27,3 @@ div_col <- function(type = NA, color = NA) {
   # Returns color
   return(col)
 }
-
-div_col(color = "test")
