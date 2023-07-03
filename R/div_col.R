@@ -12,22 +12,25 @@ div_col <- function(type = NA, color = NA) {
   if (is.na(type) & is.na(color)) {
     stop("No type or color chosen")
   }
-  #Checks for custom color and returns it if it is a color or hex code
+  # Checks for custom color and returns it if it is a color or hex code
   else if (!is.na(color)) {
-    if (color %in% colors()){return(color)}
-    else if (is_hexcolor(color)){return(color)}
-    else stop("Color is not usable")
-  }
-  else {col <- dplyr::case_when(
-    type == "mean" ~ "red",
-    type == "bar_chart_fill" ~ "lightgrey",
-    type == "bar_chart_highlight" ~ "#007bff",
-    TRUE ~ NA
-  )
-  # If no usable output is generated throw error
-  if (is.na(col)) stop("No color chosen")
-  # Returns color
-  return(col)
+    if (color %in% colors()) {
+      return(color)
+    } else if (is_hexcolor(color)) {
+      return(color)
+    } else {
+      stop("Color is not usable")
+    }
+  } else {
+    col <- dplyr::case_when(
+      type == "mean" ~ "red",
+      type == "bar_chart_fill" ~ "lightgrey",
+      type == "bar_chart_highlight" ~ "#007bff",
+      TRUE ~ NA
+    )
+    # If no usable output is generated throw error
+    if (is.na(col)) stop("No color chosen")
+    # Returns color
+    return(col)
   }
 }
-
