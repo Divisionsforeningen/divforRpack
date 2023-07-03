@@ -10,18 +10,21 @@ bar_chart(
   y,
   id,
   z,
-  kpi,
   positive = c(TRUE, FALSE),
   fillCol = NA,
   highCol = NA
 )
 }
 \arguments{
-\item{df}{Data frame}
+\item{df}{Data frame containing KPI and Label, x and y}
+
+\item{x}{Column containing KPI}
+
+\item{y}{Label}
 
 \item{id}{Id to highlight}
 
-\item{kpi}{Column containing KPI}
+\item{z}{Selected KPI - from shiny input}
 
 \item{positive}{True if higher is better for KPI}
 
@@ -34,4 +37,7 @@ A bar plot, chosen id is highlighted, and mean is added as a red line - ordering
 }
 \description{
 bar_chart
+}
+\examples{
+no example
 }
