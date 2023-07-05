@@ -16,8 +16,7 @@
 #' gauge(50, "Test")
 #' gauge(50, "Test", worstCol = "white", bestCol = "steelblue", secCol = "yellow", thrCol = "lightblue")
 gauge <- function(value, KPI, textCol = NA, bestCol = NA, secCol = NA, thrCol = NA, worstCol = NA) {
-  # TODO Build function & documentation
-
+  # TODO Make it work with different league sizes
   breaks <- c(0, 25, 50, 75, 100)
   # Define gauge function with breaks
   gg.gauge <- function(pos, breaks = breaks) {

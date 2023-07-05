@@ -20,6 +20,7 @@
 #' @export
 #'
 bar_chart <- function(df, x, y, id, KPI, positive = c(TRUE, FALSE), median = c(TRUE, FALSE), fillCol = NA, highCol = NA, refCol = NA) {
+  # TODO Write test battery
   # Create ggplot from df, using x, and y. Reorder if needed
   ggplot(df, aes(x = x, y = stats::reorder(x, mean, decreasing = positive))) +
     # Add bar for all data points
