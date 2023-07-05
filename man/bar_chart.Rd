@@ -9,7 +9,7 @@ bar_chart(
   x,
   y,
   id,
-  z,
+  KPI,
   positive = c(TRUE, FALSE),
   median = c(TRUE, FALSE),
   fillCol = NA,
@@ -26,7 +26,7 @@ bar_chart(
 
 \item{id}{Id to highlight}
 
-\item{z}{Selected KPI - from shiny input}
+\item{KPI}{Selected KPI - from shiny input}
 
 \item{positive}{True if higher is better for KPI}
 

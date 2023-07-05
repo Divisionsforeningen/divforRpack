@@ -4,7 +4,7 @@
 #' @param x Column containing KPI
 #' @param y Label
 #' @param id Id to highlight
-#' @param z Selected KPI - from shiny input
+#' @param KPI Selected KPI - from shiny input
 #' @param positive True if higher is better for KPI
 #' @param median Use median instead of mean
 #' @param fillCol Color of non-highlighted ids
@@ -19,7 +19,7 @@
 #'
 #' @export
 #'
-bar_chart <- function(df, x, y, id, z, positive = c(TRUE, FALSE), median = c(TRUE, FALSE), fillCol = NA, highCol = NA, refCol = NA) {
+bar_chart <- function(df, x, y, id, KPI, positive = c(TRUE, FALSE), median = c(TRUE, FALSE), fillCol = NA, highCol = NA, refCol = NA) {
   # Create ggplot from df, using x, and y. Reorder if needed
   ggplot(df, aes(x = x, y = stats::reorder(x, mean, decreasing = positive))) +
     # Add bar for all data points

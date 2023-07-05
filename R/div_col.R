@@ -7,7 +7,9 @@
 #' @import grDevices
 #' @export
 #'
-#' @examples div_col(color = "white")
+#' @examples
+#' div_col(color = "white")
+#' div_col(type = "reference")
 div_col <- function(type = NA, color = NA) {
   # Checks for input - if not found throws error
   if (is.na(type) & is.na(color)) {
@@ -29,6 +31,11 @@ div_col <- function(type = NA, color = NA) {
       type == "reference" ~ "red",
       type == "fill" ~ "lightgrey",
       type == "highlight" ~ "#007bff",
+      type == "top" ~ "forestgreen",
+      type == "above" ~ "gold",
+      type == "below" ~ "orange",
+      type == "bottom" ~ "red",
+      type == "b_text" ~ "black",
       TRUE ~ NA
     )
     # If no usable output is generated throw error

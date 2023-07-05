@@ -19,4 +19,5 @@ div_col
 }
 \examples{
 div_col(color = "white")
+div_col(type = "reference")
 }

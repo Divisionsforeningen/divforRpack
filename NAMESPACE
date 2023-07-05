@@ -3,6 +3,7 @@
 export("%nin%")
 export(bar_chart)
 export(div_col)
+export(gauge)
 export(is_hexcolor)
 import(dplyr)
 import(ggplot2)
