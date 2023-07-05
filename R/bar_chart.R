@@ -16,21 +16,30 @@
 #'
 #' @examples bar_chart(df, x, y, id, z, TRUE, FALSE, NA, NA, NA)
 bar_chart <- function(df, x, y, id, z, positive = c(TRUE, FALSE), median = c(TRUE, FALSE), fillCol = NA, highCol = NA, refCol = NA) {
+  # Create ggplot from df, using x, and y. Reorder if neded
   ggplot(df, aes(x = x, y = reorder(x, mean, decreasing = positive))) +
+    # Add bar for all data points
     geom_bar(stat = "identity", width = 0.3, fill = div_col("fill", ifelse(is.na(fillCol), NA, fillCol))) +
+    # Add bar for highlighted data point
     geom_bar(data = df %>%
       filter(y == id), aes(), stat = "identity", fill = div_col("highlight", ifelse(is.na(highCol), NA, highCol)), width = 0.3) +
+    # Add point at the end of the bar for all data points
     geom_point(data = df %>%
       filter(y != id), aes(), size = 6, color = div_col("fill", ifelse(is.na(fillCol), NA, fillCol))) +
+    # Add point at the end of the bar for highlighted data point
     geom_point(data = df %>%
       filter(y == id), size = 6, color = div_col("highlight", ifelse(is.na(highCol), NA, highCol))) +
+    # Add reference line
     geom_vline(aes(xintercept = ifelse(median == TRUE, median(df$x), mean(df$x)), color = "League average"), size = 2, alpha = 0.8) +
+    # Define color of reference line
     scale_color_manual("", values = c("League average" = div_col("reference", ifelse(is.na(refCol), NA, refCol)))) +
+    # Define labels and title
     labs(
       x = paste0(z),
       y = "",
       title = "Your rank compared to the chosen teams"
     ) +
+    # Define location of legend and text size
     theme(
       legend.position = "bottom",
       legend.text = element_text(size = 12),

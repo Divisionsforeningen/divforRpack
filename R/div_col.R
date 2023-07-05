@@ -21,7 +21,9 @@ div_col <- function(type = NA, color = NA) {
     } else {
       stop("Color is not usable")
     }
-  } else {
+  }
+  # If custom color is not chosen then check type and return color
+  else {
     col <- dplyr::case_when(
       type == "reference" ~ "red",
       type == "fill" ~ "lightgrey",

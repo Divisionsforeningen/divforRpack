@@ -10,5 +10,6 @@
 #' b <- c(1, 3, 5)
 #' a %nin% b
 "%nin%" <- function(a, b) {
+  # Define function as the reverse of %in% function
   !a %in% b
 }
