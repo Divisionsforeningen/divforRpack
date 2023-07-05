@@ -11,8 +11,10 @@ bar_chart(
   id,
   z,
   positive = c(TRUE, FALSE),
+  median = c(TRUE, FALSE),
   fillCol = NA,
-  highCol = NA
+  highCol = NA,
+  refCol = NA
 )
 }
 \arguments{
@@ -28,9 +30,13 @@ bar_chart(
 
 \item{positive}{True if higher is better for KPI}
 
+\item{median}{Use median instead of mean}
+
 \item{fillCol}{Color of non-highlighted ids}
 
 \item{highCol}{Highlighted id color}
+
+\item{refCol}{Color of reference line}
 }
 \value{
 A bar plot, chosen id is highlighted, and mean is added as a red line - ordering is done by "positive"
@@ -39,5 +45,5 @@ A bar plot, chosen id is highlighted, and mean is added as a red line - ordering
 bar_chart
 }
 \examples{
-no example
+bar_chart(df, x, y, id, z, TRUE, FALSE, NA, NA, NA)
 }

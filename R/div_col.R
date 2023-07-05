@@ -23,9 +23,9 @@ div_col <- function(type = NA, color = NA) {
     }
   } else {
     col <- dplyr::case_when(
-      type == "mean" ~ "red",
-      type == "bar_chart_fill" ~ "lightgrey",
-      type == "bar_chart_highlight" ~ "#007bff",
+      type == "reference" ~ "red",
+      type == "fill" ~ "lightgrey",
+      type == "highlight" ~ "#007bff",
       TRUE ~ NA
     )
     # If no usable output is generated throw error
