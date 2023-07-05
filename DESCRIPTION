@@ -1,12 +1,18 @@
 Package: divforRpack
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Internal Divisionsforenings Package
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Authors@R: person("Mikkel", "Keldmann", email = "mikkel.keldmann@hotmail.com",
+  role = c("aut", "cre"))
+Description: divforRpack: Internal functions for Divisionsforeningen and Performance Center in Danish Football.
+License: Pick one!
 Encoding: UTF-8
 LazyData: true
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
+Imports:
+    stats,
+    dplyr,
+    ggplot2,
+    stringr,
+    grDevices

@@ -1,4 +1,3 @@
 add_heatmap <- function() {
-  #TODO Build function & documentation
-
+  # TODO Build function & documentation
 }

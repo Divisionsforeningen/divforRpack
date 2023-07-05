@@ -4,6 +4,7 @@
 #' @param color Custom color input - either a color from colors() or a color in hex code
 #'
 #' @return Color
+#' @import grDevices
 #' @export
 #'
 #' @examples div_col(color = "white")
@@ -14,7 +15,7 @@ div_col <- function(type = NA, color = NA) {
   }
   # Checks for custom color and returns it if it is a color or hex code
   else if (!is.na(color)) {
-    if (color %in% colors()) {
+    if (color %in% grDevices::colors()) {
       return(color)
     } else if (is_hexcolor(color)) {
       return(color)

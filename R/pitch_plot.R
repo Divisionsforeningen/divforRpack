@@ -1,4 +1,3 @@
 pitch_plot <- function() {
-  #TODO Build function & documentation
-
+  # TODO Build function & documentation
 }

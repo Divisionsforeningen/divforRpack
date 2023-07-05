@@ -2,7 +2,7 @@
 % Please edit documentation in R/nin.R
 \name{\%nin\%}
 \alias{\%nin\%}
-\title{%nin%}
+\title{\%nin\%}
 \usage{
 a \%nin\% b
 }
@@ -15,7 +15,7 @@ a \%nin\% b
 TRUE if a is in b, else FALSE
 }
 \description{
-%nin%
+\%nin\%
 }
 \examples{
 a <- 1

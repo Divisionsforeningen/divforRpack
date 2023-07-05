@@ -44,6 +44,3 @@ A bar plot, chosen id is highlighted, and mean is added as a red line - ordering
 \description{
 bar_chart
 }
-\examples{
-bar_chart(df, x, y, id, z, TRUE, FALSE, NA, NA, NA)
-}

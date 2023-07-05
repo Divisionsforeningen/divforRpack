@@ -1,3 +1,3 @@
-line_chart_phys <- function() {
+gauge <- function() {
   # TODO Build function & documentation
 }

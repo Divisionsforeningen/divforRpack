@@ -3,6 +3,7 @@
 #' @param text String to test
 #'
 #' @return True is hexcode, false if not
+#' @import stringr
 #' @export
 #'
 #' @examples is_hexcolor("#ffffff")

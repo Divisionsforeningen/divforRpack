@@ -12,12 +12,16 @@
 #' @param refCol Color of reference line
 #'
 #' @return A bar plot, chosen id is highlighted, and mean is added as a red line - ordering is done by "positive"
+#' @import ggplot2
+#' @import grDevices
+#' @import stats
+#' @import dplyr
+#'
 #' @export
 #'
-#' @examples bar_chart(df, x, y, id, z, TRUE, FALSE, NA, NA, NA)
 bar_chart <- function(df, x, y, id, z, positive = c(TRUE, FALSE), median = c(TRUE, FALSE), fillCol = NA, highCol = NA, refCol = NA) {
-  # Create ggplot from df, using x, and y. Reorder if neded
-  ggplot(df, aes(x = x, y = reorder(x, mean, decreasing = positive))) +
+  # Create ggplot from df, using x, and y. Reorder if needed
+  ggplot(df, aes(x = x, y = stats::reorder(x, mean, decreasing = positive))) +
     # Add bar for all data points
     geom_bar(stat = "identity", width = 0.3, fill = div_col("fill", ifelse(is.na(fillCol), NA, fillCol))) +
     # Add bar for highlighted data point
