@@ -28,14 +28,19 @@ div_col <- function(type = NA, color = NA) {
   # If custom color is not chosen then check type and return color
   else {
     col <- dplyr::case_when(
+      # General colors
+      type == "w_text" ~ "white",
+      type == "b_text" ~ "black",
       type == "reference" ~ "red",
+      # Chart with comparisons
       type == "fill" ~ "lightgrey",
       type == "highlight" ~ "#007bff",
+      # Charts based on 4 different levels - best to worst
       type == "top" ~ "forestgreen",
       type == "above" ~ "gold",
       type == "below" ~ "orange",
       type == "bottom" ~ "red",
-      type == "b_text" ~ "black",
+      # If type is not in defined set
       TRUE ~ NA
     )
     # If no usable output is generated throw error
