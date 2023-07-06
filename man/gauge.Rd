@@ -36,7 +36,7 @@ gauge(
 Gauge plot with text based on 12 team league
 }
 \description{
-gauge
+Creates gauge chart for comparison across teams
 }
 \examples{
 gauge(50, "Test")

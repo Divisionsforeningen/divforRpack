@@ -1,5 +1,7 @@
 #' div_col
 #'
+#' Given either type or custom input checks if the input is a color and returns it for plotting use
+#'
 #' @param type String indicating type for default colors
 #' @param color Custom color input - either a color from colors() or a color in hex code
 #'

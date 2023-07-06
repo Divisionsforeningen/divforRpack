@@ -15,7 +15,7 @@ div_col(type = NA, color = NA)
 Color
 }
 \description{
-div_col
+Given either type or custom input checks if the input is a color and returns it for plotting use
 }
 \examples{
 div_col(color = "white")

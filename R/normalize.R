@@ -1,5 +1,7 @@
 #' normalize
 #'
+#' Normalizes a series of values to be between 0 and 1
+#'
 #' @param x Series of values or a data frame column
 #'
 #' @return Series of values scaled between 0 and 1

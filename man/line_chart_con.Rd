@@ -48,5 +48,5 @@ line_chart_con(
 Line chart on continuous x axis
 }
 \description{
-line_chart_con
+Line chart - not sure what it does...
 }

@@ -13,7 +13,7 @@ normalize(x)
 Series of values scaled between 0 and 1
 }
 \description{
-normalize
+Normalizes a series of values to be between 0 and 1
 }
 \examples{
 normalize(c(0, 5, 10))

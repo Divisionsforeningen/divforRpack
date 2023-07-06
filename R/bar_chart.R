@@ -1,5 +1,9 @@
 #' bar_chart
 #'
+#' Bar chart for comparison across multiple teams - id team will be highlighted
+#' Reference line with either mean or median is added
+#' Bar chart can be reordered using positiive=false if "lower is better"
+#'
 #' @param df Data frame containing KPI and Label, x and y
 #' @param x Column containing KPI
 #' @param y Label

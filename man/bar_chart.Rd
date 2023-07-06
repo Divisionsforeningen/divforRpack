@@ -42,5 +42,7 @@ bar_chart(
 A bar plot, chosen id is highlighted, and mean is added as a red line - ordering is done by "positive"
 }
 \description{
-bar_chart
+Bar chart for comparison across multiple teams - id team will be highlighted
+Reference line with either mean or median is added
+Bar chart can be reordered using positiive=false if "lower is better"
 }

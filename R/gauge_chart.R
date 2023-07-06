@@ -1,5 +1,7 @@
 #' gauge
 #'
+#' Creates gauge chart for comparison across teams
+#'
 #' @param value Percentile value * 100
 #' @param KPI Plot title
 #' @param teams Number of teams in league

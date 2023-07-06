@@ -1,5 +1,7 @@
 #' line_chart_con
 #'
+#' Line chart - not sure what it does...
+#'
 #' @param df Data frame
 #' @param x Column with data for x axis
 #' @param y Column with data for y axis
@@ -20,6 +22,7 @@
 #'
 line_chart_con <- function(df, x, y, idCl, id, ref = NA, KPI, Periods, Title = NA, Subtitle = NA, Caption = "Data by OPTA", refCol = NA) {
   # TODO Test if it works!
+  # TODO Change description!
   # Start ggplot with data, filtering(?) - and setting x, y
   ggplot(
     data = df %>% filter(idCl %in% id),
