@@ -7,6 +7,7 @@
 gauge(
   value,
   KPI,
+  teams = 12,
   textCol = NA,
   bestCol = NA,
   secCol = NA,
@@ -18,6 +19,8 @@ gauge(
 \item{value}{Percentile value * 100}
 
 \item{KPI}{Plot title}
+
+\item{teams}{Number of teams in league}
 
 \item{textCol}{Text color}
 

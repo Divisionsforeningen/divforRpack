@@ -2,7 +2,7 @@
 #'
 #' @param value Percentile value * 100
 #' @param KPI Plot title
-#' @param teams # of teams in league
+#' @param teams Number of teams in league
 #' @param textCol Text color
 #' @param bestCol Best quantile color
 #' @param secCol Second quantile color
@@ -16,9 +16,10 @@
 #' @examples
 #' gauge(50, "Test")
 #' gauge(50, "Test", worstCol = "white", bestCol = "steelblue", secCol = "yellow", thrCol = "lightblue")
-gauge <- function(value, KPI, teams=12, textCol = NA, bestCol = NA, secCol = NA, thrCol = NA, worstCol = NA) {
+gauge <- function(value, KPI, teams = 12, textCol = NA, bestCol = NA, secCol = NA, thrCol = NA, worstCol = NA) {
+  # TODO Write test battery
   # TODO Adjust annotations if teams>20
-  breaks <- c(0, 100-((teams/4)/(teams/4+1)*100), 50, (teams/4)/(teams/4+1)*100, 100)
+  breaks <- c(0, 100 - ((teams / 4) / (teams / 4 + 1) * 100), 50, (teams / 4) / (teams / 4 + 1) * 100, 100)
   # Define gauge function with breaks
   gg.gauge <- function(pos, breaks = breaks) {
     # Define semi-circle splitter
@@ -46,8 +47,8 @@ gauge <- function(value, KPI, teams=12, textCol = NA, bestCol = NA, secCol = NA,
       # Add partition text
       annotate("text", x = -0.7, y = 0.2, label = toupper("Bottom 3"), vjust = 0, size = 4, fontface = "bold", color = div_col("b_text", ifelse(is.na(textCol), NA, textCol))) +
       annotate("text", x = 0.7, y = 0.2, label = toupper("Top 3"), vjust = 0, size = 4, fontface = "bold", color = div_col("b_text", ifelse(is.na(textCol), NA, textCol))) +
-      annotate("text", x = 0.3, y = 0.7, label = toupper(ifelse(teams==12,"Top 6","Top Half")), vjust = 0, size = 4, fontface = "bold", color = div_col("b_text", ifelse(is.na(textCol), NA, textCol))) +
-      annotate("text", x = -0.3, y = 0.7, label = toupper(ifelse(teams==12,"Bottom 6","Bottom Half")), vjust = 0, size = 4, fontface = "bold", color = div_col("b_text", ifelse(is.na(textCol), NA, textCol))) +
+      annotate("text", x = 0.3, y = 0.7, label = toupper(ifelse(teams == 12, "Top 6", "Top Half")), vjust = 0, size = 4, fontface = "bold", color = div_col("b_text", ifelse(is.na(textCol), NA, textCol))) +
+      annotate("text", x = -0.3, y = 0.7, label = toupper(ifelse(teams == 12, "Bottom 6", "Bottom Half")), vjust = 0, size = 4, fontface = "bold", color = div_col("b_text", ifelse(is.na(textCol), NA, textCol))) +
       # Add KPI text
       annotate("text", x = 0, y = 0, label = toupper(paste0(KPI)), vjust = 0, size = 8, fontface = "bold") +
       # Fix coordinates in place
