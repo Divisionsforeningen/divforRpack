@@ -8,6 +8,7 @@
 #'
 #' @examples is_hexcolor("#ffffff")
 is_hexcolor <- function(text = NA) {
+  # TODO Write test battery
   # If no input throw error
   # if (is.na(text)) stop("No input")
   # Checks input using regex

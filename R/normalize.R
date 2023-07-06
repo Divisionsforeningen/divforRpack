@@ -13,6 +13,7 @@
 #'
 #' normalize(c(0, 5, 10), type = "O") * 100
 normalize <- function(x, type = c("Z", "O")) {
+  #TODO Write test battery
   if (type == "O") {
     # Takes a series of values and returns the 0-1 scaled version
     (x - min(x)) / (max(x) - min(x))
