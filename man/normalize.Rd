@@ -4,10 +4,12 @@
 \alias{normalize}
 \title{normalize}
 \usage{
-normalize(x)
+normalize(x, type = c("Z", "O"))
 }
 \arguments{
 \item{x}{Series of values or a data frame column}
+
+\item{type}{Choose between Z-score or 0 to 1 normalization}
 }
 \value{
 Series of values scaled between 0 and 1
@@ -16,7 +18,7 @@ Series of values scaled between 0 and 1
 Normalizes a series of values to be between 0 and 1
 }
 \examples{
-normalize(c(0, 5, 10))
+normalize(c(0, 5, 10), type="Z")
 
-normalize(c(0, 5, 10)) * 100
+normalize(c(0, 5, 10), type="O") * 100
 }
