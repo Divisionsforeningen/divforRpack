@@ -3,6 +3,7 @@
 #' @param df Data frame
 #' @param x Column with variables
 #' @param y Column with shares
+#' @param value Column with values
 #' @param names Column with team names
 #' @param home Name of home team
 #' @param textCol Color used for text
@@ -13,7 +14,7 @@
 #' @export
 #' @import ggplot2
 #'
-head_to_head <- function(df, x = "variable", y = "share", names, home = NA, textCol = NA, provider = "OPTA", title = "HEAD TO HEAD") {
+head_to_head <- function(df, x = "variable", y = "share", value="value", names, home = NA, textCol = NA, provider = "OPTA", title = "HEAD TO HEAD") {
   # TODO Maybe it works?
 
   if (is.na(home)) {

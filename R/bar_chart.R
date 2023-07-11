@@ -44,7 +44,7 @@ bar_chart <- function(df, x, y, id, KPI, positive = c(TRUE, FALSE), median = c(T
     scale_color_manual("", values = c("League average" = div_col("reference", ifelse(is.na(refCol), NA, refCol)))) +
     # Define labels and title
     labs(
-      x = paste0(z),
+      x = paste0(KPI),
       y = "",
       title = "Your rank compared to the chosen teams"
     ) +

@@ -3,6 +3,7 @@
 #' @param ...
 #'
 #' @export
+#' @import highcharter
 #'
 hc_theme_sparkline_eval <- function(...) {
   theme <- list(
@@ -81,9 +82,9 @@ hc_theme_sparkline_eval <- function(...) {
   theme <- structure(theme, class = "hc_theme")
 
   if (length(list(...)) > 0) {
-    theme <- hc_theme_merge(
+    theme <- highcharter::hc_theme_merge(
       theme,
-      hc_theme(...)
+      highcharter::hc_theme(...)
     )
   }
 

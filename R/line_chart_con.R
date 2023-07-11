@@ -19,6 +19,7 @@
 #' @export
 #' @import ggplot2
 #' @import dplyr
+#' @import ggrepel
 #'
 line_chart_con <- function(df, x, y, idCl, id, ref = NA, KPI, Periods, Title = NA, Subtitle = NA, Caption = "Data by OPTA", refCol = NA) {
   # TODO Test if it works!
@@ -35,7 +36,7 @@ line_chart_con <- function(df, x, y, idCl, id, ref = NA, KPI, Periods, Title = N
     # Add points
     geom_point(aes(), size = 4, alpha = 0.1) +
     # Add labels
-    geom_text_repel(aes(label = id)) +
+    ggrepel::geom_text_repel(aes(label = id)) +
     # Add reference line
     geom_hline(aes(yintercept = ref), color = div_col("reference", ifelse(is.na(refCol), NA, refCol)), linetype = "dashed") +
     # Scale x axis

@@ -1,15 +1,16 @@
 #' point_chart
 #'
 #' @param df Data frame containing players, the value to compare and facet variable
+#' @param name Column with player names
 #' @param value The value to compare in percentile format
 #' @param facet Variable to use for facet wrap
 #' @param playerCol Highlighted player color
 #' @param otherCol Color for other players
 #'
-#' @return Point chart used in the scouting module
+#' @return Point chart used in the scouting module - depends of row_click()
 #' @export
 #'
-point_chart <- function(df, value, facet, playerCol = NA, otherCol = NA) {
+point_chart <- function(df,name, value, facet, playerCol = NA, otherCol = NA) {
   # TODO Write test battery
 
   # Start ggplot with data and value
@@ -17,8 +18,8 @@ point_chart <- function(df, value, facet, playerCol = NA, otherCol = NA) {
     # Set color of all players
     geom_point(aes(color = "All players with similar position"), alpha = 0.1, size = 5) +
     # Highlight chosen player - requires row_click() to be defined
-    geom_point(data = df_par %>%
-      filter(FullName == row_click()), aes(color = "Scouted player"), size = 10) +
+    geom_point(data = df %>%
+      filter(name == row_click()), aes(color = "Scouted player"), size = 10) +
     # Set colors
     scale_color_manual(NULL, values = c(
       "Scouted player" = ifelse(is.na(playerCol), div_col(type = "chosen"), playerCol),

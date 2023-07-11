@@ -15,7 +15,7 @@
 div_col <- function(type = NA, color = NA) {
   # TODO Write test battery
   # Checks for input - if not found throws error
-  if (is.na(type) & is.na(color)) {
+  if (is.na(type) && is.na(color)) {
     stop("No type or color chosen")
   }
   # Checks for custom color and returns it if it is a color or hex code

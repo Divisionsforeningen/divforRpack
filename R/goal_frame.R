@@ -47,4 +47,6 @@ goal_frame <- function(lowR = NA, lowM = NA, lowL = NA, upR = NA, upM = NA, upL 
       plot.background = element_rect(fill = "transparent"),
       panel.background = element_rect(fill = "transparent")
     )
+
+  return(goalframe)
 }
