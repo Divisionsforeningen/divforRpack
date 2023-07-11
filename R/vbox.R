@@ -1,3 +1,17 @@
+#' vbox
+#'
+#' @param value Value
+#' @param title Title
+#' @param sparkobj Spark object
+#' @param subtitle Subtitle
+#' @param info Info
+#' @param icon Icon
+#' @param color Color
+#' @param width Width
+#' @param href Href
+#'
+#' @export
+#'
 vbox <- valueBoxSpark <- function(value, title, sparkobj = NULL, subtitle, info = NULL,
                                   icon = NULL, color = "aqua", width = 4, href = NULL) {
   shinydashboard:::validateColor(color)
@@ -13,8 +27,6 @@ vbox <- valueBoxSpark <- function(value, title, sparkobj = NULL, subtitle, info 
       `data-toggle` = "tooltip",
       style = "color: rgba(255, 255, 255, 0.75);"
     ),
-    # bs3 pull-right
-    # bs4 float-right
     class = "pull-right float-right"
   )
 
@@ -28,8 +40,6 @@ vbox <- valueBoxSpark <- function(value, title, sparkobj = NULL, subtitle, info 
       if (!is.null(sparkobj)) sparkobj,
       p(subtitle)
     ),
-    # bs3 icon-large
-    # bs4 icon
     if (!is.null(icon)) div(class = "icon-large icon", icon, style = "z-index; 0")
   )
 

@@ -1,3 +1,9 @@
+#' hc_theme_sparkline_vb
+#'
+#' @param ...
+#'
+#' @export
+#'
 hc_theme_sparkline_vb <- function(...) {
   theme <- list(
     chart = list(

@@ -1,3 +1,9 @@
+#' hc_theme_sparkline_eval
+#'
+#' @param ...
+#'
+#' @export
+#'
 hc_theme_sparkline_eval <- function(...) {
   theme <- list(
     chart = list(

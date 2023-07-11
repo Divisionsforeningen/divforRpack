@@ -35,6 +35,7 @@ div_col <- function(type = NA, color = NA) {
       type == "w_text" ~ "white",
       type == "b_text" ~ "black",
       type == "reference" ~ "red",
+      type == "axis" ~ "grey",
       # Chart with comparisons
       type == "fill" ~ "lightgrey",
       type == "highlight" ~ "#007bff",
@@ -43,6 +44,8 @@ div_col <- function(type = NA, color = NA) {
       type == "above" ~ "gold",
       type == "below" ~ "orange",
       type == "bottom" ~ "red",
+      # Standard radar color
+      type == "radar" ~ "#00AFBB",
       # If type is not in defined set
       TRUE ~ NA
     )
