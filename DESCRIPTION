@@ -15,4 +15,6 @@ Imports:
     dplyr,
     ggplot2,
     stringr,
-    grDevices
+    grDevices,
+    scales,
+    fmsb

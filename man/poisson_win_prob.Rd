@@ -18,5 +18,5 @@ A set of probabilities HomeWin\%,Draw\%,AwayWin\%
 Calculates win probability between home and away using dpois()
 }
 \examples{
-poisson_win_prob(home_xg=1.2,away_xg=1)
+poisson_win_prob(home_xg = 1.2, away_xg = 1)
 }
