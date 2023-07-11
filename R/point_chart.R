@@ -10,7 +10,7 @@
 #' @return Point chart used in the scouting module - depends of row_click()
 #' @export
 #'
-point_chart <- function(df,name, value, facet, playerCol = NA, otherCol = NA) {
+point_chart <- function(df, name, value, facet, playerCol = NA, otherCol = NA) {
   # TODO Write test battery
 
   # Start ggplot with data and value

@@ -14,7 +14,7 @@
 #' @export
 #' @import ggplot2
 #'
-head_to_head <- function(df, x = "variable", y = "share", value="value", names, home = NA, textCol = NA, provider = "OPTA", title = "HEAD TO HEAD") {
+head_to_head <- function(df, x = "variable", y = "share", value = "value", names, home = NA, textCol = NA, provider = "OPTA", title = "HEAD TO HEAD") {
   # TODO Maybe it works?
 
   if (is.na(home)) {

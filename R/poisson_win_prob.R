@@ -5,7 +5,7 @@
 #' @param home_xg xG of home team
 #' @param away_xg xG of away team
 #'
-#' @return A set of probabilities HomeWin%,Draw%,AwayWin%
+#' @return A set of probabilities HomeWin %,Draw %,AwayWin %
 #' @export
 #' @import stats
 #'
