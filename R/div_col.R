@@ -46,6 +46,9 @@ div_col <- function(type = NA, color = NA) {
       type == "bottom" ~ "red",
       # Standard radar color
       type == "radar" ~ "#00AFBB",
+      # Scouting colors
+      type == "chosen" ~ "yellow",
+      type == "others" ~ "white",
       # If type is not in defined set
       TRUE ~ NA
     )
