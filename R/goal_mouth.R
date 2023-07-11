@@ -12,14 +12,14 @@
 #' @param saveCol Point color for saves
 #' @param provider Provider for caption
 #' @param keeperDetails Binary - if true adds keeper name to plot
-#' @param team Column containing team names
+#' @param teams Column containing team names
 #' @param name Column containing keeper names
 #'
 #' @return Adds shots to the goal_frame plot - highlighting goals
 #' @export
 #' @import ggplot2
 #'
-goal_mouth <- function(team = input$sel_team_opp, season = input$sel_season, start = input$gw_prep_def_slider[1], end = input$gw_prep_def_slider[2], df, z, y,type, goalCol = NA, saveCol = NA, provider = "OPTA", keeperDetails = c(TRUE, FALSE), team, name) {
+goal_mouth <- function(team = input$sel_team_opp, season = input$sel_season, start = input$gw_prep_def_slider[1], end = input$gw_prep_def_slider[2], df, z, y,type, goalCol = NA, saveCol = NA, provider = "OPTA", keeperDetails = c(TRUE, FALSE), teams, name) {
   # TODO Write test battery
 
   # Add shots to goal_frame plot
@@ -58,7 +58,7 @@ goal_mouth <- function(team = input$sel_team_opp, season = input$sel_season, sta
   if (keeperDetails == TRUE) {
     # FIXME only first keeper? What if multiple?
     keeper <- df %>%
-      filter(team == selectedTeam) %>%
+      filter(teams == selectedTeam) %>%
       select(name) %>%
       head(1)
 

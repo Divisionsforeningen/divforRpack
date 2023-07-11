@@ -8,6 +8,7 @@ head_to_head(
   df,
   x = "variable",
   y = "share",
+  value = "value",
   names,
   home = NA,
   textCol = NA,
@@ -21,6 +22,8 @@ head_to_head(
 \item{x}{Column with variables}
 
 \item{y}{Column with shares}
+
+\item{value}{Column with values}
 
 \item{names}{Column with team names}
 

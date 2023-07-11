@@ -4,10 +4,12 @@
 \alias{point_chart}
 \title{point_chart}
 \usage{
-point_chart(df, value, facet, playerCol = NA, otherCol = NA)
+point_chart(df, name, value, facet, playerCol = NA, otherCol = NA)
 }
 \arguments{
 \item{df}{Data frame containing players, the value to compare and facet variable}
+
+\item{name}{Column with player names}
 
 \item{value}{The value to compare in percentile format}
 
@@ -18,7 +20,7 @@ point_chart(df, value, facet, playerCol = NA, otherCol = NA)
 \item{otherCol}{Color for other players}
 }
 \value{
-Point chart used in the scouting module
+Point chart used in the scouting module - depends of row_click()
 }
 \description{
 point_chart

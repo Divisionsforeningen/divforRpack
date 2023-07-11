@@ -12,10 +12,13 @@ goal_mouth(
   df,
   z,
   y,
+  type,
   goalCol = NA,
   saveCol = NA,
   provider = "OPTA",
-  keeperDetails = c(TRUE, FALSE)
+  keeperDetails = c(TRUE, FALSE),
+  teams,
+  name
 )
 }
 \arguments{
@@ -33,11 +36,19 @@ goal_mouth(
 
 \item{y}{Column with goal mouth y coordinate}
 
+\item{type}{Column containing event types}
+
 \item{goalCol}{Point color for goals}
 
 \item{saveCol}{Point color for saves}
 
 \item{provider}{Provider for caption}
+
+\item{keeperDetails}{Binary - if true adds keeper name to plot}
+
+\item{teams}{Column containing team names}
+
+\item{name}{Column containing keeper names}
 }
 \value{
 Adds shots to the goal_frame plot - highlighting goals
