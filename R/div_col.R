@@ -49,6 +49,8 @@ div_col <- function(type = NA, color = NA) {
       # Scouting colors
       type == "chosen" ~ "yellow",
       type == "others" ~ "white",
+      # Events
+      type == "goal" ~ "red",
       # If type is not in defined set
       TRUE ~ NA
     )
