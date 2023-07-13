@@ -9,8 +9,11 @@
 \alias{pitch_international}
 \alias{pitch_tracab}
 \alias{pitch_impect}
+\alias{pitch_second_spectrum}
 \title{Pitch dimensions}
 \format{
+An object of class \code{list} of length 10.
+
 An object of class \code{list} of length 10.
 
 An object of class \code{list} of length 10.
@@ -39,6 +42,8 @@ pitch_international
 pitch_tracab
 
 pitch_impect
+
+pitch_second_spectrum
 }
 \description{
 The coordinate system used to generate pitch markings in

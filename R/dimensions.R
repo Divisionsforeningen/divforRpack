@@ -183,4 +183,3 @@ pitch_second_spectrum <- list(
   origin_x = -52.5,
   origin_y = -34
 )
-
