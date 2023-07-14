@@ -11,6 +11,8 @@
 #'
 #' @return list of ggplot geoms to be added to a ggplot plot
 #'
+#' @export
+#'
 #' @examples
 #' library(ggplot2)
 #'
