@@ -35,7 +35,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
     # Creates list of geoms for heatmap
     h <- list(
       stat_density_2d(data = df, aes(x=x,y=y, fill = after_stat(level)),
-                      na.rm = T, n=10,
+                      na.rm = T,
                       geom = "polygon", alpha = heatmap_args[["alpha"]], fill=heatmap_args[["fill"]]),
       theme(legend.position = "none"),
       scale_x_continuous(limits = c(-400,500)),
@@ -108,26 +108,3 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
   }
 }
 
-
-
-# Test
-
-
-ggplot2::ggplot() +
-  annotate_pitch(alpha=0, goals = goals_strip) +
-  add_events(
-    df = a, x = x, y = y, xend = xend, yend = yend,
-    shot = T, heatmap = T, lines = T,
-    eventArgs = list(),
-    shotArgs = list(color="orange", border=div_col(type="highlight")),
-    heatmapArgs = list(fill="blue"),
-    lineArgs = list(linetype="dashed")
-  )+
-  add_events(goals,shotArgs = list(color="red"), heatmap = T, shot=T, lines = T)+
-  geom_rect(aes(xmin=100,xmax=105, ymin=0, ymax=100),fill="white")+
-  geom_rect(aes(xmin=0,xmax=105, ymin=-50, ymax=0),fill="white")+
-  geom_rect(aes(xmin=0,xmax=105, ymin=100, ymax=150),fill="white")+
-  geom_rect(aes(xmin=-5,xmax=0, ymin=-50, ymax=150),fill="white")+
-  geom_segment(aes(x=100,xend=100,y=0,yend=100))+
-  geom_segment(aes(x=0,xend=100.1,y=0,yend=0))+
-  geom_segment(aes(x=0,xend=0,y=0,yend=100))
