@@ -14,7 +14,7 @@
 #' @export
 #' @import ggplot2
 #'
-head_to_head <- function(df, x = "variable", y = "share", value = "value", names, home = NA, textCol = NA, provider = "OPTA", title = "HEAD TO HEAD") {
+head_to_head <- function(df, x = "variable", y = "share", value = "value", names="OfficialName", home = NA, textCol = NA, provider = "OPTA", title = "HEAD TO HEAD") {
   # TODO Maybe it works?
 
   if (is.na(home)) {
@@ -24,13 +24,15 @@ head_to_head <- function(df, x = "variable", y = "share", value = "value", names
     stop("No colum of team names given")
   }
 
-  ggplot(df, aes(x = x, y = ifelse(names %in% home, -y, y), fill = names)) +
+  high=as.numeric(df %>% mutate(max=max(.data[[y]])) %>% summarise(max=max(max)))
+
+  ggplot(df, aes(x = .data[[x]], y = ifelse(.data[[names]] %in% home, -.data[[y]], .data[[y]]), fill = .data[[names]])) +
     geom_bar(stat = "identity", position = "identity", width = 0.7) +
     geom_label(aes(label = round(value, digits = 1)),
       size = 7,
       color = ifelse(is.na(textCol), div_col(type = "w_text"), div_col(color = textCol)), show.legend = FALSE
     ) +
-    scale_y_continuous(limits = c(-max(df$y), max(df$y))) +
+    scale_y_continuous(limits = c(-high, high)) +
     labs(
       title = title,
       caption = paste0("Data from ", provider)
