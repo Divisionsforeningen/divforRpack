@@ -1,10 +1,6 @@
 #' head_to_head
 #'
 #' @param df Data frame
-#' @param x Column with variables
-#' @param y Column with shares
-#' @param value Column with values
-#' @param names Column with team names
 #' @param home Name of home team
 #' @param textCol Color used for text
 #' @param provider Data provider
@@ -14,7 +10,7 @@
 #' @export
 #' @import ggplot2
 #'
-head_to_head <- function(df, x = "variable", y = "share", value = "value", names, home = NA, textCol = NA, provider = "OPTA", title = "HEAD TO HEAD") {
+head_to_head <- function(df, home = NA, textCol = NA, provider = "OPTA", title = "HEAD TO HEAD") {
   # TODO Maybe it works?
 
   if (is.na(home)) {
@@ -24,13 +20,15 @@ head_to_head <- function(df, x = "variable", y = "share", value = "value", names
     stop("No colum of team names given")
   }
 
-  ggplot(df, aes(x = x, y = ifelse(names %in% home, -y, y), fill = names)) +
+  high <- max(df$share)
+
+  ggplot(df, aes(x = variable, y = ifelse(OfficialName %in% home, -share, share), fill = OfficialName)) +
     geom_bar(stat = "identity", position = "identity", width = 0.7) +
     geom_label(aes(label = round(value, digits = 1)),
       size = 7,
       color = ifelse(is.na(textCol), div_col(type = "w_text"), div_col(color = textCol)), show.legend = FALSE
     ) +
-    scale_y_continuous(limits = c(-max(df$y), max(df$y))) +
+    scale_y_continuous(limits = c(-high, high)) +
     labs(
       title = title,
       caption = paste0("Data from ", provider)
