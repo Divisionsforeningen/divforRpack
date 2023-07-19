@@ -1,7 +1,7 @@
 add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
                        heatmap = FALSE, shot = FALSE, lines = FALSE,
-                       bgCol = "white",
-                       shirt = NA,
+                       bgCol="white",
+                       shirt=NA,
                        eventArgs = list(),
                        shotArgs = list(),
                        heatmapArgs = list(),
@@ -13,7 +13,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
 
   event_args <- list(color = div_col(type = "highlight"), border = "black")
   shot_args <- list(color = div_col(type = "goal"), border = "black")
-  heatmap_args <- list(alpha = 0.05, color = "turbo", type = "start", fill = "red")
+  heatmap_args <- list(alpha = 0.05, color="turbo", type="start", fill="red")
   line_args <- list(linetype = "solid", color = "black")
 
   # Replace standards with user inputs if any
@@ -36,22 +36,20 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
 
     # Creates list of geoms for heatmap
     h <- list(
-      stat_density_2d(
-        data = df, aes(x = x, y = y, fill = after_stat(level)),
-        na.rm = T,
-        geom = "polygon", alpha = heatmap_args[["alpha"]], fill = heatmap_args[["fill"]]
-      ),
+      stat_density_2d(data = df, aes(x=x,y=y, fill = after_stat(level)),
+                      na.rm = T,
+                      geom = "polygon", alpha = heatmap_args[["alpha"]], fill=heatmap_args[["fill"]]),
       theme(legend.position = "none"),
-      scale_x_continuous(limits = c(-400, 500)),
-      scale_y_continuous(limits = c(-400, 500)),
-      geom_rect(aes(xmin = 100, xmax = 105, ymin = 0, ymax = 100), fill = bgCol),
-      geom_rect(aes(xmin = 0, xmax = 105, ymin = -50, ymax = 0), fill = bgCol),
-      geom_rect(aes(xmin = 0, xmax = 105, ymin = 100, ymax = 150), fill = bgCol),
-      geom_rect(aes(xmin = -5, xmax = 0, ymin = -50, ymax = 150), fill = bgCol),
-      geom_segment(aes(x = 100, xend = 100, y = 0, yend = 100)),
-      geom_segment(aes(x = 0, xend = 100.01, y = 0, yend = 0)),
-      geom_segment(aes(x = 0, xend = 0, y = 0, yend = 100)),
-      geom_segment(aes(x = 0, xend = 100.01, y = 100, yend = 100))
+      scale_x_continuous(limits = c(-400,500)),
+      scale_y_continuous(limits = c(-400,500)),
+      geom_rect(aes(xmin=100,xmax=105, ymin=0, ymax=100),fill=bgCol),
+      geom_rect(aes(xmin=0,xmax=105, ymin=-50, ymax=0),fill=bgCol),
+      geom_rect(aes(xmin=0,xmax=105, ymin=100, ymax=150),fill=bgCol),
+      geom_rect(aes(xmin=-5,xmax=0, ymin=-50, ymax=150),fill=bgCol),
+      geom_segment(aes(x=100,xend=100,y=0,yend=100)),
+      geom_segment(aes(x=0,xend=100.01,y=0,yend=0)),
+      geom_segment(aes(x=0,xend=0,y=0,yend=100)),
+      geom_segment(aes(x=0,xend=100.01,y=100,yend=100))
     )
 
 
@@ -85,26 +83,24 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
     # Adds events via geom_point
     e <- list(
       geom_point(
-        data = df, aes(x = x, y = y), color = event_args[["border"]], shape = 19, size = 6
-      ),
+        data = df, aes(x = x, y = y), color = event_args[["border"]], shape = 19, size = 6),
       geom_point(
-        data = df, aes(x = x, y = y), color = event_args[["color"]], shape = 19, size = 4
-      ),
-      coord_cartesian(xlim = c(0, 100), ylim = c(0, 100))
+        data = df, aes(x = x, y = y), color = event_args[["color"]], shape = 19, size = 4),
+        coord_cartesian(xlim=c(0,100), ylim=c(0,100))
     )
 
     # Append events list to output
     p <- append(p, e)
 
-    if (!is.na(shirt)) {
+    if(!is.na(shirt)){
       # Create list of geoms for shirt numbers
-      j <- list(
-        geom_text(data = df, aes(x = x, y = y, label = shirt), color = "white", size = 3)
+      j=list(
+        geom_text(data=df, aes(x=x,y=y, label=shirt), color="white", size=3)
       )
 
       # Append shirt numbers to output
 
-      p <- append(p, j)
+      p=append(p,j)
     }
 
     # Returns list of ggplot layers
@@ -124,28 +120,31 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       geom_point(
         data = df, aes(x = x, y = y), color = shot_args[["color"]], pch = 19, size = 4
       ),
-      coord_cartesian(xlim = c(0, 100), ylim = c(0, 100)),
-      coord_flip(xlim = c(49, 101)),
+      coord_cartesian(xlim=c(0,100), ylim=c(0,100)),
+      coord_flip(xlim=c(49,101)),
       scale_y_reverse()
     )
 
     # Append shot map list to output
     p <- append(p, s)
 
-    if (!is.na(shirt)) {
+    if(!is.na(shirt)){
       # Create list of geoms for shirt numbers
-      j <- list(
-        geom_text(data = df, aes(x = x, y = y, label = shirt), color = "white", size = 3)
+      j=list(
+        geom_text(data=df, aes(x=x,y=y, label=shirt), color="white", size=3)
       )
 
       # Append shirt numbers to output
 
-      p <- append(p, j)
+      p=append(p,j)
     }
 
     # Returns list of ggplot layers
     return(p)
-  } else {
+  }
+
+  else {
     stop("Something went wrong...")
   }
 }
+

@@ -6,6 +6,10 @@
 \usage{
 head_to_head(
   df,
+  x = "variable",
+  y = "share",
+  value = "value",
+  names,
   home = NA,
   textCol = NA,
   provider = "OPTA",
@@ -14,6 +18,14 @@ head_to_head(
 }
 \arguments{
 \item{df}{Data frame}
+
+\item{x}{Column with variables}
+
+\item{y}{Column with shares}
+
+\item{value}{Column with values}
+
+\item{names}{Column with team names}
 
 \item{home}{Name of home team}
 
