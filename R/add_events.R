@@ -1,3 +1,24 @@
+#' Title
+#'
+#' @param df
+#' @param x
+#' @param y
+#' @param xend
+#' @param yend
+#' @param heatmap
+#' @param shot
+#' @param lines
+#' @param bgCol
+#' @param shirt
+#' @param eventArgs
+#' @param shotArgs
+#' @param heatmapArgs
+#' @param lineArgs
+#'
+#' @return
+#' @export
+#'
+#' @examples
 add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
                        heatmap = FALSE, shot = FALSE, lines = FALSE,
                        bgCol = "white",

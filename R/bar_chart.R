@@ -18,8 +18,8 @@
 #' @return A bar plot, chosen id is highlighted, and mean is added as a red line - ordering is done by "positive"
 #' @import ggplot2
 #' @import grDevices
-#' @import stats
 #' @import dplyr
+#' @importFrom stats reorder
 #'
 #' @export
 #'

@@ -12,10 +12,10 @@ poisson_win_prob(home_xg, away_xg)
 \item{away_xg}{xG of away team}
 }
 \value{
-A set of probabilities HomeWin \%,Draw \%,AwayWin \%
+A set of probabilities HomeWin \%,Draw \%, AwayWin \%
 }
 \description{
-Calculates win probability between home and away using dpois()
+Calculates win probability between home and away using stats::dpois()
 }
 \examples{
 poisson_win_prob(home_xg = 1.2, away_xg = 1)
