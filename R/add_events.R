@@ -36,7 +36,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
 
     # Creates list of geoms for heatmap
     h <- list(
-      stat_density_2d(data = df, aes(x=x,y=y, fill = after_stat(level)),
+      stat_density_2d(data = df, aes(x=.data[[x]],y=.data[[y]], fill = after_stat(level)),
                       na.rm = T,
                       geom = "polygon", alpha = heatmap_args[["alpha"]], fill=heatmap_args[["fill"]]),
       theme(legend.position = "none"),
@@ -64,7 +64,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
 
     # Creates list with geoms for lines
     l <- list(geom_segment(
-      data = df, aes(x = x, y = y, xend = xend, yend = yend),
+      data = df, aes(x = .data[[x]], y = .data[[y]], xend = .data[[xend]], yend = .data[[yend]]),
       color = line_args[["color"]], linetype = line_args[["linetype"]],
       arrow = arrow(length = unit(.25, "cm"))
     ))
@@ -83,9 +83,9 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
     # Adds events via geom_point
     e <- list(
       geom_point(
-        data = df, aes(x = x, y = y), color = event_args[["border"]], shape = 19, size = 6),
+        data = df, aes(x = .data[[x]], y = .data[[y]]), color = event_args[["border"]], shape = 19, size = 6),
       geom_point(
-        data = df, aes(x = x, y = y), color = event_args[["color"]], shape = 19, size = 4),
+        data = df, aes(x = .data[[x]], y = .data[[y]]), color = event_args[["color"]], shape = 19, size = 4),
         coord_cartesian(xlim=c(0,100), ylim=c(0,100))
     )
 
@@ -95,7 +95,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
     if(!is.na(shirt)){
       # Create list of geoms for shirt numbers
       j=list(
-        geom_text(data=df, aes(x=x,y=y, label=shirt), color="white", size=3)
+        geom_text(data=df, aes(x=.data[[x]],y=.data[[y]], label=shirt), color="white", size=3)
       )
 
       # Append shirt numbers to output
@@ -115,10 +115,10 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
     # Create list of geoms for shot map
     s <- list(
       geom_point(
-        data = df, aes(x = x, y = y), color = shot_args[["border"]], pch = 19, size = 6
+        data = df, aes(x = .data[[x]], y = .data[[y]]), color = shot_args[["border"]], pch = 19, size = 6
       ),
       geom_point(
-        data = df, aes(x = x, y = y), color = shot_args[["color"]], pch = 19, size = 4
+        data = df, aes(x = .data[[x]], y = .data[[y]]), color = shot_args[["color"]], pch = 19, size = 4
       ),
       coord_cartesian(xlim=c(0,100), ylim=c(0,100)),
       coord_flip(xlim=c(49,101)),
@@ -131,7 +131,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
     if(!is.na(shirt)){
       # Create list of geoms for shirt numbers
       j=list(
-        geom_text(data=df, aes(x=x,y=y, label=shirt), color="white", size=3)
+        geom_text(data=df, aes(x=.data[[x]],y=.data[[y]], label=shirt), color="white", size=3)
       )
 
       # Append shirt numbers to output
