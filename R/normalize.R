@@ -16,10 +16,10 @@ normalize <- function(x, type = c("Z", "O")) {
   # TODO Write test battery
   if (type == "O") {
     # Takes a series of values and returns the 0-1 scaled version
-    (x - min(x)) / (max(x) - min(x))
+    return((x - min(x)) / (max(x) - min(x)))
   }
   if (type == "Z") {
     # Takes a series of values and returns the z-score
-    (x - mean(x)) / sd(x)
+    return((x - mean(x)) / sd(x))
   }
 }
