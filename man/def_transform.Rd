@@ -4,16 +4,16 @@
 \alias{def_transform}
 \title{def_transform}
 \usage{
-def_transform(x)
+def_transform(x, y)
 }
 \arguments{
 \item{x}{data}
 }
 \value{
-data subtracted from 100
+x subtracted from y
 }
 \description{
-Subtracts x from 100
+Subtracts x from y
 }
 \examples{
 

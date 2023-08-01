@@ -1,15 +1,15 @@
 #' def_transform
 #'
-#' Subtracts x from 100
+#' Subtracts x from y
 #'
 #' @param x data
 #'
-#' @return data subtracted from 100
+#' @return x subtracted from y
 #' @export
 #'
 #' @examples
 #'
 #' def_transform(10)
-def_transform <- function(x) {
-  return((100 - x))
+def_transform <- function(x, y) {
+  return((y - x))
 }
