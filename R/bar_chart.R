@@ -23,23 +23,27 @@
 #'
 #' @export
 #'
-bar_chart <- function(df, x, y, id, KPI, positive = c(TRUE, FALSE), median = c(TRUE, FALSE), fillCol = NA, highCol = NA, refCol = NA) {
+bar_chart <- function(df, x, y, id, KPI, negative = c(TRUE, FALSE), median = c(TRUE, FALSE), fillCol = NA, highCol = NA, refCol = NA) {
   # TODO Write test battery
+  ref=ifelse(median == TRUE,
+             as.numeric(df %>% mutate(median=median(.data[[y]])) %>% summarise(median=max(median))),
+             as.numeric(df %>% mutate(mean=mean(.data[[y]])) %>% summarise(mean=max(mean))))
+
   # Create ggplot from df, using x, and y. Reorder if needed
-  ggplot(df, aes(x = x, y = stats::reorder(x, mean, decreasing = positive))) +
+  ggplot(data=df, aes(x = .data[[x]], y = stats::reorder(.data[[x]], .data[[y]], decreasing = negative))) +
     # Add bar for all data points
     geom_bar(stat = "identity", width = 0.3, fill = div_col("fill", ifelse(is.na(fillCol), NA, fillCol))) +
     # Add bar for highlighted data point
-    geom_bar(data = df %>%
-      filter(y == id), aes(), stat = "identity", fill = div_col("highlight", ifelse(is.na(highCol), NA, highCol)), width = 0.3) +
+    geom_bar(data=df %>%
+               dplyr::filter(.data[[x]] == id) , aes(), stat = "identity", fill = div_col("highlight", ifelse(is.na(highCol), NA, highCol)), width = 0.3) +
     # Add point at the end of the bar for all data points
     geom_point(data = df %>%
-      filter(y != id), aes(), size = 6, color = div_col("fill", ifelse(is.na(fillCol), NA, fillCol))) +
+      dplyr::filter(.data[[x]] != id), aes(), cex = 12, color = div_col("fill", ifelse(is.na(fillCol), NA, fillCol))) +
     # Add point at the end of the bar for highlighted data point
     geom_point(data = df %>%
-      filter(y == id), size = 6, color = div_col("highlight", ifelse(is.na(highCol), NA, highCol))) +
+      dplyr::filter(.data[[x]] == id), cex = 12, color = div_col("highlight", ifelse(is.na(highCol), NA, highCol))) +
     # Add reference line
-    geom_vline(aes(xintercept = ifelse(median == TRUE, median(df$x), mean(df$x)), color = "League average"), size = 2, alpha = 0.8) +
+    geom_vline(aes(xintercept = ref, color = "League average"), linewidth = 2, alpha = 0.8) +
     # Define color of reference line
     scale_color_manual("", values = c("League average" = div_col("reference", ifelse(is.na(refCol), NA, refCol)))) +
     # Define labels and title
@@ -53,5 +57,6 @@ bar_chart <- function(df, x, y, id, KPI, positive = c(TRUE, FALSE), median = c(T
       legend.position = "bottom",
       legend.text = element_text(size = 12),
       axis.text = element_text(size = 12)
-    )
+    )+
+    coord_flip()
 }
