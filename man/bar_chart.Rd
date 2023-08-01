@@ -10,7 +10,7 @@ bar_chart(
   y,
   id,
   KPI,
-  positive = c(TRUE, FALSE),
+  negative = c(TRUE, FALSE),
   median = c(TRUE, FALSE),
   fillCol = NA,
   highCol = NA,
@@ -28,8 +28,6 @@ bar_chart(
 
 \item{KPI}{Selected KPI - from shiny input}
 
-\item{positive}{True if higher is better for KPI}
-
 \item{median}{Use median instead of mean}
 
 \item{fillCol}{Color of non-highlighted ids}
@@ -37,6 +35,8 @@ bar_chart(
 \item{highCol}{Highlighted id color}
 
 \item{refCol}{Color of reference line}
+
+\item{positive}{True if higher is better for KPI}
 }
 \value{
 A bar plot, chosen id is highlighted, and mean is added as a red line - ordering is done by "positive"

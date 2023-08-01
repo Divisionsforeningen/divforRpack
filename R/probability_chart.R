@@ -31,9 +31,9 @@ probability_chart <- function(wp, barCol = NA, textCol = NA, accuracy = 1, provi
   # Convert outcomes to factors for sorting
   prob$Outcome <- factor(prob$Outcome, levels = c("Home", "Draw", "Away"))
 
-  #if (sum(prob$Probability) != 1) {
+  # if (sum(prob$Probability) != 1) {
   #  stop("Probability does not sum to 1")
-  #}
+  # }
 
   # Start ggplot with data, outcome on x and probability on y
   ggplot(prob, aes(x = Outcome, y = Probability)) +

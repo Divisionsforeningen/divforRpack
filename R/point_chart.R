@@ -26,7 +26,7 @@ point_chart <- function(df, name, value, facet, playerCol = NA, otherCol = NA) {
       "All players with similar position" = ifelse(is.na(otherCol), div_col(type = "others"), otherCol)
     )) +
     # Facet wrap by chosen variable
-    facet_wrap(~.data[[facet]], ncol = 1) +
+    facet_wrap(~ .data[[facet]], ncol = 1) +
     # Set up x axis
     scale_x_continuous(name = "Percentile", breaks = seq(0, 100, by = 10)) +
     # Remove label from y and set x label

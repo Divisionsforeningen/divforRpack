@@ -9,7 +9,7 @@ head_to_head(
   x = "variable",
   y = "share",
   value = "value",
-  names,
+  names = "OfficialName",
   home = NA,
   textCol = NA,
   provider = "OPTA",

@@ -14,7 +14,7 @@
 #' @export
 #' @import ggplot2
 #'
-head_to_head <- function(df, x = "variable", y = "share", value = "value", names="OfficialName", home = NA, textCol = NA, provider = "OPTA", title = "HEAD TO HEAD") {
+head_to_head <- function(df, x = "variable", y = "share", value = "value", names = "OfficialName", home = NA, textCol = NA, provider = "OPTA", title = "HEAD TO HEAD") {
   # TODO Maybe it works?
 
   if (is.na(home)) {
@@ -24,7 +24,7 @@ head_to_head <- function(df, x = "variable", y = "share", value = "value", names
     stop("No colum of team names given")
   }
 
-  high=as.numeric(df %>% mutate(max=max(.data[[y]])) %>% summarise(max=max(max)))
+  high <- as.numeric(df %>% mutate(max = max(.data[[y]])) %>% summarise(max = max(max)))
 
   ggplot(df, aes(x = .data[[x]], y = ifelse(.data[[names]] %in% home, -.data[[y]], .data[[y]]), fill = .data[[names]])) +
     geom_bar(stat = "identity", position = "identity", width = 0.7) +
