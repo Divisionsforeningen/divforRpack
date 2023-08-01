@@ -14,19 +14,19 @@ point_chart <- function(df, name, value, facet, playerCol = NA, otherCol = NA) {
   # TODO Write test battery
 
   # Start ggplot with data and value
-  ggplot(df, aes(x = (value - 0.1) * 100, y = 1, group = 1)) +
+  ggplot(df, aes(x = (.data[[value]] - 0.1) * 100, y = 1, group = 1)) +
     # Set color of all players
     geom_point(aes(color = "All players with similar position"), alpha = 0.1, size = 5) +
     # Highlight chosen player - requires row_click() to be defined
     geom_point(data = df %>%
-      filter(name == row_click()), aes(color = "Scouted player"), size = 10) +
+      dplyr::filter(.data[[value]] == row_click()), aes(color = "Scouted player"), size = 10) +
     # Set colors
     scale_color_manual(NULL, values = c(
       "Scouted player" = ifelse(is.na(playerCol), div_col(type = "chosen"), playerCol),
       "All players with similar position" = ifelse(is.na(otherCol), div_col(type = "others"), otherCol)
     )) +
     # Facet wrap by chosen variable
-    facet_wrap(~facet, ncol = 1) +
+    facet_wrap(~.data[[facet]], ncol = 1) +
     # Set up x axis
     scale_x_continuous(name = "Percentile", breaks = seq(0, 100, by = 10)) +
     # Remove label from y and set x label
