@@ -12,8 +12,6 @@
 #'
 #'
 probability_chart <- function(wp, barCol = NA, textCol = NA, accuracy = 1, provider = "OPTA") {
-  # TODO Write test battery
-
   # Check if provider is a string
   if (!is.character(provider)) {
     stop("Provider is not a string")
