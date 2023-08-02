@@ -1,24 +1,25 @@
-#' Title
+#' add_events
 #'
-#' @param df
-#' @param x
-#' @param y
-#' @param xend
-#' @param yend
-#' @param heatmap
-#' @param shot
-#' @param lines
-#' @param bgCol
-#' @param shirt
-#' @param eventArgs
-#' @param shotArgs
-#' @param heatmapArgs
-#' @param lineArgs
+#' Add events to pitch plot - does not plot the pitch itself
 #'
-#' @return
+#' @param df Data frame
+#' @param x X coordinate
+#' @param y Y coordinate
+#' @param xend X end coordinate
+#' @param yend Y end coordinate
+#' @param heatmap Set to "TRUE" to add heatmap based on x,y
+#' @param shot Set to "TRUE" to switch to shot plot
+#' @param lines Set to "TRUE" to add lines from x,y to xend,yend
+#' @param bgCol Background color - set to shiny theme
+#' @param shirt Column with shirt numbers - will be added to events
+#' @param eventArgs Event arguments, usable: color and border
+#' @param shotArgs Shot arguments, usable: color and border
+#' @param heatmapArgs Heat map arguments: usable alpha, color and fill
+#' @param lineArgs Lines arguments: usable linetype and color
+#'
+#' @return Returns set of ggplot layers to add to a ggplot
 #' @export
 #'
-#' @examples
 add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
                        heatmap = FALSE, shot = FALSE, lines = FALSE,
                        bgCol = "white",

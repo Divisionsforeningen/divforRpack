@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_events.R
 \name{add_events}
 \alias{add_events}
-\title{Title}
+\title{add_events}
 \usage{
 add_events(
   df = NA,
@@ -22,8 +22,37 @@ add_events(
 )
 }
 \arguments{
-\item{lineArgs}{}
+\item{df}{Data frame}
+
+\item{x}{X coordinate}
+
+\item{y}{Y coordinate}
+
+\item{xend}{X end coordinate}
+
+\item{yend}{Y end coordinate}
+
+\item{heatmap}{Set to "TRUE" to add heatmap based on x,y}
+
+\item{shot}{Set to "TRUE" to switch to shot plot}
+
+\item{lines}{Set to "TRUE" to add lines from x,y to xend,yend}
+
+\item{bgCol}{Background color - set to shiny theme}
+
+\item{shirt}{Column with shirt numbers - will be added to events}
+
+\item{eventArgs}{Event arguments, usable: color and border}
+
+\item{shotArgs}{Shot arguments, usable: color and border}
+
+\item{heatmapArgs}{Heat map arguments: usable alpha, color and fill}
+
+\item{lineArgs}{Lines arguments: usable linetype and color}
+}
+\value{
+Returns set of ggplot layers to add to a ggplot
 }
 \description{
-Title
+Add events to pitch plot - does not plot the pitch itself
 }

@@ -1,18 +1,18 @@
 #' line_chart_con
 #'
-#' Line chart - not sure what it does...
+#' Line chart on a continuous x axis
 #'
 #' @param df Data frame
 #' @param x Column with data for x axis
 #' @param y Column with data for y axis
-#' @param idCl Column with data containing ids
-#' @param id Id to show
+#' @param opponent Column with point labels
 #' @param ref Reference value on y axis
+#' @param trend Set to "TRUE" to add smoothed trend
 #' @param KPI Y axis label
 #' @param Periods X axis label
 #' @param Title Title of plot
 #' @param Subtitle Subtitle of plot
-#' @param Caption Caption for data provider
+#' @param provider Data provider
 #' @param refCol Color of reference line
 #'
 #' @return Line chart on continuous x axis
@@ -21,35 +21,41 @@
 #' @import dplyr
 #' @import ggrepel
 #'
-line_chart_con <- function(df, x, y, idCl, id, ref = NA, KPI, Periods, Title = NA, Subtitle = NA, Caption = "Data by OPTA", refCol = NA) {
-  # TODO Test if it works!
-  # TODO Change description!
-  # Start ggplot with data, filtering(?) - and setting x, y
-  ggplot(
-    data = df %>% filter(idCl %in% id),
-    aes(x = x, y = y, group = 1)
+line_chart_con <- function(df, x, y, labels, ref = NA, trend = NA, KPI = "Put KPI here", Periods = "Put x label here", Title = NA, Subtitle = NA, provider = "Put provider here", refCol = NA) {
+  # TODO Write test battery!
+
+  # Check if 'trend' is not TRUE or is NA, then set it to FALSE.
+  if (trend != TRUE || is.na(trend)) {
+    trend <- FALSE
+  }
+
+  # Calculate the range of the data for the 'x' variable.
+  range <- dat %>%
+    dplyr::ungroup() %>%
+    dplyr::summarise(max = max(.data[[x]]), min = min(.data[[x]]))
+
+  # Create a ggplot object 'p'.
+  p <- ggplot(
+    data = df,
+    aes(x = as.numeric(.data[[x]]), y = .data[[y]], group = 1)
   ) +
     # Add line
-    geom_path(aes(), alpha = 0.0) +
-    # Add smoothed line for tendency
-    geom_smooth(aes(), se = FALSE) +
+    geom_path(aes(), alpha = 1) +
     # Add points
-    geom_point(aes(), size = 4, alpha = 0.1) +
-    # Add labels
-    ggrepel::geom_text_repel(aes(label = id)) +
-    # Add reference line
-    geom_hline(aes(yintercept = ref), color = div_col("reference", ifelse(is.na(refCol), NA, refCol)), linetype = "dashed") +
+    geom_point(aes(), size = 4, alpha = 1) +
+    # Add labels using ggrepel package
+    ggrepel::geom_text_repel(data = df, aes(label = .data[[labels]])) +
     # Scale x axis
-    scale_x_continuous(breaks = seq(from = min(df$x), to = max(df$x), by = 1)) +
-    # Add labels, title and subtitle - caption with data provider
+    scale_x_continuous(breaks = seq(from = as.numeric(range[2]), to = as.numeric(range[1]), by = 1)) +
+    # Add labels, title, subtitle, and caption with data provider
     labs(
       y = KPI,
       x = Periods,
       title = Title,
       subtitle = Subtitle,
-      caption = Caption
+      caption = paste0("Data by ", provider)
     ) +
-    # Control theme
+    # Control theme settings
     theme(
       panel.grid.minor = element_blank(),
       axis.text = element_text(size = 12),
@@ -58,4 +64,31 @@ line_chart_con <- function(df, x, y, idCl, id, ref = NA, KPI, Periods, Title = N
       plot.subtitle = element_text(size = 12),
       plot.caption = element_text(size = 12)
     )
+
+  # Check if 'ref' is NA.
+  if (is.na(ref)) {
+    # If 'trend' is FALSE, return the 'p' plot as it is.
+    if (trend == F) {
+      p
+    } else {
+      # If 'trend' is TRUE, add a smoothed line for trend and return the updated 'p' plot.
+      p <- p +
+        geom_smooth(aes(), se = FALSE)
+      p
+    }
+  } else {
+    # If 'ref' is not NA.
+    # If 'trend' is FALSE, add a reference line and return the updated 'p' plot.
+    if (trend == F) {
+      p <- p +
+        geom_hline(aes(yintercept = ref), color = div_col("reference", ifelse(is.na(refCol), NA, refCol)), linewidth = 2)
+      p
+    } else {
+      # If 'trend' is TRUE, add a reference line and a smoothed line for trend, then return the updated 'p' plot.
+      p <- p +
+        geom_hline(aes(yintercept = ref), color = div_col("reference", ifelse(is.na(refCol), NA, refCol)), linewidth = 2) +
+        geom_smooth(aes(), se = FALSE)
+      p
+    }
+  }
 }

@@ -1,11 +1,11 @@
 #' div_col
 #'
-#' Given either type or custom input checks if the input is a color and returns it for plotting use
+#' Given either type or custom input checks if the input is a color and returns it for plotting use.
 #'
-#' @param type String indicating type for default colors
-#' @param color Custom color input - either a color from colors() or a color in hex code
+#' @param type String indicating the type for default colors.
+#' @param color Custom color input - either a color from colors() or a color in hex code.
 #'
-#' @return Color
+#' @return Color for plotting.
 #' @import grDevices
 #' @export
 #'
@@ -13,12 +13,12 @@
 #' div_col(color = "white")
 #' div_col(type = "reference")
 div_col <- function(type = NA, color = NA) {
-  # TODO Write test battery
-  # Checks for input - if not found throws error
+
+  # Check for input - if not found throws an error.
   if (is.na(type) && is.na(color)) {
     stop("No type or color chosen")
   }
-  # Checks for custom color and returns it if it is a color or hex code
+  # Check for custom color and return it if it is a color or hex code.
   else if (!is.na(color)) {
     if (color %in% grDevices::colors()) {
       return(color)
@@ -28,7 +28,7 @@ div_col <- function(type = NA, color = NA) {
       stop("Color is not usable")
     }
   }
-  # If custom color is not chosen then check type and return color
+  # If custom color is not chosen, then check type and return the color.
   else {
     col <- dplyr::case_when(
       # General colors
@@ -51,12 +51,12 @@ div_col <- function(type = NA, color = NA) {
       type == "others" ~ "white",
       # Events
       type == "goal" ~ "red",
-      # If type is not in defined set
+      # If type is not in the defined set
       TRUE ~ NA
     )
-    # If no usable output is generated throw error
+    # If no usable output is generated, throw an error.
     if (is.na(col)) stop("No color chosen")
-    # Returns color
+    # Return color.
     return(col)
   }
 }

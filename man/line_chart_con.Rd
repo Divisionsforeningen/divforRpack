@@ -8,14 +8,14 @@ line_chart_con(
   df,
   x,
   y,
-  idCl,
-  id,
+  labels,
   ref = NA,
-  KPI,
-  Periods,
+  trend = NA,
+  KPI = "Put KPI here",
+  Periods = "Put x label here",
   Title = NA,
   Subtitle = NA,
-  Caption = "Data by OPTA",
+  provider = "Put provider here",
   refCol = NA
 )
 }
@@ -26,11 +26,9 @@ line_chart_con(
 
 \item{y}{Column with data for y axis}
 
-\item{idCl}{Column with data containing ids}
-
-\item{id}{Id to show}
-
 \item{ref}{Reference value on y axis}
+
+\item{trend}{Set to "TRUE" to add smoothed trend}
 
 \item{KPI}{Y axis label}
 
@@ -40,13 +38,15 @@ line_chart_con(
 
 \item{Subtitle}{Subtitle of plot}
 
-\item{Caption}{Caption for data provider}
+\item{provider}{Data provider}
 
 \item{refCol}{Color of reference line}
+
+\item{opponent}{Column with point labels}
 }
 \value{
 Line chart on continuous x axis
 }
 \description{
-Line chart - not sure what it does...
+Line chart on a continuous x axis
 }
