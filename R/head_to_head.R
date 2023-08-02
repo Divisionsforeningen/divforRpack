@@ -15,7 +15,6 @@
 #' @import ggplot2
 #'
 head_to_head <- function(df, x = "variable", y = "share", value = "value", names = "OfficialName", home = NA, textCol = NA, provider = "OPTA", title = "HEAD TO HEAD") {
-
   # Check if the 'home' parameter is provided.
   if (is.na(home)) {
     stop("No home team defined")
@@ -35,9 +34,9 @@ head_to_head <- function(df, x = "variable", y = "share", value = "value", names
     geom_bar(stat = "identity", position = "identity", width = 0.7) +
     # Add labels to the bars.
     geom_label(aes(label = round(value, digits = 1)),
-               size = 7,
-               # Set text color for the labels.
-               color = ifelse(is.na(textCol), div_col(type = "w_text"), div_col(color = textCol)), show.legend = FALSE
+      size = 7,
+      # Set text color for the labels.
+      color = ifelse(is.na(textCol), div_col(type = "w_text"), div_col(color = textCol)), show.legend = FALSE
     ) +
     # Set y-axis limits to ensure bars are centered.
     scale_y_continuous(limits = c(-high, high)) +

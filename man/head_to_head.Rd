@@ -17,26 +17,26 @@ head_to_head(
 )
 }
 \arguments{
-\item{df}{Data frame}
+\item{df}{Data frame containing the data for the head-to-head chart}
 
-\item{x}{Column with variables}
+\item{x}{Column with variables (e.g., match statistics or metrics)}
 
-\item{y}{Column with shares}
+\item{y}{Column with shares (e.g., share of possession or goals)}
 
-\item{value}{Column with values}
+\item{value}{Column with numeric values (e.g., actual values of the metrics)}
 
 \item{names}{Column with team names}
 
-\item{home}{Name of home team}
+\item{home}{Name of the home team (used for orientation)}
 
-\item{textCol}{Color used for text}
+\item{textCol}{Color used for text labels (optional)}
 
-\item{provider}{Data provider}
+\item{provider}{Data provider (default: "OPTA")}
 
-\item{title}{Title - defaults to HEAD TO HEAD}
+\item{title}{Title of the chart (default: "HEAD TO HEAD")}
 }
 \value{
-A head-to-head chart with data from a match
+A head-to-head chart comparing the given data for two teams in a match
 }
 \description{
 head_to_head

@@ -11,6 +11,7 @@ line_chart_con(
   labels,
   ref = NA,
   trend = NA,
+  lCol = NA,
   KPI = "Put KPI here",
   Periods = "Put x label here",
   Title = NA,
@@ -29,6 +30,8 @@ line_chart_con(
 \item{ref}{Reference value on y axis}
 
 \item{trend}{Set to "TRUE" to add smoothed trend}
+
+\item{lCol}{Line color}
 
 \item{KPI}{Y axis label}
 

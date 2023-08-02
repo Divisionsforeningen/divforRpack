@@ -10,7 +10,7 @@
 #'
 #' @examples is_hexcolor("#ffffff")
 is_hexcolor <- function(text = NA) {
-  if(is.na(text) || text=="" || is.null(text)){
+  if (is.na(text) || text == "" || is.null(text)) {
     return(FALSE)
   }
 

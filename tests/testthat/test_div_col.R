@@ -5,7 +5,7 @@ test_div_col <- function() {
 
   # Test case 2: Custom color input with incorrect format
   invalid_color_input <- "invalid_color"
-    expect_error(div_col(color = invalid_color_input), "Color is not usable")
+  expect_error(div_col(color = invalid_color_input), "Color is not usable")
 
   # Test case 3: Predefined color type "reference"
   reference_color <- "red"

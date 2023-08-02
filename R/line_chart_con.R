@@ -8,6 +8,7 @@
 #' @param opponent Column with point labels
 #' @param ref Reference value on y axis
 #' @param trend Set to "TRUE" to add smoothed trend
+#' @param lCol Line color
 #' @param KPI Y axis label
 #' @param Periods X axis label
 #' @param Title Title of plot
@@ -21,7 +22,7 @@
 #' @import dplyr
 #' @import ggrepel
 #'
-line_chart_con <- function(df, x, y, labels, ref = NA, trend = NA, KPI = "Put KPI here", Periods = "Put x label here", Title = NA, Subtitle = NA, provider = "Put provider here", refCol = NA) {
+line_chart_con <- function(df, x, y, labels, ref = NA, trend = NA, lCol = NA, KPI = "Put KPI here", Periods = "Put x label here", Title = NA, Subtitle = NA, provider = "Put provider here", refCol = NA) {
   # TODO Write test battery!
 
   # Check if 'trend' is not TRUE or is NA, then set it to FALSE.
@@ -40,9 +41,12 @@ line_chart_con <- function(df, x, y, labels, ref = NA, trend = NA, KPI = "Put KP
     aes(x = as.numeric(.data[[x]]), y = .data[[y]], group = 1)
   ) +
     # Add line
-    geom_path(aes(), alpha = 1) +
+    geom_path(aes(),
+      alpha = 1, col = ifelse(is.na(lCol), divforRpack::div_col(type = "highlight"), divforRpack::div_col(color = lCol)),
+      linewidth = 2
+    ) +
     # Add points
-    geom_point(aes(), size = 4, alpha = 1) +
+    geom_point(aes(), cex = 5, fill = divforRpack::div_col(type = "fill"), pch = 21, col = "black") +
     # Add labels using ggrepel package
     ggrepel::geom_text_repel(data = df, aes(label = .data[[labels]])) +
     # Scale x axis
@@ -58,11 +62,14 @@ line_chart_con <- function(df, x, y, labels, ref = NA, trend = NA, KPI = "Put KP
     # Control theme settings
     theme(
       panel.grid.minor = element_blank(),
+      panel.grid = element_line(color = divforRpack::div_col(type = "fill")),
       axis.text = element_text(size = 12),
       axis.title = element_text(size = 12),
       plot.title = element_text(size = 15),
       plot.subtitle = element_text(size = 12),
-      plot.caption = element_text(size = 12)
+      plot.caption = element_text(size = 12),
+      plot.background = element_rect(fill = "NA"),
+      panel.background = element_rect(fill = "NA")
     )
 
   # Check if 'ref' is NA.

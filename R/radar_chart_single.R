@@ -15,7 +15,6 @@
 #' @export
 #'
 create_radarchart_single <- function(df = NA, x = NA, y = NA, lab = NA, col = NA, title = "Put title here", subTitle = "Put subtitle here", provider = "Put provider here") {
-
   # Create the radar chart using ggplot2.
   ggplot(df, aes(x = .data[[x]], y = as.numeric(.data[[y]]))) +
     # Add radial lines with percentile values.
@@ -55,7 +54,7 @@ create_radarchart_single <- function(df = NA, x = NA, y = NA, lab = NA, col = NA
       axis.text.y.left = element_blank(),
       legend.title = element_blank(),
       legend.position = "bottom",
-      panel.grid = element_blank(),
+      # panel.grid = element_blank(),
       axis.text = element_text(size = 10),
       plot.title = element_text(face = "bold", size = 15),
       plot.subtitle = element_text(size = 12),

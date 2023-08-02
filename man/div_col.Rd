@@ -7,15 +7,15 @@
 div_col(type = NA, color = NA)
 }
 \arguments{
-\item{type}{String indicating type for default colors}
+\item{type}{String indicating the type for default colors.}
 
-\item{color}{Custom color input - either a color from colors() or a color in hex code}
+\item{color}{Custom color input - either a color from colors() or a color in hex code.}
 }
 \value{
-Color
+Color for plotting.
 }
 \description{
-Given either type or custom input checks if the input is a color and returns it for plotting use
+Given either type or custom input checks if the input is a color and returns it for plotting use.
 }
 \examples{
 div_col(color = "white")

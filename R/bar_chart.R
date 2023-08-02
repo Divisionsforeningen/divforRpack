@@ -28,8 +28,8 @@ bar_chart <- function(df, x, y, id, KPI, negative = c(TRUE, FALSE), median = c(T
 
   # Calculate the reference value based on mean or median
   ref <- ifelse(median == TRUE,
-                as.numeric(df %>% mutate(median = median(.data[[y]])) %>% summarise(median = max(median))),
-                as.numeric(df %>% mutate(mean = mean(.data[[y]])) %>% summarise(mean = max(mean)))
+    as.numeric(df %>% mutate(median = median(.data[[y]])) %>% summarise(median = max(median))),
+    as.numeric(df %>% mutate(mean = mean(.data[[y]])) %>% summarise(mean = max(mean)))
   )
 
   # Create ggplot from df, using x, and y. Reorder if needed
@@ -38,13 +38,13 @@ bar_chart <- function(df, x, y, id, KPI, negative = c(TRUE, FALSE), median = c(T
     geom_bar(stat = "identity", width = 0.3, fill = div_col("fill", ifelse(is.na(fillCol), NA, fillCol))) +
     # Add bar for highlighted data point
     geom_bar(data = df %>%
-               dplyr::filter(.data[[x]] == id), aes(), stat = "identity", fill = div_col("highlight", ifelse(is.na(highCol), NA, highCol)), width = 0.3) +
+      dplyr::filter(.data[[x]] == id), aes(), stat = "identity", fill = div_col("highlight", ifelse(is.na(highCol), NA, highCol)), width = 0.3) +
     # Add point at the end of the bar for all data points
     geom_point(data = df %>%
-                 dplyr::filter(.data[[x]] != id), aes(), cex = 12, color = div_col("fill", ifelse(is.na(fillCol), NA, fillCol))) +
+      dplyr::filter(.data[[x]] != id), aes(), cex = 12, color = div_col("fill", ifelse(is.na(fillCol), NA, fillCol))) +
     # Add point at the end of the bar for highlighted data point
     geom_point(data = df %>%
-                 dplyr::filter(.data[[x]] == id), cex = 12, color = div_col("highlight", ifelse(is.na(highCol), NA, highCol))) +
+      dplyr::filter(.data[[x]] == id), cex = 12, color = div_col("highlight", ifelse(is.na(highCol), NA, highCol))) +
     # Add reference line
     geom_vline(aes(xintercept = ref, color = "League average"), linewidth = 2, alpha = 0.8) +
     # Define color of reference line

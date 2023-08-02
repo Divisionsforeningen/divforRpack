@@ -13,7 +13,6 @@
 #' div_col(color = "white")
 #' div_col(type = "reference")
 div_col <- function(type = NA, color = NA) {
-
   # Check for input - if not found throws an error.
   if (is.na(type) && is.na(color)) {
     stop("No type or color chosen")

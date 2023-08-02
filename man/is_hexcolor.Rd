@@ -7,13 +7,13 @@
 is_hexcolor(text = NA)
 }
 \arguments{
-\item{text}{String to test}
+\item{text}{String to test for hex color code.}
 }
 \value{
-True is hexcode, false if not
+TRUE if valid hex color code, FALSE otherwise.
 }
 \description{
-is_hexcolor
+Check if the input text is a valid hex color code.
 }
 \examples{
 is_hexcolor("#ffffff")

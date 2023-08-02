@@ -2,7 +2,7 @@
 % Please edit documentation in R/radar_chart_single.R
 \name{create_radarchart_single}
 \alias{create_radarchart_single}
-\title{radar_chart_single}
+\title{create_radarchart_single}
 \usage{
 create_radarchart_single(
   df = NA,
@@ -16,25 +16,25 @@ create_radarchart_single(
 )
 }
 \arguments{
-\item{df}{Dataframe with, x, y and labels}
+\item{df}{Dataframe containing the data for the radar chart.}
 
-\item{x}{Variable names}
+\item{x}{Variable names (e.g., categories or attributes).}
 
-\item{y}{Percentile values}
+\item{y}{Percentile values for each category.}
 
-\item{lab}{Data labels}
+\item{lab}{Data labels to display on the chart.}
 
-\item{col}{Color}
+\item{col}{Color to fill the bars (optional).}
 
-\item{title}{Title}
+\item{title}{Title for the radar chart.}
 
-\item{subTitle}{Subtitle}
+\item{subTitle}{Subtitle for the radar chart.}
 
-\item{provider}{Data provider}
+\item{provider}{Data provider for the data source.}
 }
 \value{
-Returns a radar plot for a single team/player
+Returns a radar plot for a single team/player.
 }
 \description{
-Plots a radar chart for a single team/player
+Plots a radar chart for a single team/player.
 }
