@@ -29,5 +29,3 @@ test_probability_chart <- function() {
 test_that("test probability chart", {
   test_probability_chart()
 })
-
-
