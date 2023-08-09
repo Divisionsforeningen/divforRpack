@@ -42,9 +42,9 @@ add_events(
 
 \item{shirt}{Column with shirt numbers - will be added to events}
 
-\item{eventArgs}{Event arguments, usable: color and border}
+\item{eventArgs}{Event arguments, usable: color and outcome (0 or 1)}
 
-\item{shotArgs}{Shot arguments, usable: color and border}
+\item{shotArgs}{Shot arguments, usable: color and outcome ("goal" and "other")}
 
 \item{heatmapArgs}{Heat map arguments: usable alpha, color and fill}
 
