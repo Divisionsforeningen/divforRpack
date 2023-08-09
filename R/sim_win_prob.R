@@ -13,6 +13,11 @@
 #' @examples
 #' sim_win_prob(c(0.6, 0.8), c(0.45, 0.06))
 sim_win_prob <- function(home, away, m = 100000) {
+  # Input validation: Ensure all elements are less than 1
+  if (any(home >= 1) || any(away >= 1)) {
+    stop("All elements in home and away vectors must be less than 1.")
+  }
+
   # Calculate the number of home and away teams
   num_home <- length(home)
   num_away <- length(away)
