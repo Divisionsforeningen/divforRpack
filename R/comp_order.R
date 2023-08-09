@@ -29,7 +29,7 @@ comp_order <- function(competitionId) {
     competitionId == 1570 ~ 21, # U17 Liga
     competitionId == 3135 ~ 22, # U17 Division
 
-    competitionId == 43149 ~ 30, # U15 Liga
+    competitionId == 43149 ~ 31, # U15 Liga
 
     # Other
     T ~ 999

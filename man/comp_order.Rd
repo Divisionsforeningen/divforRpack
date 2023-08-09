@@ -18,7 +18,7 @@ Works for Wyscout competition Id's
 }
 \examples{
 
-A=data.frame(competitionId=c(355,328,100))
-A$Order=comp_order(A$competitionId)
+A <- data.frame(competitionId = c(355, 328, 100))
+A$Order <- comp_order(A$competitionId)
 
 }

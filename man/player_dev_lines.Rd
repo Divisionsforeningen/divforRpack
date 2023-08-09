@@ -5,7 +5,7 @@
 \title{player_dev_lines}
 \usage{
 player_dev_lines(
-  player_df,
+  df,
   competitionId = "competitionId",
   season = "season",
   value = "value",
@@ -15,7 +15,7 @@ player_dev_lines(
 )
 }
 \arguments{
-\item{player_df}{Data frame with player data}
+\item{df}{Data frame with player data}
 
 \item{competitionId}{Coloum name of Wyscout competitionId}
 
