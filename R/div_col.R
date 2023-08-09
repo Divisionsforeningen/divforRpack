@@ -9,6 +9,8 @@
 #' @import grDevices
 #' @export
 #'
+#' @importFrom dplyr case_when
+#'
 #' @examples
 #' div_col(color = "white")
 #' div_col(type = "reference")
