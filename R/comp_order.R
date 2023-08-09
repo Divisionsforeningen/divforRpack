@@ -14,6 +14,10 @@
 #' A$Order <- comp_order(A$competitionId)
 #'
 comp_order <- function(competitionId) {
+  if(!is.numeric(competitionId)){
+    stop("Inputs are not numeric")
+  }
+
   # Return integer rank based on age and level - if not in danish male league system return 999
   y <- dplyr::case_when(
     # Senior

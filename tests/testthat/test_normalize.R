@@ -8,6 +8,10 @@ test_normalize <- function() {
   input_z <- c(0, 5, 10)
   output_z <- normalize(input_z, type = "Z")
   expect_equal(output_z, c(-1, 0, 1))
+
+  # Test case 3: Input not numeric
+  input_3 <- c("Text", "More", "Text")
+  expect_error(normalize(x=input_3, type="Z"), "Inputs are not numeric")
 }
 
 

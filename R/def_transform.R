@@ -15,5 +15,6 @@ def_transform <- function(x, y) {
   if(!is.numeric(x) || !is.numeric(y)){
     stop("Inputs are not numeric")
   }
+
   return((y - x))
 }
