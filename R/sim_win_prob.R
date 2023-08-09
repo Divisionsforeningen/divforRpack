@@ -1,47 +1,50 @@
-sim_win_prob <- function(home, away) {
-  m <- 10000
+#' sim_win_prob
+#'
+#' Calculate the win probabilities of home, draw, and away outcomes for a match
+#' using a Monte Carlo simulation strategy.
+#'
+#' @param home A vector representing the home team's shots.
+#' @param away A vector representing the away team's shots.
+#' @param m Number of simulations. Default is 100000.
+#'
+#' @return A numeric vector with probabilities of home, draw, and away outcomes.
+#' @export
+#'
+#' @examples
+#' sim_win_prob(c(0.6, 0.8), c(0.45, 0.06))
+sim_win_prob <- function(home, away, m = 100000) {
+  # Calculate the number of home and away teams
+  num_home <- length(home)
+  num_away <- length(away)
 
-  r <- data.frame(match = c(1:m), homeG = 0, awayG = 0)
-  for (j in 1:m) {
-    hg <- data.frame(a = c(1:length(home)), b = 0)
-    for (i in home) {
-      hg <- sum(i > runif(1))
-      # ifelse(i>runif(1),hg+1,hg)
-    }
-    r[j, 2] <- hg
-    ag <- data.frame(a = c(1:length(away)), b = 0)
-    for (i in 1:length(away)) {
-      ag[i, 2] <- sum(away[i] > runif(1))
-    }
-    r[j, 3] <- sum(ag$b)
-  }
-  home <- sum(ifelse(r$homeG > r$awayG, 1, 0)) / m
-  draw <- sum(ifelse(r$homeG == r$awayG, 1, 0)) / m
-  away <- sum(ifelse(r$homeG < r$awayG, 1, 0)) / m
+  # Generate a matrix of random numbers for simulations
+  random_matrix <- matrix(runif(m * max(num_home, num_away)), nrow = m)
 
-  return(c(home, draw, away))
-}
+  # Create matrices for element-wise comparisons with home and away strengths
+  home_gt_matrix <- matrix(home > random_matrix[, 1:num_home], nrow = num_home, byrow = TRUE)
+  away_gt_matrix <- matrix(away > random_matrix[, 1:num_away], nrow = num_away, byrow = TRUE)
 
-sim_win_prob_dat <- function(home, away) {
-  m <- 10000
+  # Calculate scores for home and away teams
+  home_scores <- colSums(home_gt_matrix)
+  away_scores <- colSums(away_gt_matrix)
 
-  r <- data.frame(match = c(1:m), homeG = 0, awayG = 0)
-  for (j in 1:m) {
-    hg <- data.frame(a = c(1:length(home)), b = 0)
-    for (i in home) {
-      hg <- sum(i > runif(1))
-      # ifelse(i>runif(1),hg+1,hg)
-    }
-    r[j, 2] <- hg
-    ag <- data.frame(a = c(1:length(away)), b = 0)
-    for (i in 1:length(away)) {
-      ag[i, 2] <- sum(away[i] > runif(1))
-    }
-    r[j, 3] <- sum(ag$b)
-  }
-  home <- sum(ifelse(r$homeG > r$awayG, 1, 0)) / m
-  draw <- sum(ifelse(r$homeG == r$awayG, 1, 0)) / m
-  away <- sum(ifelse(r$homeG < r$awayG, 1, 0)) / m
+  # Create a matrix to store results
+  results <- matrix(0, nrow = m, ncol = 3)
+  results[, 1] <- home_scores
+  results[, 2] <- away_scores
+  results[, 3] <- sign(home_scores - away_scores)
 
-  return(r)
+  # Add column names to the results matrix
+  colnames(results) <- c("HomeGoals", "AwayGoals", "Result")
+
+  # Convert the results matrix to a data frame
+  results <- data.frame(results)
+
+  # Calculate win, draw, and lose probabilities
+  r <- sum(results$Result == 1) / m
+  d <- sum(results$Result == 0) / m
+  a <- sum(results$Result == -1) / m
+
+  # Return a numeric vector with probabilities
+  return(c(home = r, draw = d, away = a))
 }

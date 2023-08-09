@@ -5,7 +5,7 @@ line_chart_phys <- function(df) {
   ggplot(ss_summary, aes(Date, get(input$sel_phys_par), group = 1)) +
     # Add points for selected team
     geom_point(data = ss_summary %>%
-      filter(`Team Name` == as.name(id_name)), size = 2, alpha = 0.5, color = divforRpack::div_col(type="fill")) +
+      filter(`Team Name` == as.name(id_name)), size = 2, alpha = 0.5, color = divforRpack::div_col(type = "fill")) +
     # Add line between points for selected teams
     geom_line(data = ss_summary %>%
       filter(`Team Name` == as.name(id_name)), size = 1, alpha = 0.5, aes(color = "Game by game")) +
@@ -18,9 +18,9 @@ line_chart_phys <- function(df) {
     geom_smooth(data = ss_summary %>%
       filter(`Team Name` == as.name(input$sel_phys_overlay)), aes(color = "Overlayed team"), size = 2, se = FALSE) +
     # Set colors
-    scale_color_manual(NULL, values = c("Overlayed team" = divforRpack::div_col(type="chosen"), "League progression" = divforRpack::div_col(type="highlight"), "Team progression" = divforRpack::div_col(type="reference"), "Game by game" = divforRpack::div_col(type="fill"))) +
+    scale_color_manual(NULL, values = c("Overlayed team" = divforRpack::div_col(type = "chosen"), "League progression" = divforRpack::div_col(type = "highlight"), "Team progression" = divforRpack::div_col(type = "reference"), "Game by game" = divforRpack::div_col(type = "fill"))) +
     # Set fill color
-    scale_fill_manual(NULL, values = ("95% confidence interval" <- divforRpack::div_col(type="fill"))) +
+    scale_fill_manual(NULL, values = ("95% confidence interval" <- divforRpack::div_col(type = "fill"))) +
     # Break by month
     scale_x_date(
       date_breaks = "1 month",
@@ -33,7 +33,7 @@ line_chart_phys <- function(df) {
     ) +
     # Add point for selected game
     geom_point(data = ss_summary %>%
-      filter(`Team Name` == id_name & Date == as.Date(d_id)), size = 8, alpha = 0.4, color = divforRpack::div_col(type="chosen")) +
+      filter(`Team Name` == id_name & Date == as.Date(d_id)), size = 8, alpha = 0.4, color = divforRpack::div_col(type = "chosen")) +
     # Add label for selected game
     geom_text_repel(data = ss_summary %>%
       filter(`Team Name` == id_name & Date == as.Date(d_id)), size = 5, nudge_y = -1, aes(label = paste0(round(get(input$sel_phys_par), digits = 1)))) +

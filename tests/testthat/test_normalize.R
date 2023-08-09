@@ -11,7 +11,7 @@ test_normalize <- function() {
 
   # Test case 3: Input not numeric
   input_3 <- c("Text", "More", "Text")
-  expect_error(normalize(x=input_3, type="Z"), "Inputs are not numeric")
+  expect_error(normalize(x = input_3, type = "Z"), "Inputs are not numeric")
 }
 
 

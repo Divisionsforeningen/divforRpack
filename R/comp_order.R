@@ -14,7 +14,7 @@
 #' A$Order <- comp_order(A$competitionId)
 #'
 comp_order <- function(competitionId) {
-  if(!is.numeric(competitionId)){
+  if (!is.numeric(competitionId)) {
     stop("Inputs are not numeric")
   }
 

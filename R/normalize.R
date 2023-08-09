@@ -13,7 +13,7 @@
 #'
 #' normalize(c(0, 5, 10), type = "O") * 100
 normalize <- function(x, type = c("Z", "O")) {
-  if(!is.numeric(x)){
+  if (!is.numeric(x)) {
     stop("Inputs are not numeric")
   }
 
