@@ -9,38 +9,76 @@
 #' @param yend Y end coordinate
 #' @param heatmap Set to "TRUE" to add heatmap based on x,y
 #' @param shot Set to "TRUE" to switch to shot plot
+#' @param corners Set to "TRUE" to switch to corner plot
 #' @param lines Set to "TRUE" to add lines from x,y to xend,yend
 #' @param bgCol Background color - set to shiny theme
 #' @param shirt Column with shirt numbers - will be added to events
-#' @param eventArgs Event arguments, usable: color and outcome (0 or 1)
-#' @param shotArgs Shot arguments, usable: color and outcome ("goal" and "other")
-#' @param heatmapArgs Heat map arguments: usable alpha, color and fill
+#' @param eventArgs Event arguments, usable: color and outcome column (0 or 1)
+#' @param shotArgs Shot arguments, usable: color and outcome column ("goal" and "other")
+#' @param heatmapArgs Heat map arguments, usable: alpha, color, fill and type ("start" or "end")
+#' @param conerArgs Corner arguments, usable: color, type column ("in-swinger", "out-swinger" and "straight")
 #' @param lineArgs Lines arguments: usable linetype and color
 #'
 #' @return Returns set of ggplot layers to add to a ggplot
 #' @export
 #'
+#' @examples
+#'
+#' x <- 100
+#' df <- data.frame(
+#'   x = runif(x, 20, 75),
+#'   y = runif(x, 10, 90),
+#'   xend = runif(x, 40, 99),
+#'   yend = runif(x, 10, 90),
+#'   outcome = round(runif(x), 0)
+#' )
+#'
+#'
+#' p <- ggplot() +
+#'   annotate_pitch() +
+#'   add_events(
+#'     df = df, x = "x", y = "y", xend = "xend", yend = "yend",
+#'     lines = T, bgCol = "white",
+#'     corners = F, cornerArgs = list(),
+#'     eventArgs = list(outcome = "outcome"),
+#'     shot = F, shotArgs = list(),
+#'     heatmap = T, heatmapArgs = list(type = "end", outcome = "outcome")
+#'   ) +
+#'   theme_pitch()
+#'
+#' p
+#'
 add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
-                       heatmap = FALSE, shot = FALSE, lines = FALSE,
+                       heatmap = FALSE, shot = FALSE, corners = FALSE,
+                       lines = FALSE, pmCol = "black",
                        bgCol = "white",
                        shirt = NA,
                        eventArgs = list(),
                        shotArgs = list(),
+                       cornerArgs = list(),
                        heatmapArgs = list(),
                        lineArgs = list()) {
+  # Comments ----------------------------------------------------------------
+
+
   # TODO Add heatmap functionality - start, end or all as argument
   # TODO Make shot map usable for tracking dimensions
 
   # Define standard values for events, shots and heatmaps
 
+  # Setup -------------------------------------------------------------------
+
+
   event_args <- list(color = c(div_col(type = "highlight"), div_col("goal")), border = "black", outcome = NA)
   shot_args <- list(color = c(div_col(type = "goal"), div_col(type = "fill")), border = "black", outcome = NA)
-  heatmap_args <- list(alpha = 0.1, fill = "red")
-  line_args <- list(linetype = "solid", color = "black")
+  corner_args <- list(color = c(div_col(color = "orange"), div_col(color = "forestgreen"), div_col(color = "red")), border = "black", type = NA)
+  heatmap_args <- list(alpha = 0.1, fill = "red", type = "start", outcome = NA)
+  line_args <- list(linetype = c("solid", "dashed"), color = "black")
 
   # Replace standards with user inputs if any
   shot_args <- modifyList(shot_args, shotArgs[intersect(names(shotArgs), names(shot_args))])
   event_args <- modifyList(event_args, eventArgs[intersect(names(eventArgs), names(event_args))])
+  corner_args <- modifyList(corner_args, cornerArgs[intersect(names(cornerArgs), names(corner_args))])
   heatmap_args <- modifyList(heatmap_args, heatmapArgs[intersect(names(heatmapArgs), names(heatmap_args))])
   line_args <- modifyList(line_args, lineArgs[intersect(names(lineArgs), names(line_args))])
 
@@ -50,13 +88,47 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
   }
 
   if (!is.na(event_args[["outcome"]]) && length(event_args[["color"]]) < 2) {
-    h <- list(event_col(type = "fill"))
+    h <- list(div_col(type = "fill"))
     event_args[["color"]] <- append(event_args[["color"]], h)
   }
 
+  if (!is.na(event_args[["outcome"]]) && lines == T && length(line_args[["linetype"]]) < 2) {
+    h <- list("dashed", "dotted")
+    line_args[["linetype"]] <- append(line_args[["linetype"]], h)
+  }
+
+  if (!is.na(corner_args[["type"]]) && length(corner_args[["color"]]) < 3) {
+    h <- list(div_col(color = "purple"), div_col(color = "yellow"))
+    coner_args[["color"]] <- append(corner_args[["color"]], h)
+  }
+
+
+  # Checks on input ---------------------------------------------------------
+
+  # TODO Implement test on [["border"]] input
+
+  # If corners=T then set heatmap type to end
+  if (corners == T) {
+    heatmap_args[["type"]] <- "end"
+  }
+
+  # If pmCol is not a color throw an error
+  tryCatch(
+    expr = {
+      div_col(color = pmCol)
+    },
+    error = function(e) {
+      stop("pmCol is not a usable color!")
+    }
+  )
+
+  # Init plot ---------------------------------------------------------------
+
   # Create empty geom_point to serve as base
-  # p=list(geom_point())
   p <- list(theme_pitch())
+
+
+  # Heatmap -----------------------------------------------------------------
 
   if (heatmap == TRUE) {
     # Throw an error if cmap is not usable
@@ -66,54 +138,161 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       }
     }
 
-    # Creates list of geoms for heatmap
-    h <- list(
-      stat_density_2d(
-        data = df, aes(x = .data[[x]], y = .data[[y]], fill = after_stat(level)),
-        na.rm = T,
-        geom = "polygon", alpha = heatmap_args[["alpha"]], fill = heatmap_args[["fill"]]
-      ),
-      theme(legend.position = "none"),
-      scale_x_continuous(limits = c(-400, 500)),
-      scale_y_continuous(limits = c(-400, 500)),
-      geom_rect(aes(xmin = 100, xmax = 105, ymin = 0, ymax = 100), fill = bgCol),
-      geom_rect(aes(xmin = 0, xmax = 105, ymin = -50, ymax = 0), fill = bgCol),
-      geom_rect(aes(xmin = 0, xmax = 105, ymin = 100, ymax = 150), fill = bgCol),
-      geom_rect(aes(xmin = -5, xmax = 0, ymin = -50, ymax = 150), fill = bgCol),
-      geom_segment(aes(x = 100, xend = 100, y = 0, yend = 100)),
-      geom_segment(aes(x = 0, xend = 100.01, y = 0, yend = 0)),
-      geom_segment(aes(x = 0, xend = 0, y = 0, yend = 100)),
-      geom_segment(aes(x = 0, xend = 100.01, y = 100, yend = 100))
-    )
+    if (heatmap_args[["type"]] == "end") {
+      if (is.na(heatmap_args[["outcome"]])) {
+        h <- list(
+          stat_density_2d(
+            data = df, aes(x = .data[[xend]], y = .data[[yend]], fill = after_stat(level)),
+            na.rm = T,
+            geom = "polygon", alpha = heatmap_args[["alpha"]], fill = heatmap_args[["fill"]]
+          ),
+          theme(legend.position = "none"),
+          scale_x_continuous(limits = c(-400, 500)),
+          scale_y_continuous(limits = c(-400, 500)),
+          geom_rect(aes(xmin = 100, xmax = 105, ymin = 0, ymax = 100), fill = bgCol),
+          geom_rect(aes(xmin = 0, xmax = 105, ymin = -50, ymax = 0), fill = bgCol),
+          geom_rect(aes(xmin = 0, xmax = 105, ymin = 100, ymax = 150), fill = bgCol),
+          geom_rect(aes(xmin = -5, xmax = 0, ymin = -50, ymax = 150), fill = bgCol),
+          geom_segment(aes(x = 100, xend = 100, y = 0, yend = 100), color = pmCol),
+          geom_segment(aes(x = 0, xend = 100.01, y = 0, yend = 0), color = pmCol),
+          geom_segment(aes(x = 0, xend = 0, y = 0, yend = 100), color = pmCol),
+          geom_segment(aes(x = 0, xend = 100.01, y = 100, yend = 100), color = pmCol)
+        )
+      } else {
+        # Creates list of geoms for heatmap
+        h <- list(
+          stat_density_2d(
+            data = df %>% filter(.data[[heatmap_args[["outcome"]]]] == 1), aes(x = .data[[xend]], y = .data[[yend]], fill = after_stat(level)),
+            na.rm = T,
+            geom = "polygon", alpha = heatmap_args[["alpha"]], fill = event_args[["color"]][1]
+          ),
+          stat_density_2d(
+            data = df %>% filter(.data[[heatmap_args[["outcome"]]]] == 0), aes(x = .data[[xend]], y = .data[[yend]], fill = after_stat(level)),
+            na.rm = T,
+            geom = "polygon", alpha = heatmap_args[["alpha"]], fill = event_args[["color"]][2]
+          ),
+          theme(legend.position = "none"),
+          scale_x_continuous(limits = c(-400, 500)),
+          scale_y_continuous(limits = c(-400, 500)),
+          geom_rect(aes(xmin = 100, xmax = 105, ymin = 0, ymax = 100), fill = bgCol),
+          geom_rect(aes(xmin = 0, xmax = 105, ymin = -50, ymax = 0), fill = bgCol),
+          geom_rect(aes(xmin = 0, xmax = 105, ymin = 100, ymax = 150), fill = bgCol),
+          geom_rect(aes(xmin = -5, xmax = 0, ymin = -50, ymax = 150), fill = bgCol),
+          geom_segment(aes(x = 100, xend = 100, y = 0, yend = 100), color = pmCol),
+          geom_segment(aes(x = 0, xend = 100.01, y = 0, yend = 0), color = pmCol),
+          geom_segment(aes(x = 0, xend = 0, y = 0, yend = 100), color = pmCol),
+          geom_segment(aes(x = 0, xend = 100.01, y = 100, yend = 100), color = pmCol)
+        )
+      }
 
-    # Append heatmap list to output
-    p <- append(p, h)
+      # Append heatmap list to output
+      p <- append(p, h)
 
-    dim <- list(
-      coord_cartesian(xlim = c(0, 100), ylim = c(0, 100))
-    )
+      dim <- list(
+        coord_cartesian(xlim = c(0, 100), ylim = c(0, 100))
+      )
+    } else {
+      # Creates list of geoms for heatmap
+      if (is.na(heatmap_args[["outcome"]])) {
+        h <- list(
+          stat_density_2d(
+            data = df, aes(x = .data[[x]], y = .data[[y]], fill = after_stat(level)),
+            na.rm = T,
+            geom = "polygon", alpha = heatmap_args[["alpha"]], fill = heatmap_args[["fill"]]
+          ),
+          theme(legend.position = "none"),
+          scale_x_continuous(limits = c(-400, 500)),
+          scale_y_continuous(limits = c(-400, 500)),
+          geom_rect(aes(xmin = 100, xmax = 105, ymin = 0, ymax = 100), fill = bgCol),
+          geom_rect(aes(xmin = 0, xmax = 105, ymin = -50, ymax = 0), fill = bgCol),
+          geom_rect(aes(xmin = 0, xmax = 105, ymin = 100, ymax = 150), fill = bgCol),
+          geom_rect(aes(xmin = -5, xmax = 0, ymin = -50, ymax = 150), fill = bgCol),
+          geom_segment(aes(x = 100, xend = 100, y = 0, yend = 100), color = pmCol),
+          geom_segment(aes(x = 0, xend = 100.01, y = 0, yend = 0), color = pmCol),
+          geom_segment(aes(x = 0, xend = 0, y = 0, yend = 100), color = pmCol),
+          geom_segment(aes(x = 0, xend = 100.01, y = 100, yend = 100), color = pmCol)
+        )
+      } else {
+        # Creates list of geoms for heatmap
+        h <- list(
+          stat_density_2d(
+            data = df %>% filter(.data[[heatmap_args[["outcome"]]]] == 1), aes(x = .data[[x]], y = .data[[y]], fill = after_stat(level)),
+            na.rm = T,
+            geom = "polygon", alpha = heatmap_args[["alpha"]], fill = event_args[["color"]][1]
+          ),
+          stat_density_2d(
+            data = df %>% filter(.data[[heatmap_args[["outcome"]]]] == 0), aes(x = .data[[x]], y = .data[[y]], fill = after_stat(level)),
+            na.rm = T,
+            geom = "polygon", alpha = heatmap_args[["alpha"]], fill = event_args[["color"]][2]
+          ),
+          theme(legend.position = "none"),
+          scale_x_continuous(limits = c(-400, 500)),
+          scale_y_continuous(limits = c(-400, 500)),
+          geom_rect(aes(xmin = 100, xmax = 105, ymin = 0, ymax = 100), fill = bgCol),
+          geom_rect(aes(xmin = 0, xmax = 105, ymin = -50, ymax = 0), fill = bgCol),
+          geom_rect(aes(xmin = 0, xmax = 105, ymin = 100, ymax = 150), fill = bgCol),
+          geom_rect(aes(xmin = -5, xmax = 0, ymin = -50, ymax = 150), fill = bgCol),
+          geom_segment(aes(x = 100, xend = 100, y = 0, yend = 100), color = pmCol),
+          geom_segment(aes(x = 0, xend = 100.01, y = 0, yend = 0), color = pmCol),
+          geom_segment(aes(x = 0, xend = 0, y = 0, yend = 100), color = pmCol),
+          geom_segment(aes(x = 0, xend = 100.01, y = 100, yend = 100), color = pmCol)
+        )
+      }
+
+      # Append heatmap list to output
+      p <- append(p, h)
+
+      dim <- list(
+        coord_cartesian(xlim = c(0, 100), ylim = c(0, 100))
+      )
+    }
 
     p <- append(p, dim)
   }
+
+  # Lines -------------------------------------------------------------------
 
   if (lines == TRUE) {
     # Throw an error if color is not usable
     tryCatch(div_col(color = line_args[["color"]]), error = function(e) stop("Line color not usable"))
 
+    if (!is.na(event_args[["outcome"]])) {
+      # Creates list with geoms for lines
+      l <- list(
+        geom_segment(
+          data = df %>% filter(.data[[event_args[["outcome"]]]] == 1),
+          aes(x = .data[[x]], y = .data[[y]], xend = .data[[xend]], yend = .data[[yend]]),
+          color = line_args[["color"]], linetype = line_args[["linetype"]][1],
+          arrow = arrow(length = unit(.25, "cm"))
+        ),
+        geom_segment(
+          data = df %>% filter(.data[[event_args[["outcome"]]]] == 0),
+          aes(x = .data[[x]], y = .data[[y]], xend = .data[[xend]], yend = .data[[yend]]),
+          color = line_args[["color"]], linetype = line_args[["linetype"]][2],
+          arrow = arrow(length = unit(.25, "cm"))
+        )
+      )
 
-    # Creates list with geoms for lines
-    l <- list(geom_segment(
-      data = df, aes(x = .data[[x]], y = .data[[y]], xend = .data[[xend]], yend = .data[[yend]]),
-      color = line_args[["color"]], linetype = line_args[["linetype"]],
-      arrow = arrow(length = unit(.25, "cm"))
-    ))
+      # Append line list to output
+      p <- append(p, l)
+    } else {
+      # Creates list with geoms for lines
+      l <- list(geom_segment(
+        data = df, aes(x = .data[[x]], y = .data[[y]], xend = .data[[xend]], yend = .data[[yend]]),
+        color = line_args[["color"]], linetype = line_args[["linetype"]],
+        arrow = arrow(length = unit(.25, "cm"))
+      ))
 
-    # Append line list to output
-    p <- append(p, l)
+      # Append line list to output
+      p <- append(p, l)
+    }
   }
 
-  if (shot == F) {
-    if (length(shot_args[["color"]]) > 1) {
+
+  # Events ------------------------------------------------------------------
+
+  if (shot == F && corners == F) {
+    if (length(event_args[["color"]]) > 1) {
       # Throw an error if color is not usable
       for (i in length(event_args[["color"]])) {
         tryCatch(div_col(color = event_args[["color"]][i]), error = function(e) stop("Point color not usable"))
@@ -177,7 +356,11 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
 
     # Returns list of ggplot layers
     return(p)
-  } else if (shot == TRUE) {
+  }
+
+  # Shots -------------------------------------------------------------------
+
+  else if (shot == TRUE) {
     if (length(shot_args[["color"]]) > 1) {
       # Throw an error if color is not usable
       for (i in length(shot_args[["color"]])) {
@@ -190,7 +373,6 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
         tryCatch(div_col(color = shot_args[["border"]][i]), error = function(e) stop("Border color not usable"))
       }
     }
-
 
     if (is.na(shot_args[["outcome"]])) {
       # Create list of geoms for shot map
@@ -250,6 +432,63 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
 
     # Returns list of ggplot layers
     return(p)
+  }
+
+  # Corners -----------------------------------------------------------------
+
+  else if (corners == TRUE) {
+    if (is.na(corner_args[["type"]])) {
+      # Create list of geoms for corner map
+      c <- list(
+        geom_point(
+          data = df, aes(x = .data[[x]], y = .data[[y]]), color = shot_args[["border"]][1], pch = 19, size = 6
+        ),
+        geom_point(
+          data = df, aes(x = .data[[x]], y = .data[[y]]), color = shot_args[["color"]][1], pch = 19, size = 4
+        )
+      )
+    } else {
+      # Create list of geoms for corner map
+      c <- list(
+        geom_point(
+          data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "in-swinger"),
+          aes(x = .data[[x]], y = .data[[y]]), color = corner_args[["border"]][1], pch = 19, size = 6
+        ),
+        geom_point(
+          data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "in-swinger"),
+          aes(x = .data[[x]], y = .data[[y]]), color = corner_args[["color"]][1], pch = 19, size = 4
+        ),
+        geom_point(
+          data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "out-swinger"),
+          aes(x = .data[[x]], y = .data[[y]]), color = corner_args[["border"]][1], pch = 19, size = 6
+        ),
+        geom_point(
+          data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "out-swinger"),
+          aes(x = .data[[x]], y = .data[[y]]), color = corner_args[["color"]][2], pch = 19, size = 4
+        ),
+        geom_point(
+          data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "straight"),
+          aes(x = .data[[x]], y = .data[[y]]), color = corner_args[["border"]][1], pch = 19, size = 6
+        ),
+        geom_point(
+          data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "straight"),
+          aes(x = .data[[x]], y = .data[[y]]), color = corner_args[["color"]][2], pch = 19, size = 4
+        )
+      )
+    }
+
+    # Create rest of needed corner geoms
+    ch <- list(
+      coord_cartesian(xlim = c(0, 100), ylim = c(0, 100)),
+      coord_flip(xlim = c(49, 101)),
+      scale_y_reverse()
+    )
+
+    # Append to corner
+    c <- append(c, ch)
+
+    # Append corner list to output
+    p <- append(p, c)
   } else {
     stop("Something went wrong...")
   }

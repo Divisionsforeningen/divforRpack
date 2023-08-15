@@ -12,11 +12,14 @@ add_events(
   yend = NA,
   heatmap = FALSE,
   shot = FALSE,
+  corners = FALSE,
   lines = FALSE,
+  pmCol = "black",
   bgCol = "white",
   shirt = NA,
   eventArgs = list(),
   shotArgs = list(),
+  cornerArgs = list(),
   heatmapArgs = list(),
   lineArgs = list()
 )
@@ -36,23 +39,52 @@ add_events(
 
 \item{shot}{Set to "TRUE" to switch to shot plot}
 
+\item{corners}{Set to "TRUE" to switch to corner plot}
+
 \item{lines}{Set to "TRUE" to add lines from x,y to xend,yend}
 
 \item{bgCol}{Background color - set to shiny theme}
 
 \item{shirt}{Column with shirt numbers - will be added to events}
 
-\item{eventArgs}{Event arguments, usable: color and outcome (0 or 1)}
+\item{eventArgs}{Event arguments, usable: color and outcome column (0 or 1)}
 
-\item{shotArgs}{Shot arguments, usable: color and outcome ("goal" and "other")}
+\item{shotArgs}{Shot arguments, usable: color and outcome column ("goal" and "other")}
 
-\item{heatmapArgs}{Heat map arguments: usable alpha, color and fill}
+\item{heatmapArgs}{Heat map arguments, usable: alpha, color, fill and type ("start" or "end")}
 
 \item{lineArgs}{Lines arguments: usable linetype and color}
+
+\item{conerArgs}{Corner arguments, usable: color, type column ("in-swinger", "out-swinger" and "straight")}
 }
 \value{
 Returns set of ggplot layers to add to a ggplot
 }
 \description{
 Add events to pitch plot - does not plot the pitch itself
+}
+\examples{
+
+x=100
+df=data.frame(
+  x=runif(x,20,75),
+  y=runif(x,10,90),
+  xend=runif(x,40,99),
+  yend=runif(x,10,90),
+  outcome=round(runif(x),0)
+)
+
+
+p=ggplot()+
+  annotate_pitch()+
+  add_events(df=df, x="x",y="y",xend="xend",yend="yend",
+             lines=T, bgCol="white",
+             corners=F, cornerArgs=list(),
+             eventArgs = list(outcome="outcome"),
+             shot=F, shotArgs = list(),
+             heatmap = T, heatmapArgs = list(type="end", outcome="outcome"))+
+  theme_pitch()
+
+p
+
 }
