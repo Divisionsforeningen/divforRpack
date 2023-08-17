@@ -1,13 +1,13 @@
 #' goal_mouth
 #'
-#' @param team Selected team - from input
-#' @param season Selected season - from input
-#' @param start Start of period - from input
-#' @param end End of period - from input
-#' @param df Data with shots
+#' @param team Selected team - from input variable as default
+#' @param season Selected season - from from input variable as default
+#' @param start Start of period - from from input variable as default
+#' @param end End of period - from from input variable as default
+#' @param df Data with shots on target
 #' @param z Column with goal mouth z coordinate
 #' @param y Column with goal mouth y coordinate
-#' @param type Column containing event types
+#' @param type Column containing event types ("Goal" is used, other types are discounted)
 #' @param goalCol Point color for goals
 #' @param saveCol Point color for saves
 #' @param provider Provider for caption
@@ -19,19 +19,19 @@
 #' @export
 #' @import ggplot2
 #'
-goal_mouth <- function(team = input$sel_team_opp, season = input$sel_season, start = input$gw_prep_def_slider[1], end = input$gw_prep_def_slider[2], df, z, y, type, goalCol = NA, saveCol = NA, provider = "OPTA", keeperDetails = c(TRUE, FALSE), teams, name) {
+goal_mouth <- function(team = input$sel_team_opp, season = input$sel_season, start = input$gw_prep_def_slider[1], end = input$gw_prep_def_slider[2], df, z="gk_z", y="gk_y", type="Event_type", goalCol = NA, saveCol = NA, provider = "OPTA", keeperDetails = TRUE, teams="Conceding team", name="Conceding keeper") {
   # TODO Write test battery
 
   # Add shots to goal_frame plot
   p <- divforRpack::goal_frame() +
     # Add points to goalmouth
     geom_point(data = df, aes(
-      x = z, y = 100 - y,
-      color = ifelse((type == "Goal"), "Goal", "Save"),
-      alpha = ifelse(type == "Goal", 1, 0.9)
-    ), size = 7) +
+      x = .data[[z]], y = 100 - .data[[y]],
+      fill = ifelse((.data[[type]] == "Goal"), "Goal", "Save"),
+      alpha = ifelse(.data[[type]] == "Goal", 1, 0.9)
+    ), pch=21, size = 7) +
     # Defines colors
-    scale_color_manual("", values = c(
+    scale_fill_manual("", values = c(
       "Goal" = ifelse(is.na(goalCol), div_col(type = "goal"), div_col(color = goalCol)),
       "Save" = ifelse(is.na(saveCol), div_col(type = "fill"), div_col(color = saveCol))
     )) +
@@ -58,8 +58,8 @@ goal_mouth <- function(team = input$sel_team_opp, season = input$sel_season, sta
   if (keeperDetails == TRUE) {
     # FIXME only first keeper? What if multiple?
     keeper <- df %>%
-      filter(teams == selectedTeam) %>%
-      select(name) %>%
+      filter(.data[[teams]] == team) %>%
+      select(.data[[name]]) %>%
       head(1)
 
     p <- p +
