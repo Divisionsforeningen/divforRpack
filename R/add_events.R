@@ -11,6 +11,7 @@
 #' @param shot Set to "TRUE" to switch to shot plot
 #' @param corners Set to "TRUE" to switch to corner plot
 #' @param lines Set to "TRUE" to add lines from x,y to xend,yend
+#' @param passZones Set to "TRUE" to add counts for passes to each zone
 #' @param bgCol Background color - set to shiny theme
 #' @param shirt Column with shirt numbers - will be added to events
 #' @param eventArgs Event arguments, usable: color and outcome column (0 or 1)
@@ -50,7 +51,7 @@
 #'
 add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
                        heatmap = FALSE, shot = FALSE, corners = FALSE,
-                       lines = FALSE, pmCol = "black",
+                       lines = FALSE, passZones=FALSE, pmCol = "black",
                        bgCol = "white",
                        shirt = NA,
                        eventArgs = list(),
@@ -338,8 +339,6 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       )
     }
 
-
-
     # Append events list to output
     p <- append(p, e)
 
@@ -489,6 +488,10 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
 
     # Append corner list to output
     p <- append(p, c)
+  } else if(passZones==T){
+
+
+
   } else {
     stop("Something went wrong...")
   }
