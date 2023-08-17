@@ -39,7 +39,7 @@
 #'   annotate_pitch() +
 #'   add_events(
 #'     df = df, x = "x", y = "y", xend = "xend", yend = "yend",
-#'     lines = T, bgCol = "white",
+#'     lines = T, passZones = F, textCol = "black", bgCol = "white",
 #'     corners = F, cornerArgs = list(),
 #'     eventArgs = list(outcome = "outcome"),
 #'     shot = F, shotArgs = list(),
@@ -52,7 +52,7 @@
 add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
                        heatmap = FALSE, shot = FALSE, corners = FALSE,
                        lines = FALSE, passZones = FALSE, pmCol = "black",
-                       bgCol = "white",
+                       bgCol = "white", textCol = "black",
                        shirt = NA,
                        eventArgs = list(),
                        shotArgs = list(),
@@ -353,6 +353,48 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       p <- append(p, j)
     }
 
+    # Pass zones --------------------------------------------------------------
+    if (passZones == T) {
+      # Calculated zone values
+      leftlow <- df %>%
+        filter(.data[[yend]] > 63.2 & .data[[xend]] < 50) %>%
+        summarise(sum(n()))
+
+      centerlow <- df %>%
+        filter(.data[[yend]] <= 63.2 & .data[[yend]] >= 36.8 & .data[[xend]] < 50) %>%
+        summarise(sum(n()))
+
+      rightlow <- df %>%
+        filter(.data[[yend]] < 36.8 & .data[[xend]] < 50) %>%
+        summarise(sum(n()))
+
+      lefthigh <- df %>%
+        filter(.data[[yend]] > 63.2 & .data[[xend]] >= 50) %>%
+        summarise(sum(n()))
+
+      centerhigh <- df %>%
+        filter(.data[[yend]] <= 63.2 & .data[[yend]] >= 36.8 & .data[[xend]] >= 50) %>%
+        summarise(sum(n()))
+
+      righthigh <- df %>%
+        filter(.data[[yend]] < 36.8 & .data[[xend]] >= 50) %>%
+        summarise(sum(n()))
+
+      # Create pass zone text
+      t <- list(
+        annotate("text", x = 25, y = 80, label = leftlow, size = 7, color = ifelse(is.na(textCol), div_col(type = "b_text"), div_col(color = textCol))),
+        annotate("text", x = 25, y = 50, label = centerlow, size = 7, color = ifelse(is.na(textCol), div_col(type = "b_text"), div_col(color = textCol))),
+        annotate("text", x = 25, y = 20, label = rightlow, size = 7, color = ifelse(is.na(textCol), div_col(type = "b_text"), div_col(color = textCol))),
+        annotate("text", x = 75, y = 80, label = lefthigh, size = 7, color = ifelse(is.na(textCol), div_col(type = "b_text"), div_col(color = textCol))),
+        annotate("text", x = 75, y = 50, label = centerhigh, size = 7, color = ifelse(is.na(textCol), div_col(type = "b_text"), div_col(color = textCol))),
+        annotate("text", x = 75, y = 20, label = righthigh, size = 7, color = ifelse(is.na(textCol), div_col(type = "b_text"), div_col(color = textCol))),
+        theme(text = element_text(family = "sans"))
+      )
+
+      # Append corner list to output
+      p <- append(p, t)
+    }
+
     # Returns list of ggplot layers
     return(p)
   }
@@ -488,10 +530,8 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
 
     # Append corner list to output
     p <- append(p, c)
-  } else if (passZones == T) {
 
-
-
+    return(p)
   } else {
     stop("Something went wrong...")
   }

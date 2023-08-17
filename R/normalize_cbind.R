@@ -11,13 +11,14 @@
 #'
 #' @examples
 #'
-#' df=data.frame(OfficialName=c("A","B","C","D"),
-#' mean=runif(4))
+#' df <- data.frame(
+#'   OfficialName = c("A", "B", "C", "D"),
+#'   mean = runif(4)
+#' )
 #'
-#' df=normalize_cbind(df,x=df$mean,type="1")
+#' df <- normalize_cbind(df, x = df$mean, type = "1")
 #'
-#' df=normalize_cbind(df,x=df$mean,type="Z")
-
+#' df <- normalize_cbind(df, x = df$mean, type = "Z")
 normalize_cbind <- function(df, x, type = NA) {
   if (!is.numeric(x)) {
     stop("Inputs are not numeric")
@@ -30,14 +31,14 @@ normalize_cbind <- function(df, x, type = NA) {
   # TODO Write test battery
   if (type == "1") {
     # Takes a series of values and returns the 0-1 scaled version
-    norm1=(x - min(x)) / (max(x) - min(x))
-    df=cbind(df, norm1)
+    norm1 <- (x - min(x)) / (max(x) - min(x))
+    df <- cbind(df, norm1)
 
     return(df)
   } else if (type == "Z") {
     # Takes a series of values and returns the z-score
-    normZ=(x - mean(x)) / sd(x)
-    df=cbind(df, normZ)
+    normZ <- (x - mean(x)) / sd(x)
+    df <- cbind(df, normZ)
 
     return(df)
   } else {

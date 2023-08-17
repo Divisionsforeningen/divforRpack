@@ -17,6 +17,7 @@ add_events(
   passZones = FALSE,
   pmCol = "black",
   bgCol = "white",
+  textCol = "black",
   shirt = NA,
   eventArgs = list(),
   shotArgs = list(),
@@ -82,7 +83,7 @@ p <- ggplot() +
   annotate_pitch() +
   add_events(
     df = df, x = "x", y = "y", xend = "xend", yend = "yend",
-    lines = T, bgCol = "white",
+    lines = T, passZones = F, textCol = "black", bgCol = "white",
     corners = F, cornerArgs = list(),
     eventArgs = list(outcome = "outcome"),
     shot = F, shotArgs = list(),
