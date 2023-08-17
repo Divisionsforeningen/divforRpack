@@ -12,6 +12,8 @@
 #'
 #' @export
 #'
+#' @import shinydashboard
+#'
 vbox <- valueBoxSpark <- function(value, title, sparkobj = NULL, subtitle, info = NULL,
                                   icon = NULL, color = "aqua", width = 4, href = NULL) {
   shinydashboard:::validateColor(color)

@@ -51,7 +51,7 @@
 #'
 add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
                        heatmap = FALSE, shot = FALSE, corners = FALSE,
-                       lines = FALSE, passZones=FALSE, pmCol = "black",
+                       lines = FALSE, passZones = FALSE, pmCol = "black",
                        bgCol = "white",
                        shirt = NA,
                        eventArgs = list(),
@@ -488,7 +488,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
 
     # Append corner list to output
     p <- append(p, c)
-  } else if(passZones==T){
+  } else if (passZones == T) {
 
 
 

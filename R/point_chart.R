@@ -10,25 +10,25 @@
 #' @return Point chart used in the scouting module - depends of row_click()
 #' @export
 #'
-point_chart <- function(df, name="FullName", value="value", facet="variable", replaced="TEST", playerCol = NA, repCol = NA, otherCol = NA, debug=0) {
+point_chart <- function(df, name = "FullName", value = "value", facet = "variable", replaced = "TEST", playerCol = NA, repCol = NA, otherCol = NA, debug = 0) {
   # TODO Write test battery
-  highlight=ifelse(debug==1,"Bjorn Kopplin",row_click())
+  highlight <- ifelse(debug == 1, "Bjorn Kopplin", row_click())
 
   # Start ggplot with data and value
   ggplot(df, aes(x = (.data[[value]] - 0.1) * 100, y = 1, group = 1)) +
     # Set color of all players
-    geom_point(aes(fill = "All players with similar position"), pch=21, alpha = 0.1, size = 5) +
+    geom_point(aes(fill = "All players with similar position"), pch = 21, alpha = 0.1, size = 5) +
     # Highlight chosen player - requires row_click() to be defined
     geom_point(data = df %>%
-      dplyr::filter(.data[[name]] == highlight), aes(fill = "Scouted player"), pch=21, size = 10) +
+      dplyr::filter(.data[[name]] == highlight), aes(fill = "Scouted player"), pch = 21, size = 10) +
     # Highlight replaced player
     geom_point(data = df %>%
-                 dplyr::filter(.data[[name]] == replaced), aes(fill = "Player to replace"), pch=21, size = 10) +
+      dplyr::filter(.data[[name]] == replaced), aes(fill = "Player to replace"), pch = 21, size = 10) +
     # Set colors
     scale_fill_manual(NULL, values = c(
       "All players with similar position" = ifelse(is.na(otherCol), div_col(type = "others"), otherCol),
       "Scouted player" = ifelse(is.na(playerCol), div_col(type = "chosen"), playerCol),
-      "Player to replace" = ifelse(is.na(repCol), div_col(type= "reference"), repCol)
+      "Player to replace" = ifelse(is.na(repCol), div_col(type = "reference"), repCol)
     )) +
     # Facet wrap by chosen variable
     facet_wrap(~ .data[[facet]], ncol = 1) +

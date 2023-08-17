@@ -10,33 +10,33 @@ goal_mouth(
   start = input$gw_prep_def_slider[1],
   end = input$gw_prep_def_slider[2],
   df,
-  z,
-  y,
-  type,
+  z = "gk_z",
+  y = "gk_y",
+  type = "Event_type",
   goalCol = NA,
   saveCol = NA,
   provider = "OPTA",
-  keeperDetails = c(TRUE, FALSE),
-  teams,
-  name
+  keeperDetails = TRUE,
+  teams = "Conceding team",
+  name = "Conceding keeper"
 )
 }
 \arguments{
-\item{team}{Selected team - from input}
+\item{team}{Selected team - from input variable as default}
 
-\item{season}{Selected season - from input}
+\item{season}{Selected season - from from input variable as default}
 
-\item{start}{Start of period - from input}
+\item{start}{Start of period - from from input variable as default}
 
-\item{end}{End of period - from input}
+\item{end}{End of period - from from input variable as default}
 
-\item{df}{Data with shots}
+\item{df}{Data with shots on target}
 
 \item{z}{Column with goal mouth z coordinate}
 
 \item{y}{Column with goal mouth y coordinate}
 
-\item{type}{Column containing event types}
+\item{type}{Column containing event types ("Goal" is used, other types are discounted)}
 
 \item{goalCol}{Point color for goals}
 

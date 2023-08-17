@@ -14,6 +14,7 @@ add_events(
   shot = FALSE,
   corners = FALSE,
   lines = FALSE,
+  passZones = FALSE,
   pmCol = "black",
   bgCol = "white",
   shirt = NA,
@@ -43,6 +44,8 @@ add_events(
 
 \item{lines}{Set to "TRUE" to add lines from x,y to xend,yend}
 
+\item{passZones}{Set to "TRUE" to add counts for passes to each zone}
+
 \item{bgCol}{Background color - set to shiny theme}
 
 \item{shirt}{Column with shirt numbers - will be added to events}
@@ -65,24 +68,26 @@ Add events to pitch plot - does not plot the pitch itself
 }
 \examples{
 
-x=100
-df=data.frame(
-  x=runif(x,20,75),
-  y=runif(x,10,90),
-  xend=runif(x,40,99),
-  yend=runif(x,10,90),
-  outcome=round(runif(x),0)
+x <- 100
+df <- data.frame(
+  x = runif(x, 20, 75),
+  y = runif(x, 10, 90),
+  xend = runif(x, 40, 99),
+  yend = runif(x, 10, 90),
+  outcome = round(runif(x), 0)
 )
 
 
-p=ggplot()+
-  annotate_pitch()+
-  add_events(df=df, x="x",y="y",xend="xend",yend="yend",
-             lines=T, bgCol="white",
-             corners=F, cornerArgs=list(),
-             eventArgs = list(outcome="outcome"),
-             shot=F, shotArgs = list(),
-             heatmap = T, heatmapArgs = list(type="end", outcome="outcome"))+
+p <- ggplot() +
+  annotate_pitch() +
+  add_events(
+    df = df, x = "x", y = "y", xend = "xend", yend = "yend",
+    lines = T, bgCol = "white",
+    corners = F, cornerArgs = list(),
+    eventArgs = list(outcome = "outcome"),
+    shot = F, shotArgs = list(),
+    heatmap = T, heatmapArgs = list(type = "end", outcome = "outcome")
+  ) +
   theme_pitch()
 
 p

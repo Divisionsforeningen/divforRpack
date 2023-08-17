@@ -4,7 +4,17 @@
 \alias{point_chart}
 \title{point_chart}
 \usage{
-point_chart(df, name, value, facet, playerCol = NA, otherCol = NA)
+point_chart(
+  df,
+  name = "FullName",
+  value = "value",
+  facet = "variable",
+  replaced = "TEST",
+  playerCol = NA,
+  repCol = NA,
+  otherCol = NA,
+  debug = 0
+)
 }
 \arguments{
 \item{df}{Data frame containing players, the value to compare and facet variable}

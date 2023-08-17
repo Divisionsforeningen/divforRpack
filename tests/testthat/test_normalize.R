@@ -1,7 +1,7 @@
 test_normalize <- function() {
   # Test case 1: 0-1 normalization
   input_01 <- c(0, 5, 10)
-  output_01 <- normalize(input_01, type = "O")
+  output_01 <- normalize(input_01, type = "1")
   expect_equal(output_01, c(0, 0.5, 1))
 
   # Test case 2: z-score normalization
