@@ -23,7 +23,7 @@
 #'
 #' @export
 #'
-bar_chart <- function(df, x, y, id, KPI="Name of KPI", negative = c(TRUE, FALSE), median = c(TRUE, FALSE), fillCol = NA, highCol = NA, refCol = NA) {
+bar_chart <- function(df, x, y, id, KPI = "Name of KPI", negative = c(TRUE, FALSE), median = c(TRUE, FALSE), fillCol = NA, highCol = NA, refCol = NA) {
   # TODO Write test battery
 
   # Calculate the reference value based on mean or median
@@ -33,7 +33,7 @@ bar_chart <- function(df, x, y, id, KPI="Name of KPI", negative = c(TRUE, FALSE)
   )
 
   # Create ggplot from df, using x, and y. Reorder if needed
-  ggplot(data = df, aes(x = stats::reorder(.data[[x]], .data[[y]], decreasing = negative), y =.data[[y]])) +
+  ggplot(data = df, aes(x = stats::reorder(.data[[x]], .data[[y]], decreasing = negative), y = .data[[y]])) +
     # Add bar for all data points
     geom_bar(stat = "identity", width = 0.3, fill = div_col("fill", ifelse(is.na(fillCol), NA, fillCol))) +
     # Add bar for highlighted data point

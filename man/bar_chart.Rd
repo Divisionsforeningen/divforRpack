@@ -9,7 +9,7 @@ bar_chart(
   x,
   y,
   id,
-  KPI,
+  KPI = "Name of KPI",
   negative = c(TRUE, FALSE),
   median = c(TRUE, FALSE),
   fillCol = NA,
@@ -28,6 +28,8 @@ bar_chart(
 
 \item{KPI}{Selected KPI - from shiny input}
 
+\item{negative}{False if higher is better for KPI}
+
 \item{median}{Use median instead of mean}
 
 \item{fillCol}{Color of non-highlighted ids}
@@ -35,14 +37,12 @@ bar_chart(
 \item{highCol}{Highlighted id color}
 
 \item{refCol}{Color of reference line}
-
-\item{positive}{True if higher is better for KPI}
 }
 \value{
-A bar plot, chosen id is highlighted, and mean is added as a red line - ordering is done by "positive"
+A bar plot, chosen id is highlighted, and mean is added as a red line - ordering is done by "negative"
 }
 \description{
 Bar chart for comparison across multiple teams - id team will be highlighted
 Reference line with either mean or median is added
-Bar chart can be reordered using positiive=false if "lower is better"
+Bar chart can be reordered using negative=true if "lower is better"
 }

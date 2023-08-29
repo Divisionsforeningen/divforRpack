@@ -17,9 +17,14 @@
 #' @param eventArgs Event arguments, usable: color and outcome column (0 or 1)
 #' @param shotArgs Shot arguments, usable: color and outcome column ("goal" and "other")
 #' @param heatmapArgs Heat map arguments, usable: alpha, color, fill and type ("start" or "end")
-#' @param conerArgs Corner arguments, usable: color, type column ("in-swinger", "out-swinger" and "straight")
 #' @param lineArgs Lines arguments: usable linetype and color
+#' @param cornerArgs Use for Opta tags - arguements: colors, and type coloumn name
 #' @param size Point size - defaults to 4, minimum is 3
+#' @param provider Name of data provider
+#' @param pmCol Pitch marking colors for heatmap use
+#' @param textCol Text color
+#' @param title Title
+#' @param explanation Chart explanation
 #'
 #' @return Returns set of ggplot layers to add to a ggplot
 #' @export
@@ -40,6 +45,7 @@
 #'   annotate_pitch() +
 #'   add_events(
 #'     df = df, x = "x", y = "y", xend = "xend", yend = "yend",
+#'     provider = "Wyscout",
 #'     lines = T, passZones = F, textCol = "black", bgCol = "white",
 #'     corners = F, cornerArgs = list(),
 #'     eventArgs = list(outcome = "outcome"),
@@ -51,10 +57,11 @@
 #' p
 #'
 add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
-                       provider=NA, size=4,
+                       provider = NA, size = 4,
                        heatmap = FALSE, shot = FALSE, corners = FALSE,
                        lines = FALSE, passZones = FALSE, pmCol = "black",
                        bgCol = "white", textCol = "black",
+                       title = "Put title here", explanation = "Put explanation here",
                        shirt = NA,
                        eventArgs = list(),
                        shotArgs = list(),
@@ -72,28 +79,30 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
   # Wyscout adjustment ------------------------------------------------------
 
 
-  if(tolower(provider)=="wyscout"  && !is.na(y)){
-   df = df %>% mutate(yp=abs(.data[[y]]-100))
+  if (tolower(provider) == "wyscout" && !is.na(y)) {
+    df <- df %>% mutate(yp = abs(.data[[y]] - 100))
   }
 
-  if(tolower(provider)=="wyscout" && !is.na(yend)){
-    df = df %>% mutate(ypend=abs(.data[[yend]]-100))
+  if (tolower(provider) == "wyscout" && !is.na(yend)) {
+    df <- df %>% mutate(ypend = abs(.data[[yend]] - 100))
   }
 
-  if(tolower(provider)!="wyscout" && !is.na(y)){
-    df = df %>% mutate(yp=.data[[y]])
+  if (tolower(provider) != "wyscout" && !is.na(y)) {
+    df <- df %>% mutate(yp = .data[[y]])
   }
 
-  if(tolower(provider)!="wyscout" && !is.na(yend)){
-    df = df %>% mutate(ypend=.data[[yend]])
+  if (tolower(provider) != "wyscout" && !is.na(yend)) {
+    df <- df %>% mutate(ypend = .data[[yend]])
   }
 
   # Setup -------------------------------------------------------------------
 
   # Sizes for points
-  if(!is.numeric(size)){stop("Size is not numeric")}
-  ss <- max(size,1)
-  ls <- ifelse(ss>2,ss+2,ss)
+  if (!is.numeric(size)) {
+    stop("Size is not numeric")
+  }
+  ss <- max(size, 1)
+  ls <- ifelse(ss > 2, ss + 2, ss)
 
 
   event_args <- list(color = c(div_col(type = "highlight"), div_col("goal")), border = "black", outcome = NA)
@@ -243,7 +252,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
         # Creates list of geoms for heatmap
         h <- list(
           stat_density_2d(
-            data = df %>% filter(.data[[heatmap_args[["outcome"]]]] ==0), aes(x = .data[[x]], y = yp, fill = after_stat(level)),
+            data = df %>% filter(.data[[heatmap_args[["outcome"]]]] == 0), aes(x = .data[[x]], y = yp, fill = after_stat(level)),
             na.rm = T,
             geom = "polygon", alpha = heatmap_args[["alpha"]], fill = event_args[["color"]][2]
           ),
@@ -281,10 +290,8 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       #   )
       # }
       dim <- list(
-             coord_cartesian(xlim = c(0, 100), ylim = c(0, 100))
-           )
-
-
+        coord_cartesian(xlim = c(0, 100), ylim = c(0, 100))
+      )
     }
 
     p <- append(p, dim)
@@ -464,14 +471,15 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       )
     } else {
       # Create list of geoms for shot map
-      s <- list(geom_point(
-        data = df %>% filter(tolower(.data[[shot_args[["outcome"]]]]) != "goal"),
-        aes(x = .data[[x]], y = yp), color = shot_args[["border"]][1], pch = 19, size = ls
-       ),
-       geom_point(
-         data = df %>% filter(tolower(.data[[shot_args[["outcome"]]]]) != "goal"),
-         aes(x = .data[[x]], y = yp), color = shot_args[["color"]][2], pch = 19, size = ss
-       ),
+      s <- list(
+        geom_point(
+          data = df %>% filter(tolower(.data[[shot_args[["outcome"]]]]) != "goal"),
+          aes(x = .data[[x]], y = yp), color = shot_args[["border"]][1], pch = 19, size = ls
+        ),
+        geom_point(
+          data = df %>% filter(tolower(.data[[shot_args[["outcome"]]]]) != "goal"),
+          aes(x = .data[[x]], y = yp), color = shot_args[["color"]][2], pch = 19, size = ss
+        ),
         geom_point(
           data = df %>% filter(tolower(.data[[shot_args[["outcome"]]]]) == "goal"),
           aes(x = .data[[x]], y = yp), color = shot_args[["border"]][1], pch = 19, size = ls
@@ -497,7 +505,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
     #   )
     # }
     sh <- list(
-      coord_flip(xlim = c(50,100), ylim=c(100,0))
+      coord_flip(xlim = c(50, 100), ylim = c(100, 0))
     )
 
 
@@ -578,8 +586,8 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
     #   )
     # }
     ch <- list(
-          coord_flip(xlim = c(50,100), ylim=c(100,0))
-        )
+      coord_flip(xlim = c(50, 100), ylim = c(100, 0))
+    )
 
 
     # Append to corner
@@ -590,6 +598,16 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
   } else {
     stop("Something went wrong...")
   }
+
+  cap <- list(
+    labs(
+      title = title,
+      subtitle = explanation,
+      caption = paste0("Data from ", provider)
+    )
+  )
+
+  p <- append(p, cap)
 
   return(p)
 }

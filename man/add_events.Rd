@@ -10,6 +10,8 @@ add_events(
   y = NA,
   xend = NA,
   yend = NA,
+  provider = NA,
+  size = 4,
   heatmap = FALSE,
   shot = FALSE,
   corners = FALSE,
@@ -18,6 +20,8 @@ add_events(
   pmCol = "black",
   bgCol = "white",
   textCol = "black",
+  title = "Put title here",
+  explanation = "Put explanation here",
   shirt = NA,
   eventArgs = list(),
   shotArgs = list(),
@@ -37,6 +41,10 @@ add_events(
 
 \item{yend}{Y end coordinate}
 
+\item{provider}{Name of data provider}
+
+\item{size}{Point size - defaults to 4, minimum is 3}
+
 \item{heatmap}{Set to "TRUE" to add heatmap based on x,y}
 
 \item{shot}{Set to "TRUE" to switch to shot plot}
@@ -47,7 +55,15 @@ add_events(
 
 \item{passZones}{Set to "TRUE" to add counts for passes to each zone}
 
+\item{pmCol}{Pitch marking colors for heatmap use}
+
 \item{bgCol}{Background color - set to shiny theme}
+
+\item{textCol}{Text color}
+
+\item{title}{Title}
+
+\item{explanation}{Chart explanation}
 
 \item{shirt}{Column with shirt numbers - will be added to events}
 
@@ -55,11 +71,11 @@ add_events(
 
 \item{shotArgs}{Shot arguments, usable: color and outcome column ("goal" and "other")}
 
+\item{cornerArgs}{Use for Opta tags - arguements: colors, and type coloumn name}
+
 \item{heatmapArgs}{Heat map arguments, usable: alpha, color, fill and type ("start" or "end")}
 
 \item{lineArgs}{Lines arguments: usable linetype and color}
-
-\item{conerArgs}{Corner arguments, usable: color, type column ("in-swinger", "out-swinger" and "straight")}
 }
 \value{
 Returns set of ggplot layers to add to a ggplot
