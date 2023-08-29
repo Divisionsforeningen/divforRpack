@@ -109,7 +109,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
   shot_args <- list(color = c(div_col(type = "goal"), div_col(type = "fill")), border = "black", outcome = NA)
   corner_args <- list(color = c(div_col(color = "orange"), div_col(color = "forestgreen"), div_col(color = "red")), border = "black", type = NA)
   heatmap_args <- list(alpha = 0.1, fill = "red", type = "start", outcome = NA)
-  line_args <- list(linetype = c("solid", "dashed"), color = "black")
+  line_args <- list(linetype = c("solid", "dashed"), color = "black", direction="Last")
 
   # Replace standards with user inputs if any
   shot_args <- modifyList(shot_args, shotArgs[intersect(names(shotArgs), names(shot_args))])
@@ -326,8 +326,8 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       # Creates list with geoms for lines
       l <- list(geom_segment(
         data = df, aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend),
-        color = line_args[["color"]], linetype = line_args[["linetype"]],
-        arrow = arrow(length = unit(.25, "cm"))
+        color = line_args[["color"]], linetype = line_args[["linetype"]][1],
+        arrow = arrow(length = unit(.25, "cm"), type="closed", ends = line_args[["direction"]])
       ))
 
       # Append line list to output
