@@ -19,6 +19,7 @@
 #' @param heatmapArgs Heat map arguments, usable: alpha, color, fill and type ("start" or "end")
 #' @param conerArgs Corner arguments, usable: color, type column ("in-swinger", "out-swinger" and "straight")
 #' @param lineArgs Lines arguments: usable linetype and color
+#' @param size Point size - defaults to 4, minimum is 3
 #'
 #' @return Returns set of ggplot layers to add to a ggplot
 #' @export
@@ -50,7 +51,7 @@
 #' p
 #'
 add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
-                       provider=NA,
+                       provider=NA, size=4,
                        heatmap = FALSE, shot = FALSE, corners = FALSE,
                        lines = FALSE, passZones = FALSE, pmCol = "black",
                        bgCol = "white", textCol = "black",
@@ -88,6 +89,11 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
   }
 
   # Setup -------------------------------------------------------------------
+
+  # Sizes for points
+  if(!is.numeric(size)){stop("Size is not numeric")}
+  ss <- max(size,1)
+  ls <- ifelse(ss>2,ss+2,ss)
 
 
   event_args <- list(color = c(div_col(type = "highlight"), div_col("goal")), border = "black", outcome = NA)
@@ -162,17 +168,11 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
     if (heatmap_args[["type"]] == "end") {
       if (is.na(heatmap_args[["outcome"]])) {
         h <- list(
-          geom_density_2d_filled(
+          stat_density_2d(
             data = df, aes(x = .data[[xend]], y = ypend, fill = after_stat(nlevel)),
             na.rm = T,
-            contour_var = "ndensity",
-            breaks = seq(0.1, 1.0, length.out = 10), alpha = 0.5
+            geom = "polygon", alpha = heatmap_args[["alpha"]], fill = heatmap_args[["fill"]]
           ),
-          # stat_density_2d(
-          #   data = df, aes(x = .data[[xend]], y = ypend, fill = after_stat(nlevel)),
-          #   na.rm = T,
-          #   geom = "polygon", alpha = heatmap_args[["alpha"]], fill = heatmap_args[["fill"]]
-          # ),
           theme(legend.position = "none"),
           scale_x_continuous(limits = c(-400, 500)),
           scale_y_continuous(limits = c(-400, 500)),
@@ -189,14 +189,14 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
         # Creates list of geoms for heatmap
         h <- list(
           stat_density_2d(
-            data = df %>% filter(.data[[heatmap_args[["outcome"]]]] == 1), aes(x = .data[[xend]], y = ypend, fill = after_stat(level)),
-            na.rm = T,
-            geom = "polygon", alpha = heatmap_args[["alpha"]], fill = event_args[["color"]][1]
-          ),
-          stat_density_2d(
             data = df %>% filter(.data[[heatmap_args[["outcome"]]]] == 0), aes(x = .data[[xend]], y = ypend, fill = after_stat(level)),
             na.rm = T,
             geom = "polygon", alpha = heatmap_args[["alpha"]], fill = event_args[["color"]][2]
+          ),
+          stat_density_2d(
+            data = df %>% filter(.data[[heatmap_args[["outcome"]]]] == 1), aes(x = .data[[xend]], y = ypend, fill = after_stat(level)),
+            na.rm = T,
+            geom = "polygon", alpha = heatmap_args[["alpha"]], fill = event_args[["color"]][1]
           ),
           theme(legend.position = "none"),
           scale_x_continuous(limits = c(-400, 500)),
@@ -243,14 +243,14 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
         # Creates list of geoms for heatmap
         h <- list(
           stat_density_2d(
+            data = df %>% filter(.data[[heatmap_args[["outcome"]]]] ==0), aes(x = .data[[x]], y = yp, fill = after_stat(level)),
+            na.rm = T,
+            geom = "polygon", alpha = heatmap_args[["alpha"]], fill = event_args[["color"]][2]
+          ),
+          stat_density_2d(
             data = df %>% filter(.data[[heatmap_args[["outcome"]]]] == 1), aes(x = .data[[x]], y = yp, fill = after_stat(level)),
             na.rm = T,
             geom = "polygon", alpha = heatmap_args[["alpha"]], fill = event_args[["color"]][1]
-          ),
-          stat_density_2d(
-            data = df %>% filter(.data[[heatmap_args[["outcome"]]]] == 0), aes(x = .data[[x]], y = yp, fill = after_stat(level)),
-            na.rm = T,
-            geom = "polygon", alpha = heatmap_args[["alpha"]], fill = event_args[["color"]][2]
           ),
           theme(legend.position = "none"),
           scale_x_continuous(limits = c(-400, 500)),
@@ -349,10 +349,10 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       # Adds events via geom_point
       e <- list(
         geom_point(
-          data = df, aes(x = .data[[x]], y = yp), color = event_args[["border"]][1], shape = 19, size = 6
+          data = df, aes(x = .data[[x]], y = yp), color = event_args[["border"]][1], shape = 19, size = ls
         ),
         geom_point(
-          data = df, aes(x = .data[[x]], y = yp), color = event_args[["color"]][1], shape = 19, size = 4
+          data = df, aes(x = .data[[x]], y = yp), color = event_args[["color"]][1], shape = 19, size = ss
         )
       )
     } else {
@@ -360,19 +360,19 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       e <- list(
         geom_point(
           data = df %>% filter(.data[[event_args[["outcome"]]]] == 1),
-          aes(x = .data[[x]], y = yp), color = event_args[["border"]][1], pch = 19, size = 6
+          aes(x = .data[[x]], y = yp), color = event_args[["border"]][1], pch = 19, size = ls
         ),
         geom_point(
           data = df %>% filter(.data[[event_args[["outcome"]]]] == 1),
-          aes(x = .data[[x]], y = yp), color = event_args[["color"]][1], pch = 19, size = 4
+          aes(x = .data[[x]], y = yp), color = event_args[["color"]][1], pch = 19, size = ss
         ),
         geom_point(
           data = df %>% filter(.data[[event_args[["outcome"]]]] == 0),
-          aes(x = .data[[x]], y = yp), color = event_args[["border"]][1], pch = 19, size = 6
+          aes(x = .data[[x]], y = yp), color = event_args[["border"]][1], pch = 19, size = ls
         ),
         geom_point(
           data = df %>% filter(.data[[event_args[["outcome"]]]] == 0),
-          aes(x = .data[[x]], y = yp), color = event_args[["color"]][2], pch = 19, size = 4
+          aes(x = .data[[x]], y = yp), color = event_args[["color"]][2], pch = 19, size = ss
         )
       )
     }
@@ -456,29 +456,29 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       # Create list of geoms for shot map
       s <- list(
         geom_point(
-          data = df, aes(x = .data[[x]], y = yp), color = shot_args[["border"]][1], pch = 19, size = 6
+          data = df, aes(x = .data[[x]], y = yp), color = shot_args[["border"]][1], pch = 19, size = ls
         ),
         geom_point(
-          data = df, aes(x = .data[[x]], y = yp), color = shot_args[["color"]][1], pch = 19, size = 4
+          data = df, aes(x = .data[[x]], y = yp), color = shot_args[["color"]][1], pch = 19, size = ss
         )
       )
     } else {
       # Create list of geoms for shot map
       s <- list(geom_point(
         data = df %>% filter(tolower(.data[[shot_args[["outcome"]]]]) != "goal"),
-        aes(x = .data[[x]], y = yp), color = shot_args[["border"]][1], pch = 19, size = 6
+        aes(x = .data[[x]], y = yp), color = shot_args[["border"]][1], pch = 19, size = ls
        ),
        geom_point(
          data = df %>% filter(tolower(.data[[shot_args[["outcome"]]]]) != "goal"),
-         aes(x = .data[[x]], y = yp), color = shot_args[["color"]][2], pch = 19, size = 4
+         aes(x = .data[[x]], y = yp), color = shot_args[["color"]][2], pch = 19, size = ss
        ),
         geom_point(
           data = df %>% filter(tolower(.data[[shot_args[["outcome"]]]]) == "goal"),
-          aes(x = .data[[x]], y = yp), color = shot_args[["border"]][1], pch = 19, size = 6
+          aes(x = .data[[x]], y = yp), color = shot_args[["border"]][1], pch = 19, size = ls
         ),
         geom_point(
           data = df %>% filter(tolower(.data[[shot_args[["outcome"]]]]) == "goal"),
-          aes(x = .data[[x]], y = yp), color = shot_args[["color"]][1], pch = 19, size = 4
+          aes(x = .data[[x]], y = yp), color = shot_args[["color"]][1], pch = 19, size = ss
         )
       )
     }
@@ -528,10 +528,10 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       # Create list of geoms for corner map
       c <- list(
         geom_point(
-          data = df, aes(x = .data[[x]], y = yp), color = shot_args[["border"]][1], pch = 19, size = 6
+          data = df, aes(x = .data[[x]], y = yp), color = shot_args[["border"]][1], pch = 19, size = ls
         ),
         geom_point(
-          data = df, aes(x = .data[[x]], y = yp), color = shot_args[["color"]][1], pch = 19, size = 4
+          data = df, aes(x = .data[[x]], y = yp), color = shot_args[["color"]][1], pch = 19, size = ss
         )
       )
     } else {
@@ -539,27 +539,27 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       c <- list(
         geom_point(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "in-swinger"),
-          aes(x = .data[[x]], y = yp), color = corner_args[["border"]][1], pch = 19, size = 6
+          aes(x = .data[[x]], y = yp), color = corner_args[["border"]][1], pch = 19, size = ls
         ),
         geom_point(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "in-swinger"),
-          aes(x = .data[[x]], y = yp), color = corner_args[["color"]][1], pch = 19, size = 4
+          aes(x = .data[[x]], y = yp), color = corner_args[["color"]][1], pch = 19, size = ss
         ),
         geom_point(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "out-swinger"),
-          aes(x = .data[[x]], y = yp), color = corner_args[["border"]][1], pch = 19, size = 6
+          aes(x = .data[[x]], y = yp), color = corner_args[["border"]][1], pch = 19, size = ls
         ),
         geom_point(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "out-swinger"),
-          aes(x = .data[[x]], y = yp), color = corner_args[["color"]][2], pch = 19, size = 4
+          aes(x = .data[[x]], y = yp), color = corner_args[["color"]][2], pch = 19, size = ss
         ),
         geom_point(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "straight"),
-          aes(x = .data[[x]], y = yp), color = corner_args[["border"]][1], pch = 19, size = 6
+          aes(x = .data[[x]], y = yp), color = corner_args[["border"]][1], pch = 19, size = ls
         ),
         geom_point(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "straight"),
-          aes(x = .data[[x]], y = yp), color = corner_args[["color"]][2], pch = 19, size = 4
+          aes(x = .data[[x]], y = yp), color = corner_args[["color"]][2], pch = 19, size = ss
         )
       )
     }
