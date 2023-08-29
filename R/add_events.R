@@ -162,11 +162,17 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
     if (heatmap_args[["type"]] == "end") {
       if (is.na(heatmap_args[["outcome"]])) {
         h <- list(
-          stat_density_2d(
-            data = df, aes(x = .data[[xend]], y = ypend, fill = after_stat(level)),
+          geom_density_2d_filled(
+            data = df, aes(x = .data[[xend]], y = ypend, fill = after_stat(nlevel)),
             na.rm = T,
-            geom = "polygon", alpha = heatmap_args[["alpha"]], fill = heatmap_args[["fill"]]
+            contour_var = "ndensity",
+            breaks = seq(0.1, 1.0, length.out = 10), alpha = 0.5
           ),
+          # stat_density_2d(
+          #   data = df, aes(x = .data[[xend]], y = ypend, fill = after_stat(nlevel)),
+          #   na.rm = T,
+          #   geom = "polygon", alpha = heatmap_args[["alpha"]], fill = heatmap_args[["fill"]]
+          # ),
           theme(legend.position = "none"),
           scale_x_continuous(limits = c(-400, 500)),
           scale_y_continuous(limits = c(-400, 500)),

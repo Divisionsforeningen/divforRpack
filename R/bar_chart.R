@@ -46,7 +46,7 @@ bar_chart <- function(df, x, y, id, KPI="Name of KPI", negative = c(TRUE, FALSE)
     geom_point(data = df %>%
       dplyr::filter(.data[[x]] == id), cex = 12, color = div_col("highlight", ifelse(is.na(highCol), NA, highCol))) +
     # Add reference line
-    geom_vline(aes(xintercept = ref, color = "League average"), linewidth = 2, alpha = 0.8) +
+    geom_hline(aes(yintercept = ref, color = "League average"), linewidth = 2, alpha = 0.8) +
     # Define color of reference line
     scale_color_manual("", values = c("League average" = div_col("reference", ifelse(is.na(refCol), NA, refCol)))) +
     # Define labels and title
