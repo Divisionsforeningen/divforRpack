@@ -17,7 +17,7 @@
 #' @param eventArgs Event arguments, usable: color and outcome column (0 or 1)
 #' @param shotArgs Shot arguments, usable: color and outcome column ("goal" and "other")
 #' @param heatmapArgs Heat map arguments, usable: alpha, color, fill and type ("start" or "end")
-#' @param lineArgs Lines arguments: usable linetype and color
+#' @param lineArgs Lines arguments: usable linetype, color, direction (first & last) & alpha
 #' @param cornerArgs Use for Opta tags - arguements: colors, and type coloumn name
 #' @param size Point size - defaults to 4, minimum is 3
 #' @param provider Name of data provider
@@ -109,7 +109,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
   shot_args <- list(color = c(div_col(type = "goal"), div_col(type = "fill")), border = "black", outcome = NA)
   corner_args <- list(color = c(div_col(color = "orange"), div_col(color = "forestgreen"), div_col(color = "red")), border = "black", type = NA)
   heatmap_args <- list(alpha = 0.1, fill = "red", type = "start", outcome = NA)
-  line_args <- list(linetype = c("solid", "dashed"), color = "black", direction="Last")
+  line_args <- list(linetype = c("solid", "dashed"), color = "black", direction = "Last", alpha = 0.5)
 
   # Replace standards with user inputs if any
   shot_args <- modifyList(shot_args, shotArgs[intersect(names(shotArgs), names(shot_args))])
@@ -326,8 +326,8 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       # Creates list with geoms for lines
       l <- list(geom_segment(
         data = df, aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend),
-        color = line_args[["color"]], linetype = line_args[["linetype"]][1],
-        arrow = arrow(length = unit(.25, "cm"), type="closed", ends = line_args[["direction"]])
+        color = line_args[["color"]], linetype = line_args[["linetype"]][1], alpha = line_args[["alpha"]],
+        arrow = arrow(length = unit(.25, "cm"), type = "closed", ends = line_args[["direction"]])
       ))
 
       # Append line list to output

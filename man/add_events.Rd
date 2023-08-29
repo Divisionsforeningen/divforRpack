@@ -75,7 +75,7 @@ add_events(
 
 \item{heatmapArgs}{Heat map arguments, usable: alpha, color, fill and type ("start" or "end")}
 
-\item{lineArgs}{Lines arguments: usable linetype and color}
+\item{lineArgs}{Lines arguments: usable linetype, color, direction (first & last) & alpha}
 }
 \value{
 Returns set of ggplot layers to add to a ggplot
@@ -99,6 +99,7 @@ p <- ggplot() +
   annotate_pitch() +
   add_events(
     df = df, x = "x", y = "y", xend = "xend", yend = "yend",
+    provider = "Wyscout",
     lines = T, passZones = F, textCol = "black", bgCol = "white",
     corners = F, cornerArgs = list(),
     eventArgs = list(outcome = "outcome"),
