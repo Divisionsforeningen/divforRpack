@@ -23,7 +23,7 @@
 #'
 #' @export
 #'
-bar_chart <- function(df, x, y, id, KPI, negative = c(TRUE, FALSE), median = c(TRUE, FALSE), fillCol = NA, highCol = NA, refCol = NA) {
+bar_chart <- function(df, x, y, id, KPI="Name of KPI", negative = c(TRUE, FALSE), median = c(TRUE, FALSE), fillCol = NA, highCol = NA, refCol = NA) {
   # TODO Write test battery
 
   # Calculate the reference value based on mean or median
