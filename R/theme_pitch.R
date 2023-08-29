@@ -28,6 +28,10 @@
 #' @export
 theme_pitch <- function(aspect_ratio = 68 / 105) {
   theme_basic <- ggplot2::theme(
+    text             = ggplot2::element_text(family = "sans"),
+    plot.title       = ggplot2::element_text(face = "bold", size = 15),
+    plot.subtitle    = ggplot2::element_text(size = 12),
+    plot.caption     = ggplot2::element_text(size = 12),
     panel.grid.major = ggplot2::element_blank(),
     panel.grid.minor = ggplot2::element_blank(),
     axis.title       = ggplot2::element_blank(),
