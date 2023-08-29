@@ -2,20 +2,20 @@
 #'
 #' Bar chart for comparison across multiple teams - id team will be highlighted
 #' Reference line with either mean or median is added
-#' Bar chart can be reordered using positiive=false if "lower is better"
+#' Bar chart can be reordered using negative=true if "lower is better"
 #'
 #' @param df Data frame containing KPI and Label, x and y
 #' @param x Column containing KPI
 #' @param y Label
 #' @param id Id to highlight
 #' @param KPI Selected KPI - from shiny input
-#' @param positive True if higher is better for KPI
+#' @param negative False if higher is better for KPI
 #' @param median Use median instead of mean
 #' @param fillCol Color of non-highlighted ids
 #' @param highCol Highlighted id color
 #' @param refCol Color of reference line
 #'
-#' @return A bar plot, chosen id is highlighted, and mean is added as a red line - ordering is done by "positive"
+#' @return A bar plot, chosen id is highlighted, and mean is added as a red line - ordering is done by "negative"
 #' @import ggplot2
 #' @import grDevices
 #' @import dplyr
@@ -33,7 +33,7 @@ bar_chart <- function(df, x, y, id, KPI="Name of KPI", negative = c(TRUE, FALSE)
   )
 
   # Create ggplot from df, using x, and y. Reorder if needed
-  ggplot(data = df, aes(x = .data[[x]], y = stats::reorder(.data[[x]], .data[[y]], decreasing = negative))) +
+  ggplot(data = df, aes(x = stats::reorder(.data[[x]], .data[[y]], decreasing = negative), y =.data[[y]])) +
     # Add bar for all data points
     geom_bar(stat = "identity", width = 0.3, fill = div_col("fill", ifelse(is.na(fillCol), NA, fillCol))) +
     # Add bar for highlighted data point

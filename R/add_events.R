@@ -50,6 +50,7 @@
 #' p
 #'
 add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
+                       provider=NA,
                        heatmap = FALSE, shot = FALSE, corners = FALSE,
                        lines = FALSE, passZones = FALSE, pmCol = "black",
                        bgCol = "white", textCol = "black",
@@ -66,6 +67,25 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
   # TODO Make shot map usable for tracking dimensions
 
   # Define standard values for events, shots and heatmaps
+
+  # Wyscout adjustment ------------------------------------------------------
+
+
+  if(tolower(provider)=="wyscout"  && !is.na(y)){
+   df = df %>% mutate(yp=abs(.data[[y]]-100))
+  }
+
+  if(tolower(provider)=="wyscout" && !is.na(yend)){
+    df = df %>% mutate(ypend=abs(.data[[yend]]-100))
+  }
+
+  if(tolower(provider)!="wyscout" && !is.na(y)){
+    df = df %>% mutate(yp=.data[[y]])
+  }
+
+  if(tolower(provider)!="wyscout" && !is.na(yend)){
+    df = df %>% mutate(ypend=.data[[yend]])
+  }
 
   # Setup -------------------------------------------------------------------
 
@@ -143,7 +163,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       if (is.na(heatmap_args[["outcome"]])) {
         h <- list(
           stat_density_2d(
-            data = df, aes(x = .data[[xend]], y = .data[[yend]], fill = after_stat(level)),
+            data = df, aes(x = .data[[xend]], y = ypend, fill = after_stat(level)),
             na.rm = T,
             geom = "polygon", alpha = heatmap_args[["alpha"]], fill = heatmap_args[["fill"]]
           ),
@@ -163,12 +183,12 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
         # Creates list of geoms for heatmap
         h <- list(
           stat_density_2d(
-            data = df %>% filter(.data[[heatmap_args[["outcome"]]]] == 1), aes(x = .data[[xend]], y = .data[[yend]], fill = after_stat(level)),
+            data = df %>% filter(.data[[heatmap_args[["outcome"]]]] == 1), aes(x = .data[[xend]], y = ypend, fill = after_stat(level)),
             na.rm = T,
             geom = "polygon", alpha = heatmap_args[["alpha"]], fill = event_args[["color"]][1]
           ),
           stat_density_2d(
-            data = df %>% filter(.data[[heatmap_args[["outcome"]]]] == 0), aes(x = .data[[xend]], y = .data[[yend]], fill = after_stat(level)),
+            data = df %>% filter(.data[[heatmap_args[["outcome"]]]] == 0), aes(x = .data[[xend]], y = ypend, fill = after_stat(level)),
             na.rm = T,
             geom = "polygon", alpha = heatmap_args[["alpha"]], fill = event_args[["color"]][2]
           ),
@@ -197,7 +217,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       if (is.na(heatmap_args[["outcome"]])) {
         h <- list(
           stat_density_2d(
-            data = df, aes(x = .data[[x]], y = .data[[y]], fill = after_stat(level)),
+            data = df, aes(x = .data[[x]], y = yp, fill = after_stat(level)),
             na.rm = T,
             geom = "polygon", alpha = heatmap_args[["alpha"]], fill = heatmap_args[["fill"]]
           ),
@@ -217,12 +237,12 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
         # Creates list of geoms for heatmap
         h <- list(
           stat_density_2d(
-            data = df %>% filter(.data[[heatmap_args[["outcome"]]]] == 1), aes(x = .data[[x]], y = .data[[y]], fill = after_stat(level)),
+            data = df %>% filter(.data[[heatmap_args[["outcome"]]]] == 1), aes(x = .data[[x]], y = yp, fill = after_stat(level)),
             na.rm = T,
             geom = "polygon", alpha = heatmap_args[["alpha"]], fill = event_args[["color"]][1]
           ),
           stat_density_2d(
-            data = df %>% filter(.data[[heatmap_args[["outcome"]]]] == 0), aes(x = .data[[x]], y = .data[[y]], fill = after_stat(level)),
+            data = df %>% filter(.data[[heatmap_args[["outcome"]]]] == 0), aes(x = .data[[x]], y = yp, fill = after_stat(level)),
             na.rm = T,
             geom = "polygon", alpha = heatmap_args[["alpha"]], fill = event_args[["color"]][2]
           ),
@@ -243,9 +263,22 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       # Append heatmap list to output
       p <- append(p, h)
 
+      # if(tolower(provider)=="wyscout"){
+      #   dim <- list(
+      #     coord_cartesian(xlim = c(0, 100), ylim = c(100, 0))
+      #   )
+      # }
+      #
+      # if(tolower(provider)!="wyscout"){
+      #   dim <- list(
+      #     coord_cartesian(xlim = c(0, 100), ylim = c(0, 100))
+      #   )
+      # }
       dim <- list(
-        coord_cartesian(xlim = c(0, 100), ylim = c(0, 100))
-      )
+             coord_cartesian(xlim = c(0, 100), ylim = c(0, 100))
+           )
+
+
     }
 
     p <- append(p, dim)
@@ -262,13 +295,13 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       l <- list(
         geom_segment(
           data = df %>% filter(.data[[event_args[["outcome"]]]] == 1),
-          aes(x = .data[[x]], y = .data[[y]], xend = .data[[xend]], yend = .data[[yend]]),
+          aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend),
           color = line_args[["color"]], linetype = line_args[["linetype"]][1],
           arrow = arrow(length = unit(.25, "cm"))
         ),
         geom_segment(
           data = df %>% filter(.data[[event_args[["outcome"]]]] == 0),
-          aes(x = .data[[x]], y = .data[[y]], xend = .data[[xend]], yend = .data[[yend]]),
+          aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend),
           color = line_args[["color"]], linetype = line_args[["linetype"]][2],
           arrow = arrow(length = unit(.25, "cm"))
         )
@@ -279,7 +312,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
     } else {
       # Creates list with geoms for lines
       l <- list(geom_segment(
-        data = df, aes(x = .data[[x]], y = .data[[y]], xend = .data[[xend]], yend = .data[[yend]]),
+        data = df, aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend),
         color = line_args[["color"]], linetype = line_args[["linetype"]],
         arrow = arrow(length = unit(.25, "cm"))
       ))
@@ -310,31 +343,30 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       # Adds events via geom_point
       e <- list(
         geom_point(
-          data = df, aes(x = .data[[x]], y = .data[[y]]), color = event_args[["border"]][1], shape = 19, size = 6
+          data = df, aes(x = .data[[x]], y = yp), color = event_args[["border"]][1], shape = 19, size = 6
         ),
         geom_point(
-          data = df, aes(x = .data[[x]], y = .data[[y]]), color = event_args[["color"]][1], shape = 19, size = 4
-        ),
-        coord_cartesian(xlim = c(0, 100), ylim = c(0, 100))
+          data = df, aes(x = .data[[x]], y = yp), color = event_args[["color"]][1], shape = 19, size = 4
+        )
       )
     } else {
       # Adds events via geom_point
       e <- list(
         geom_point(
           data = df %>% filter(.data[[event_args[["outcome"]]]] == 1),
-          aes(x = .data[[x]], y = .data[[y]]), color = event_args[["border"]][1], pch = 19, size = 6
+          aes(x = .data[[x]], y = yp), color = event_args[["border"]][1], pch = 19, size = 6
         ),
         geom_point(
           data = df %>% filter(.data[[event_args[["outcome"]]]] == 1),
-          aes(x = .data[[x]], y = .data[[y]]), color = event_args[["color"]][1], pch = 19, size = 4
+          aes(x = .data[[x]], y = yp), color = event_args[["color"]][1], pch = 19, size = 4
         ),
         geom_point(
           data = df %>% filter(.data[[event_args[["outcome"]]]] == 0),
-          aes(x = .data[[x]], y = .data[[y]]), color = event_args[["border"]][1], pch = 19, size = 6
+          aes(x = .data[[x]], y = yp), color = event_args[["border"]][1], pch = 19, size = 6
         ),
         geom_point(
           data = df %>% filter(.data[[event_args[["outcome"]]]] == 0),
-          aes(x = .data[[x]], y = .data[[y]]), color = event_args[["color"]][2], pch = 19, size = 4
+          aes(x = .data[[x]], y = yp), color = event_args[["color"]][2], pch = 19, size = 4
         )
       )
     }
@@ -345,7 +377,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
     if (!is.na(shirt)) {
       # Create list of geoms for shirt numbers
       j <- list(
-        geom_text(data = df, aes(x = .data[[x]], y = .data[[y]], label = shirt), color = "white", size = 3)
+        geom_text(data = df, aes(x = .data[[x]], y = yp, label = .data[[shirt]]), color = ifelse(is.na(textCol), div_col(type = "b_text"), div_col(color = textCol)), size = 3)
       )
 
       # Append shirt numbers to output
@@ -357,27 +389,27 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
     if (passZones == T) {
       # Calculated zone values
       leftlow <- df %>%
-        filter(.data[[yend]] > 63.2 & .data[[xend]] < 50) %>%
+        filter(ypend > 63.2 & .data[[xend]] < 50) %>%
         summarise(sum(n()))
 
       centerlow <- df %>%
-        filter(.data[[yend]] <= 63.2 & .data[[yend]] >= 36.8 & .data[[xend]] < 50) %>%
+        filter(ypend <= 63.2 & ypend >= 36.8 & .data[[xend]] < 50) %>%
         summarise(sum(n()))
 
       rightlow <- df %>%
-        filter(.data[[yend]] < 36.8 & .data[[xend]] < 50) %>%
+        filter(ypend < 36.8 & .data[[xend]] < 50) %>%
         summarise(sum(n()))
 
       lefthigh <- df %>%
-        filter(.data[[yend]] > 63.2 & .data[[xend]] >= 50) %>%
+        filter(ypend > 63.2 & .data[[xend]] >= 50) %>%
         summarise(sum(n()))
 
       centerhigh <- df %>%
-        filter(.data[[yend]] <= 63.2 & .data[[yend]] >= 36.8 & .data[[xend]] >= 50) %>%
+        filter(ypend <= 63.2 & ypend >= 36.8 & .data[[xend]] >= 50) %>%
         summarise(sum(n()))
 
       righthigh <- df %>%
-        filter(.data[[yend]] < 36.8 & .data[[xend]] >= 50) %>%
+        filter(ypend < 36.8 & .data[[xend]] >= 50) %>%
         summarise(sum(n()))
 
       # Create pass zone text
@@ -396,7 +428,6 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
     }
 
     # Returns list of ggplot layers
-    return(p)
   }
 
   # Shots -------------------------------------------------------------------
@@ -419,40 +450,50 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       # Create list of geoms for shot map
       s <- list(
         geom_point(
-          data = df, aes(x = .data[[x]], y = .data[[y]]), color = shot_args[["border"]][1], pch = 19, size = 6
+          data = df, aes(x = .data[[x]], y = yp), color = shot_args[["border"]][1], pch = 19, size = 6
         ),
         geom_point(
-          data = df, aes(x = .data[[x]], y = .data[[y]]), color = shot_args[["color"]][1], pch = 19, size = 4
+          data = df, aes(x = .data[[x]], y = yp), color = shot_args[["color"]][1], pch = 19, size = 4
         )
       )
     } else {
       # Create list of geoms for shot map
-      s <- list(
+      s <- list(geom_point(
+        data = df %>% filter(tolower(.data[[shot_args[["outcome"]]]]) != "goal"),
+        aes(x = .data[[x]], y = yp), color = shot_args[["border"]][1], pch = 19, size = 6
+       ),
+       geom_point(
+         data = df %>% filter(tolower(.data[[shot_args[["outcome"]]]]) != "goal"),
+         aes(x = .data[[x]], y = yp), color = shot_args[["color"]][2], pch = 19, size = 4
+       ),
         geom_point(
           data = df %>% filter(tolower(.data[[shot_args[["outcome"]]]]) == "goal"),
-          aes(x = .data[[x]], y = .data[[y]]), color = shot_args[["border"]][1], pch = 19, size = 6
+          aes(x = .data[[x]], y = yp), color = shot_args[["border"]][1], pch = 19, size = 6
         ),
         geom_point(
           data = df %>% filter(tolower(.data[[shot_args[["outcome"]]]]) == "goal"),
-          aes(x = .data[[x]], y = .data[[y]]), color = shot_args[["color"]][1], pch = 19, size = 4
-        ),
-        geom_point(
-          data = df %>% filter(tolower(.data[[shot_args[["outcome"]]]]) != "goal"),
-          aes(x = .data[[x]], y = .data[[y]]), color = shot_args[["border"]][1], pch = 19, size = 6
-        ),
-        geom_point(
-          data = df %>% filter(tolower(.data[[shot_args[["outcome"]]]]) != "goal"),
-          aes(x = .data[[x]], y = .data[[y]]), color = shot_args[["color"]][2], pch = 19, size = 4
+          aes(x = .data[[x]], y = yp), color = shot_args[["color"]][1], pch = 19, size = 4
         )
       )
     }
 
     # Create rest of needed shot geoms
+
+    # if(tolower(provider)=="wyscout"){
+    #   sh <- list(
+    #     coord_flip(xlim = c(50,100), ylim=c(0,100))
+    #   )
+    # }
+    #
+    # if(tolower(provider)!="wyscout"){
+    #   sh <- list(
+    #     coord_flip(xlim = c(50,100), ylim=c(100,0))
+    #   )
+    # }
     sh <- list(
-      coord_cartesian(xlim = c(0, 100), ylim = c(0, 100)),
-      coord_flip(xlim = c(49, 101)),
-      scale_y_reverse()
+      coord_flip(xlim = c(50,100), ylim=c(100,0))
     )
+
 
     # Append to shot map
     s <- append(s, sh)
@@ -463,7 +504,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
     if (!is.na(shirt)) {
       # Create list of geoms for shirt numbers
       j <- list(
-        geom_text(data = df, aes(x = .data[[x]], y = .data[[y]], label = shirt), color = "white", size = 3)
+        geom_text(data = df, aes(x = .data[[x]], y = yp, label = .data[[shirt]]), color = ifelse(is.na(textCol), div_col(type = "b_text"), div_col(color = textCol)), size = 3)
       )
 
       # Append shirt numbers to output
@@ -472,7 +513,6 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
     }
 
     # Returns list of ggplot layers
-    return(p)
   }
 
   # Corners -----------------------------------------------------------------
@@ -482,10 +522,10 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       # Create list of geoms for corner map
       c <- list(
         geom_point(
-          data = df, aes(x = .data[[x]], y = .data[[y]]), color = shot_args[["border"]][1], pch = 19, size = 6
+          data = df, aes(x = .data[[x]], y = yp), color = shot_args[["border"]][1], pch = 19, size = 6
         ),
         geom_point(
-          data = df, aes(x = .data[[x]], y = .data[[y]]), color = shot_args[["color"]][1], pch = 19, size = 4
+          data = df, aes(x = .data[[x]], y = yp), color = shot_args[["color"]][1], pch = 19, size = 4
         )
       )
     } else {
@@ -493,46 +533,57 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       c <- list(
         geom_point(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "in-swinger"),
-          aes(x = .data[[x]], y = .data[[y]]), color = corner_args[["border"]][1], pch = 19, size = 6
+          aes(x = .data[[x]], y = yp), color = corner_args[["border"]][1], pch = 19, size = 6
         ),
         geom_point(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "in-swinger"),
-          aes(x = .data[[x]], y = .data[[y]]), color = corner_args[["color"]][1], pch = 19, size = 4
+          aes(x = .data[[x]], y = yp), color = corner_args[["color"]][1], pch = 19, size = 4
         ),
         geom_point(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "out-swinger"),
-          aes(x = .data[[x]], y = .data[[y]]), color = corner_args[["border"]][1], pch = 19, size = 6
+          aes(x = .data[[x]], y = yp), color = corner_args[["border"]][1], pch = 19, size = 6
         ),
         geom_point(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "out-swinger"),
-          aes(x = .data[[x]], y = .data[[y]]), color = corner_args[["color"]][2], pch = 19, size = 4
+          aes(x = .data[[x]], y = yp), color = corner_args[["color"]][2], pch = 19, size = 4
         ),
         geom_point(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "straight"),
-          aes(x = .data[[x]], y = .data[[y]]), color = corner_args[["border"]][1], pch = 19, size = 6
+          aes(x = .data[[x]], y = yp), color = corner_args[["border"]][1], pch = 19, size = 6
         ),
         geom_point(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "straight"),
-          aes(x = .data[[x]], y = .data[[y]]), color = corner_args[["color"]][2], pch = 19, size = 4
+          aes(x = .data[[x]], y = yp), color = corner_args[["color"]][2], pch = 19, size = 4
         )
       )
     }
 
     # Create rest of needed corner geoms
+
+    # if(tolower(provider)=="wyscout"){
+    #   ch <- list(
+    #     coord_flip(xlim = c(50,100), ylim=c(0,100))
+    #   )
+    # }
+    #
+    # if(tolower(provider)!="wyscout"){
+    #   ch <- list(
+    #     coord_flip(xlim = c(50,100), ylim=c(100,0))
+    #   )
+    # }
     ch <- list(
-      coord_cartesian(xlim = c(0, 100), ylim = c(0, 100)),
-      coord_flip(xlim = c(49, 101)),
-      scale_y_reverse()
-    )
+          coord_flip(xlim = c(50,100), ylim=c(100,0))
+        )
+
 
     # Append to corner
     c <- append(c, ch)
 
     # Append corner list to output
     p <- append(p, c)
-
-    return(p)
   } else {
     stop("Something went wrong...")
   }
+
+  return(p)
 }
