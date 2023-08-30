@@ -15,7 +15,7 @@ goal_mouth(
   type = "Event_type",
   goalCol = NA,
   saveCol = NA,
-  provider = "OPTA",
+  provider = "Opta",
   keeperDetails = TRUE,
   teams = "Conceding team",
   name = "Conceding keeper"

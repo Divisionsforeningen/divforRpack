@@ -75,7 +75,7 @@ add_events(
 
 \item{heatmapArgs}{Heat map arguments, usable: alpha, color, fill and type ("start" or "end")}
 
-\item{lineArgs}{Lines arguments: usable linetype, color, direction (first & last) & alpha}
+\item{lineArgs}{Lines arguments: usable linetype and color}
 }
 \value{
 Returns set of ggplot layers to add to a ggplot

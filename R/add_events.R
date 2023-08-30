@@ -278,7 +278,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       # Append heatmap list to output
       p <- append(p, h)
 
-     dim <- list(
+      dim <- list(
         coord_cartesian(xlim = c(0, 100), ylim = c(0, 100))
       )
     }
@@ -311,37 +311,37 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
 
       # Append line list to output
       p <- append(p, l)
-    } else if (corners == TRUE && !is.na(corner_args[["type"]])){
+    } else if (corners == TRUE && !is.na(corner_args[["type"]])) {
       # Creates list with geoms for lines
       l <- list(
         #
         geom_segment(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "in-swinger"),
-          aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend), linewidth=1,
+          aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend), linewidth = 1,
           color = corner_args[["color"]][1], linetype = line_args[["linetype"]][1],
-          arrow = arrow(length = unit(.25, "cm"), type="open")
+          arrow = arrow(length = unit(.25, "cm"), type = "open")
         ),
         geom_segment(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "out-swinger"),
-          aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend), linewidth=1,
+          aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend), linewidth = 1,
           color = corner_args[["color"]][2], linetype = line_args[["linetype"]][1],
-          arrow = arrow(length = unit(.25, "cm"), type="open")
+          arrow = arrow(length = unit(.25, "cm"), type = "open")
         ),
         geom_segment(
-          data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) %nin% c("in-swinger","out-swinger")),
-          aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend), linewidth=1,
+          data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) %nin% c("in-swinger", "out-swinger")),
+          aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend), linewidth = 1,
           color = corner_args[["color"]][3], linetype = line_args[["linetype"]][1],
-          arrow = arrow(length = unit(.25, "cm"), type="open")
+          arrow = arrow(length = unit(.25, "cm"), type = "open")
         ),
-        annotate("label",x=55, y=c(25,50,75), label=c("in-swinger", "other","out-swinger"),
-                 fill=c(corner_args[["color"]][1],corner_args[["color"]][3],corner_args[["color"]][2]),
-                 size=4)
+        annotate("label",
+          x = 55, y = c(25, 50, 75), label = c("in-swinger", "other", "out-swinger"),
+          fill = c(corner_args[["color"]][1], corner_args[["color"]][3], corner_args[["color"]][2]),
+          size = 4
+        )
       )
 
       # Append line list to output
       p <- append(p, l)
-
-
     } else {
       # Creates list with geoms for lines
       l <- list(geom_segment(
@@ -532,7 +532,6 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
 
       p <- append(p, j)
     }
-
   }
 
   # Corners -----------------------------------------------------------------
@@ -568,11 +567,11 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
           aes(x = .data[[xend]], y = ypend), color = corner_args[["color"]][2], pch = 19, size = ss
         ),
         geom_point(
-          data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) %nin% c("in-swinger","out-swinger")),
+          data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) %nin% c("in-swinger", "out-swinger")),
           aes(x = .data[[xend]], y = ypend), color = corner_args[["border"]][1], pch = 19, size = ls
         ),
         geom_point(
-          data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) %nin% c("in-swinger","out-swinger")),
+          data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) %nin% c("in-swinger", "out-swinger")),
           aes(x = .data[[xend]], y = ypend), color = corner_args[["color"]][3], pch = 19, size = ss
         )
       )
