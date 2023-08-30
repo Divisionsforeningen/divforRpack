@@ -19,7 +19,7 @@
 #' @export
 #' @import ggplot2
 #'
-goal_mouth <- function(team = input$sel_team_opp, season = input$sel_season, start = input$gw_prep_def_slider[1], end = input$gw_prep_def_slider[2], df, z = "gk_z", y = "gk_y", type = "Event_type", goalCol = NA, saveCol = NA, provider = "OPTA", keeperDetails = TRUE, teams = "Conceding team", name = "Conceding keeper") {
+goal_mouth <- function(team = input$sel_team_opp, season = input$sel_season, start = input$gw_prep_def_slider[1], end = input$gw_prep_def_slider[2], df, z = "gk_z", y = "gk_y", type = "Event_type", goalCol = NA, saveCol = NA, provider = "Opta", keeperDetails = TRUE, teams = "Conceding team", name = "Conceding keeper") {
   # TODO Write test battery
 
   # Add shots to goal_frame plot

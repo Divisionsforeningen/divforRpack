@@ -17,7 +17,7 @@
 #' @param eventArgs Event arguments, usable: color and outcome column (0 or 1)
 #' @param shotArgs Shot arguments, usable: color and outcome column ("goal" and "other")
 #' @param heatmapArgs Heat map arguments, usable: alpha, color, fill and type ("start" or "end")
-#' @param lineArgs Lines arguments: usable linetype, color, direction (first & last) & alpha
+#' @param lineArgs Lines arguments: usable linetype and color
 #' @param cornerArgs Use for Opta tags - arguements: colors, and type coloumn name
 #' @param size Point size - defaults to 4, minimum is 3
 #' @param provider Name of data provider
@@ -107,9 +107,9 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
 
   event_args <- list(color = c(div_col(type = "highlight"), div_col("goal")), border = "black", outcome = NA)
   shot_args <- list(color = c(div_col(type = "goal"), div_col(type = "fill")), border = "black", outcome = NA)
-  corner_args <- list(color = c(div_col(color = "orange"), div_col(color = "forestgreen"), div_col(color = "red")), border = "black", type = NA)
+  corner_args <- list(color = c(div_col(color = "orange"), div_col(color = "forestgreen"), div_col(color = "red"), div_col(color = "lightgrey")), border = "black", type = NA)
   heatmap_args <- list(alpha = 0.1, fill = "red", type = "start", outcome = NA)
-  line_args <- list(linetype = c("solid", "dashed"), color = "black", direction = "Last", alpha = 0.5)
+  line_args <- list(linetype = c("solid", "dashed"), color = "black")
 
   # Replace standards with user inputs if any
   shot_args <- modifyList(shot_args, shotArgs[intersect(names(shotArgs), names(shot_args))])
@@ -278,18 +278,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       # Append heatmap list to output
       p <- append(p, h)
 
-      # if(tolower(provider)=="wyscout"){
-      #   dim <- list(
-      #     coord_cartesian(xlim = c(0, 100), ylim = c(100, 0))
-      #   )
-      # }
-      #
-      # if(tolower(provider)!="wyscout"){
-      #   dim <- list(
-      #     coord_cartesian(xlim = c(0, 100), ylim = c(0, 100))
-      #   )
-      # }
-      dim <- list(
+     dim <- list(
         coord_cartesian(xlim = c(0, 100), ylim = c(0, 100))
       )
     }
@@ -309,25 +298,56 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
         geom_segment(
           data = df %>% filter(.data[[event_args[["outcome"]]]] == 1),
           aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend),
-          color = line_args[["color"]], linetype = line_args[["linetype"]][1],
+          color = line_args[["color"]][1], linetype = line_args[["linetype"]][1],
           arrow = arrow(length = unit(.25, "cm"))
         ),
         geom_segment(
           data = df %>% filter(.data[[event_args[["outcome"]]]] == 0),
           aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend),
-          color = line_args[["color"]], linetype = line_args[["linetype"]][2],
+          color = line_args[["color"]][1], linetype = line_args[["linetype"]][2],
           arrow = arrow(length = unit(.25, "cm"))
         )
       )
 
       # Append line list to output
       p <- append(p, l)
+    } else if (corners == TRUE && !is.na(corner_args[["type"]])){
+      # Creates list with geoms for lines
+      l <- list(
+        #
+        geom_segment(
+          data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "in-swinger"),
+          aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend), linewidth=1,
+          color = corner_args[["color"]][1], linetype = line_args[["linetype"]][1],
+          arrow = arrow(length = unit(.25, "cm"), type="open")
+        ),
+        geom_segment(
+          data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "out-swinger"),
+          aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend), linewidth=1,
+          color = corner_args[["color"]][2], linetype = line_args[["linetype"]][1],
+          arrow = arrow(length = unit(.25, "cm"), type="open")
+        ),
+        geom_segment(
+          data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) %nin% c("in-swinger","out-swinger")),
+          aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend), linewidth=1,
+          color = corner_args[["color"]][3], linetype = line_args[["linetype"]][1],
+          arrow = arrow(length = unit(.25, "cm"), type="open")
+        ),
+        annotate("label",x=55, y=c(25,50,75), label=c("in-swinger", "other","out-swinger"),
+                 fill=c(corner_args[["color"]][1],corner_args[["color"]][3],corner_args[["color"]][2]),
+                 size=4)
+      )
+
+      # Append line list to output
+      p <- append(p, l)
+
+
     } else {
       # Creates list with geoms for lines
       l <- list(geom_segment(
         data = df, aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend),
-        color = line_args[["color"]], linetype = line_args[["linetype"]][1], alpha = line_args[["alpha"]],
-        arrow = arrow(length = unit(.25, "cm"), type = "closed", ends = line_args[["direction"]])
+        color = line_args[["color"]], linetype = line_args[["linetype"]][1],
+        arrow = arrow(length = unit(.25, "cm"))
       ))
 
       # Append line list to output
@@ -492,22 +512,9 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
     }
 
     # Create rest of needed shot geoms
-
-    # if(tolower(provider)=="wyscout"){
-    #   sh <- list(
-    #     coord_flip(xlim = c(50,100), ylim=c(0,100))
-    #   )
-    # }
-    #
-    # if(tolower(provider)!="wyscout"){
-    #   sh <- list(
-    #     coord_flip(xlim = c(50,100), ylim=c(100,0))
-    #   )
-    # }
     sh <- list(
       coord_flip(xlim = c(50, 100), ylim = c(100, 0))
     )
-
 
     # Append to shot map
     s <- append(s, sh)
@@ -526,7 +533,6 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       p <- append(p, j)
     }
 
-    # Returns list of ggplot layers
   }
 
   # Corners -----------------------------------------------------------------
@@ -536,10 +542,10 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       # Create list of geoms for corner map
       c <- list(
         geom_point(
-          data = df, aes(x = .data[[x]], y = yp), color = shot_args[["border"]][1], pch = 19, size = ls
+          data = df, aes(x = .data[[xend]], y = ypend), color = corner_args[["border"]][1], pch = 19, size = ls
         ),
         geom_point(
-          data = df, aes(x = .data[[x]], y = yp), color = shot_args[["color"]][1], pch = 19, size = ss
+          data = df, aes(x = .data[[xend]], y = ypend), color = corner_args[["color"]][4], pch = 19, size = ss
         )
       )
     } else {
@@ -547,27 +553,27 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       c <- list(
         geom_point(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "in-swinger"),
-          aes(x = .data[[x]], y = yp), color = corner_args[["border"]][1], pch = 19, size = ls
+          aes(x = .data[[xend]], y = ypend), color = corner_args[["border"]][1], pch = 19, size = ls
         ),
         geom_point(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "in-swinger"),
-          aes(x = .data[[x]], y = yp), color = corner_args[["color"]][1], pch = 19, size = ss
+          aes(x = .data[[xend]], y = ypend), color = corner_args[["color"]][1], pch = 19, size = ss
         ),
         geom_point(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "out-swinger"),
-          aes(x = .data[[x]], y = yp), color = corner_args[["border"]][1], pch = 19, size = ls
+          aes(x = .data[[xend]], y = ypend), color = corner_args[["border"]][1], pch = 19, size = ls
         ),
         geom_point(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "out-swinger"),
-          aes(x = .data[[x]], y = yp), color = corner_args[["color"]][2], pch = 19, size = ss
+          aes(x = .data[[xend]], y = ypend), color = corner_args[["color"]][2], pch = 19, size = ss
         ),
         geom_point(
-          data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "straight"),
-          aes(x = .data[[x]], y = yp), color = corner_args[["border"]][1], pch = 19, size = ls
+          data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) %nin% c("in-swinger","out-swinger")),
+          aes(x = .data[[xend]], y = ypend), color = corner_args[["border"]][1], pch = 19, size = ls
         ),
         geom_point(
-          data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "straight"),
-          aes(x = .data[[x]], y = yp), color = corner_args[["color"]][2], pch = 19, size = ss
+          data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) %nin% c("in-swinger","out-swinger")),
+          aes(x = .data[[xend]], y = ypend), color = corner_args[["color"]][3], pch = 19, size = ss
         )
       )
     }
