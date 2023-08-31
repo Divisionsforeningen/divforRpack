@@ -1,11 +1,11 @@
-#' comp_order
+#' Competition Order
 #'
-#' Orders divisions age and division level
-#' Works for Wyscout competition Id's
+#' Orders divisions by age and division level.
+#' This function is designed for Wyscout competition IDs.
 #'
-#' @param competitionId Wyscout competitionId
+#' @param competitionId Wyscout competition ID.
 #'
-#' @return Integer rank
+#' @return An integer rank indicating the order.
 #' @export
 #'
 #' @examples

@@ -1,13 +1,21 @@
-#' goal_frame
+#' Goal Frame
 #'
-#' Defines a goal frame in ggplot for further use, needs to be printed for the plot to show
+#' Defines a goal frame in ggplot for further use.
 #'
-#' @return A ggplot with a goal frame
+#' @param lowR Fill color for the lower right 1/6th.
+#' @param lowM Fill color for the lower middle 1/6th.
+#' @param lowL Fill color for the lower left 1/6th.
+#' @param upR Fill color for the upper right 1/6th.
+#' @param upM Fill color for the upper middle 1/6th.
+#' @param upL Fill color for the upper left 1/6th.
+#' @param alpha Alpha for all fill - defaults to 0.25.
+#'
+#' @return A ggplot with a goal frame.
 #' @export
 #' @import ggplot2
 #'
-#' @examples print(goal_frame())
-goal_frame <- function(lowR = NA, lowM = NA, lowL = NA, upR = NA, upM = NA, upL = NA) {
+#' @examples goal_frame()
+goal_frame <- function(lowR = NA, lowM = NA, lowL = NA, upR = NA, upM = NA, upL = NA, alpha = 0.25) {
   # TODO Write test battery
 
   # Define goalframe
@@ -22,17 +30,17 @@ goal_frame <- function(lowR = NA, lowM = NA, lowL = NA, upR = NA, upM = NA, upL 
     geom_rect(aes(xmin = 38, xmax = 42, ymin = 45, ymax = 55.3)) +
     # Defines 6 areas in goal - probably from wyscout
     # Lower right
-    geom_rect(aes(xmin = 0, xmax = 20, ymin = 51.8, ymax = 54.8), alpha = 0.25, fill = ifelse(is.na(lowR), div_col("fill"), div_col(color = lowR))) +
+    geom_rect(aes(xmin = 0, xmax = 20, ymin = 51.8, ymax = 54.8), alpha = alpha, fill = ifelse(is.na(lowR), div_col("fill"), div_col(color = lowR))) +
     # Lower middle
-    geom_rect(aes(xmin = 0, xmax = 20, ymin = 48.2, ymax = 51.8), alpha = 0.25, fill = ifelse(is.na(lowM), div_col("fill"), div_col(color = lowM))) +
+    geom_rect(aes(xmin = 0, xmax = 20, ymin = 48.2, ymax = 51.8), alpha = alpha, fill = ifelse(is.na(lowM), div_col("fill"), div_col(color = lowM))) +
     # Lower left
-    geom_rect(aes(xmin = 0, xmax = 20, ymin = 45.5, ymax = 48.2), alpha = 0.25, fill = ifelse(is.na(lowL), div_col("fill"), div_col(color = lowL))) +
+    geom_rect(aes(xmin = 0, xmax = 20, ymin = 45.5, ymax = 48.2), alpha = alpha, fill = ifelse(is.na(lowL), div_col("fill"), div_col(color = lowL))) +
     # Upper right
-    geom_rect(aes(xmin = 20, xmax = 38, ymin = 51.8, ymax = 54.8), alpha = 0.25, fill = ifelse(is.na(upR), div_col("fill"), div_col(color = upR))) +
+    geom_rect(aes(xmin = 20, xmax = 38, ymin = 51.8, ymax = 54.8), alpha = alpha, fill = ifelse(is.na(upR), div_col("fill"), div_col(color = upR))) +
     # Upper middle
-    geom_rect(aes(xmin = 20, xmax = 38, ymin = 48.2, ymax = 51.8), alpha = 0.25, fill = ifelse(is.na(upM), div_col("fill"), div_col(color = upM))) +
+    geom_rect(aes(xmin = 20, xmax = 38, ymin = 48.2, ymax = 51.8), alpha = alpha, fill = ifelse(is.na(upM), div_col("fill"), div_col(color = upM))) +
     # Upper left
-    geom_rect(aes(xmin = 20, xmax = 38, ymin = 45.5, ymax = 48.2), alpha = 0.25, fill = ifelse(is.na(upL), div_col("fill"), div_col(color = upL))) +
+    geom_rect(aes(xmin = 20, xmax = 38, ymin = 45.5, ymax = 48.2), alpha = alpha, fill = ifelse(is.na(upL), div_col("fill"), div_col(color = upL))) +
     # Add theme
     theme(
       plot.title = element_text(size = 15, hjust = 0.5),
@@ -48,5 +56,6 @@ goal_frame <- function(lowR = NA, lowM = NA, lowL = NA, upR = NA, upM = NA, upL 
       panel.background = element_rect(fill = "transparent")
     )
 
+  # Return the plot
   return(goalframe)
 }

@@ -1,15 +1,18 @@
-#' player_dev_lines
+#' Player Development Lines
 #'
-#' @param df Data frame with player data
-#' @param competitionId Coloum name of Wyscout competitionId
-#' @param season Coloum name of x axis
-#' @param value Coloum name of y axis
-#' @param comp Coloum name of competition name for facet_wrap
-#' @param KPI Name of y axis KPI
-#' @param provider Name of data provider
+#' Creates a plot of a specific KPI by season, facet-wrapped by competition, and ordered by age and level.
 #'
-#' @return Plot of KPI by season - facet_wrap by competition - order by age and level
+#' @param df Data frame with player data.
+#' @param competitionId Column name of Wyscout competitionId. (Default: "competitionId")
+#' @param season Column name of x axis. (Default: "season")
+#' @param value Column name of y axis. (Default: "value")
+#' @param comp Column name of competition name for facet_wrap. (Default: "comp")
+#' @param KPI Name of y axis KPI. (Default: "Put KPI here")
+#' @param provider Name of data provider. (Default: "Put provider here")
+#'
+#' @return Plot of KPI by season - facet_wrap by competition - ordered by age and level.
 #' @export
+#'
 #'
 player_dev_lines <- function(df, competitionId = "competitionId", season = "season", value = "value", comp = "comp", KPI = "Put KPI here", provider = "Put provider here") {
   # TODO Write test battery

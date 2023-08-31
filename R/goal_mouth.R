@@ -1,21 +1,23 @@
-#' goal_mouth
+#' Goal Mouth Plot
 #'
-#' @param team Selected team - from input variable as default
-#' @param season Selected season - from from input variable as default
-#' @param start Start of period - from from input variable as default
-#' @param end End of period - from from input variable as default
-#' @param df Data with shots on target
-#' @param z Column with goal mouth z coordinate
-#' @param y Column with goal mouth y coordinate
-#' @param type Column containing event types ("Goal" is used, other types are discounted)
-#' @param goalCol Point color for goals
-#' @param saveCol Point color for saves
-#' @param provider Provider for caption
-#' @param keeperDetails Binary - if true adds keeper name to plot
-#' @param teams Column containing team names
-#' @param name Column containing keeper names
+#' Adds shots to the goal frame plot, highlighting goals.
 #'
-#' @return Adds shots to the goal_frame plot - highlighting goals
+#' @param team Selected team - taken from input variable as default.
+#' @param season Selected season - taken from input variable as default.
+#' @param start Start of the period - taken from input variable as default.
+#' @param end End of the period - taken from input variable as default.
+#' @param df Data with shots on target.
+#' @param z Column with goal mouth z coordinate.
+#' @param y Column with goal mouth y coordinate.
+#' @param type Column containing event types ("Goal" is used; other types are discounted).
+#' @param goalCol Point color for goals.
+#' @param saveCol Point color for saves.
+#' @param provider Data provider for caption.
+#' @param keeperDetails Binary - if true, adds keeper name to the plot.
+#' @param teams Column containing team names.
+#' @param name Column containing keeper names.
+#'
+#' @return Adds shots to the goal_frame plot - highlighting goals.
 #' @export
 #' @import ggplot2
 #'

@@ -1,10 +1,10 @@
-#' is_hexcolor
+#' Hex Color Code Validation
 #'
-#' Check if the input text is a valid hex color code.
+#' Checks if the input text is a valid hex color code.
 #'
-#' @param text String to test for hex color code.
+#' @param text String to test for a hex color code.
 #'
-#' @return TRUE if valid hex color code, FALSE otherwise.
+#' @return TRUE if the input is a valid hex color code, FALSE otherwise.
 #' @importFrom stringr str_detect
 #' @export
 #'

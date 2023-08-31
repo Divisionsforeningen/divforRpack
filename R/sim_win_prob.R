@@ -1,18 +1,22 @@
-#' sim_win_prob
+#' Simulate Win Probabilities
 #'
-#' Calculate the win probabilities of home, draw, and away outcomes for a match
-#' using a Monte Carlo simulation strategy.
+#' Calculate win probabilities for home, draw, and away outcomes of a match
+#' using a Monte Carlo simulation approach. This model balances extreme cases
+#' at the expense of some computation speed.
 #'
-#' @param home A vector representing the home team's shots.
-#' @param away A vector representing the away team's shots.
-#' @param m Number of simulations. Default is 100000.
+#' @param home A numeric vector representing the home team's shots.
+#' @param away A numeric vector representing the away team's shots.
+#' @param m The number of simulations. (Default: 100000)
 #'
-#' @return A numeric vector with probabilities of home, draw, and away outcomes.
+#' @return A numeric vector containing probabilities of home, draw, and away outcomes.
+#'
 #' @export
 #'
 #' @examples
-#' sim_win_prob(c(0.6, 0.8), c(0.45, 0.06))
+#' sim_win_prob(home = c(0.6, 0.8), away = c(0.45, 0.06), m = 50000)
 sim_win_prob <- function(home, away, m = 100000) {
+  # Attempt at a better simulation model - handles extremes better at the cost of some speed
+
   # Input validation: Ensure all elements are less than 1
   if (any(home >= 1) || any(away >= 1)) {
     stop("All elements in home and away vectors must be less than 1.")

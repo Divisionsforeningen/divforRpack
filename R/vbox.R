@@ -7,7 +7,7 @@
 #' @param info Info
 #' @param icon Icon
 #' @param color Color
-#' @param width Width
+#' @param width Width (Default: 4)
 #' @param href Href
 #'
 #' @export

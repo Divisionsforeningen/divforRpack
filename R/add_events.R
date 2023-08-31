@@ -1,36 +1,36 @@
-#' add_events
+#' Add Events to Pitch Plot
 #'
-#' Add events to pitch plot - does not plot the pitch itself
+#' Adds events to a pitch plot without plotting the pitch itself.
 #'
-#' @param df Data frame
-#' @param x X coordinate
-#' @param y Y coordinate
-#' @param xend X end coordinate
-#' @param yend Y end coordinate
-#' @param heatmap Set to "TRUE" to add heatmap based on x,y
-#' @param shot Set to "TRUE" to switch to shot plot
-#' @param corners Set to "TRUE" to switch to corner plot
-#' @param lines Set to "TRUE" to add lines from x,y to xend,yend
-#' @param passZones Set to "TRUE" to add counts for passes to each zone
-#' @param bgCol Background color - set to shiny theme
-#' @param shirt Column with shirt numbers - will be added to events
-#' @param eventArgs Event arguments, usable: color and outcome column (0 or 1)
-#' @param shotArgs Shot arguments, usable: color and outcome column ("goal" and "other")
-#' @param heatmapArgs Heat map arguments, usable: alpha, color, fill and type ("start" or "end")
-#' @param lineArgs Lines arguments: usable linetype and color
-#' @param cornerArgs Use for Opta tags - arguements: colors, and type coloumn name
-#' @param size Point size - defaults to 4, minimum is 3
-#' @param provider Name of data provider
-#' @param pmCol Pitch marking colors for heatmap use
-#' @param textCol Text color
-#' @param title Title
-#' @param explanation Chart explanation
+#' @param df A data frame containing event data.
+#' @param x Column with X coordinates.
+#' @param y Column with Y coordinates.
+#' @param xend Column with X end coordinates.
+#' @param yend Column with Y end coordinates.
+#' @param heatmap Set to TRUE to add a heatmap based on x, y.
+#' @param shot Set to TRUE to switch to a shot plot.
+#' @param corners Set to TRUE to switch to a corner plot.
+#' @param lines Set to TRUE to add lines from x, y to xend, yend.
+#' @param passZones Set to TRUE to add counts for passes to each zone.
+#' @param bgCol Background color - set according to the Shiny theme.
+#' @param shirt Column with shirt numbers - will be added to events.
+#' @param eventArgs Event arguments, including color and outcome column (0 or 1).
+#' @param shotArgs Shot arguments, including color and outcome column ("goal" or "other").
+#' @param heatmapArgs Heat map arguments, including alpha, color, fill, and type ("start" or "end").
+#' @param lineArgs Line arguments, including linetype and color.
+#' @param cornerArgs Use for Opta tags - arguments: colors and type column name.
+#' @param size Point size - defaults to 4, minimum is 3.
+#' @param provider Name of the data provider.
+#' @param pmCol Pitch marking colors for heatmap use.
+#' @param textCol Text color.
+#' @param title Title of the plot.
+#' @param explanation Explanation of the chart.
 #'
-#' @return Returns set of ggplot layers to add to a ggplot
+#' @return A set of ggplot layers to add to a ggplot.
+#'
 #' @export
 #'
 #' @examples
-#'
 #' x <- 100
 #' df <- data.frame(
 #'   x = runif(x, 20, 75),
@@ -46,11 +46,11 @@
 #'   add_events(
 #'     df = df, x = "x", y = "y", xend = "xend", yend = "yend",
 #'     provider = "Wyscout",
-#'     lines = T, passZones = F, textCol = "black", bgCol = "white",
-#'     corners = F, cornerArgs = list(),
+#'     lines = TRUE, passZones = FALSE, textCol = "black", bgCol = "white",
+#'     corners = FALSE, cornerArgs = list(),
 #'     eventArgs = list(outcome = "outcome"),
-#'     shot = F, shotArgs = list(),
-#'     heatmap = T, heatmapArgs = list(type = "end", outcome = "outcome")
+#'     shot = FALSE, shotArgs = list(),
+#'     heatmap = TRUE, heatmapArgs = list(type = "end", outcome = "outcome")
 #'   ) +
 #'   theme_pitch()
 #'
@@ -67,7 +67,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
                        shotArgs = list(),
                        cornerArgs = list(),
                        heatmapArgs = list(),
-                       lineArgs = list()) {
+                       lineArgs = list()) {}
   # Comments ----------------------------------------------------------------
 
 

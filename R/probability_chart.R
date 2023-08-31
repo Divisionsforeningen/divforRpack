@@ -1,17 +1,18 @@
-#' probablity chart
+#' Probability Chart
 #'
-#' @param wp Data from win_prob reactive
-#' @param barCol Color of bars
-#' @param textCol Color of text
-#' @param accuracy Decimals for label
-#' @param provider Provider for caption
+#' Creates a win probability chart using data from the win_prob reactive.
 #'
-#' @return Win probability chart
+#' @param wp Data from win_prob reactive.
+#' @param barCol Color of the bars. (Default: NA)
+#' @param textCol Color of the text. (Default: NA)
+#' @param accuracy Number of decimals for label values. (Default: 1)
+#' @param provider Data provider for the caption. (Default: "Opta")
+#'
+#' @return Win probability chart.
 #' @export
 #' @import ggplot2
 #'
-#'
-probability_chart <- function(wp, barCol = NA, textCol = NA, accuracy = 1, provider = "OPTA") {
+probability_chart <- function(wp, barCol = NA, textCol = NA, accuracy = 1, provider = "Opta") {
   # Check if provider is a string
   if (!is.character(provider)) {
     stop("Provider is not a string")
@@ -29,9 +30,10 @@ probability_chart <- function(wp, barCol = NA, textCol = NA, accuracy = 1, provi
   # Convert outcomes to factors for sorting
   prob$Outcome <- factor(prob$Outcome, levels = c("Home", "Draw", "Away"))
 
-  # if (sum(prob$Probability) != 1) {
-  #  stop("Probability does not sum to 1")
-  # }
+  # Throw warning message if probability is above 100%
+  if (sum(prob$Probability) != 1) {
+    warning("Probability does not sum to 1")
+  }
 
   # Start ggplot with data, outcome on x and probability on y
   ggplot(prob, aes(x = Outcome, y = Probability)) +
@@ -45,8 +47,7 @@ probability_chart <- function(wp, barCol = NA, textCol = NA, accuracy = 1, provi
     # Add tile, subtitle and caption
     labs(
       title = "WIN PROBABILITY",
-      # subtitle = paste0("Home: ", round(opta_win_prob_score_home(), digits = 2), " xG","\nAway: ", round(opta_win_prob_score_away(), digits = 2), " xG"),
-      caption = paste0("The probability of every outcome based on xG. Data from ", provider, ". Model from Divisionsforeningen.")
+      caption = paste0("The probability of every outcome based on xG. Data from ", provider, ". Model by Divisionsforeningen.")
     ) +
     # Add theme
     theme(

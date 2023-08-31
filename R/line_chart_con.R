@@ -1,22 +1,22 @@
-#' line_chart_con
+#' Line Chart on Continuous X Axis
 #'
-#' Line chart on a continuous x axis
+#' Creates a line chart on a continuous x axis.
 #'
-#' @param df Data frame
-#' @param x Column with data for x axis
-#' @param y Column with data for y axis
-#' @param opponent Column with point labels
-#' @param ref Reference value on y axis
-#' @param trend Set to "TRUE" to add smoothed trend
-#' @param lCol Line color
-#' @param KPI Y axis label
-#' @param Periods X axis label
-#' @param Title Title of plot
-#' @param Subtitle Subtitle of plot
-#' @param provider Data provider
-#' @param refCol Color of reference line
+#' @param df Data frame.
+#' @param x Column with data for the x axis.
+#' @param y Column with data for the y axis.
+#' @param labels Column with point labels.
+#' @param ref Reference value on the y axis.
+#' @param trend Set to "TRUE" to add smoothed trend.
+#' @param lCol Line color.
+#' @param KPI Y axis label.
+#' @param Periods X axis label.
+#' @param Title Title of the plot.
+#' @param Subtitle Subtitle of the plot.
+#' @param provider Data provider.
+#' @param refCol Color of the reference line.
 #'
-#' @return Line chart on continuous x axis
+#' @return A line chart on a continuous x axis.
 #' @export
 #' @import ggplot2
 #' @import dplyr

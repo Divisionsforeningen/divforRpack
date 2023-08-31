@@ -1,20 +1,22 @@
-#' head_to_head
+#' Head-to-Head Chart
 #'
-#' @param df Data frame containing the data for the head-to-head chart
-#' @param x Column with variables (e.g., match statistics or metrics)
-#' @param y Column with shares (e.g., share of possession or goals)
-#' @param value Column with numeric values (e.g., actual values of the metrics)
-#' @param names Column with team names
-#' @param home Name of the home team (used for orientation)
-#' @param textCol Color used for text labels (optional)
-#' @param provider Data provider (default: "OPTA")
-#' @param title Title of the chart (default: "HEAD TO HEAD")
+#' Creates a head-to-head chart comparing the given data for two teams in a match.
 #'
-#' @return A head-to-head chart comparing the given data for two teams in a match
+#' @param df Data frame containing the data for the head-to-head chart.
+#' @param x Column with variables (e.g., match statistics or metrics).
+#' @param y Column with shares (e.g., share of possession or goals).
+#' @param value Column with numeric values (e.g., actual values of the metrics).
+#' @param names Column with team names.
+#' @param home Name of the home team (used for orientation).
+#' @param textCol Color used for text labels (optional).
+#' @param provider Data provider (default: "OPTA").
+#' @param title Title of the chart (default: "HEAD TO HEAD").
+#'
+#' @return A head-to-head chart comparing the given data for two teams in a match.
 #' @export
 #' @import ggplot2
 #'
-head_to_head <- function(df, x = "variable", y = "share", value = "value", names = "OfficialName", home = NA, textCol = NA, provider = "OPTA", title = "HEAD TO HEAD") {
+head_to_head <- function(df, x = "variable", y = "share", value = "value", names = "OfficialName", home = NA, textCol = NA, provider = "Opta", title = "HEAD TO HEAD") {
   # Check if the 'home' parameter is provided.
   if (is.na(home)) {
     stop("No home team defined")

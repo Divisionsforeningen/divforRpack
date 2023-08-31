@@ -1,21 +1,21 @@
-#' bar_chart
+#' Bar Chart
 #'
-#' Bar chart for comparison across multiple teams - id team will be highlighted
-#' Reference line with either mean or median is added
-#' Bar chart can be reordered using negative=true if "lower is better"
+#' Creates a bar chart for comparing multiple teams, highlighting a specific team with an optional reference line.
 #'
-#' @param df Data frame containing KPI and Label, x and y
-#' @param x Column containing KPI
-#' @param y Label
-#' @param id Id to highlight
-#' @param KPI Selected KPI - from shiny input
-#' @param negative False if higher is better for KPI
-#' @param median Use median instead of mean
-#' @param fillCol Color of non-highlighted ids
-#' @param highCol Highlighted id color
-#' @param refCol Color of reference line
+#' @param df A data frame containing KPI and label information.
+#' @param x Column containing the KPI values.
+#' @param y Column containing the labels.
+#' @param id ID of the team to be highlighted (default: NA, no team highlighted).
+#' @param KPI The selected KPI (from Shiny input) - default: "Name of KPI".
+#' @param negative Set to TRUE if lower values are better for the KPI (default: FALSE).
+#' @param median Use median instead of mean for the reference line (default: FALSE).
+#' @param fillCol Color of the bars for non-highlighted IDs (default: NA).
+#' @param highCol Color for the bars of the highlighted ID (default: NA).
+#' @param refCol Color of the reference line (default: NA).
 #'
-#' @return A bar plot, chosen id is highlighted, and mean is added as a red line - ordering is done by "negative"
+#' @return A bar plot where the chosen ID is highlighted, and the mean (or median) is indicated with a red line.
+#' The ordering of bars is determined by the "negative" parameter.
+#'
 #' @import ggplot2
 #' @import grDevices
 #' @import dplyr
@@ -23,8 +23,29 @@
 #'
 #' @export
 #'
-bar_chart <- function(df, x, y, id, KPI = "Name of KPI", negative = c(TRUE, FALSE), median = c(TRUE, FALSE), fillCol = NA, highCol = NA, refCol = NA) {
-  # TODO Write test battery
+bar_chart <- function(df, x, y, id=NA, KPI = "Name of KPI", negative = FALSE, median = FALSE, fillCol = NA, highCol = NA, refCol = NA){
+
+  # Throw error message if negative is not TRUE/FALSE
+  if(negative %nin% c(TRUE,FALSE)){
+    stop("Negative argument needs to be either TRUE or FALSE")
+  }
+
+  # Throw error message if median is not TRUE/FALSE
+  if(median %nin% c(TRUE,FALSE)){
+    stop("Median argument needs to be either TRUE or FALSE")
+  }
+
+  # If id is NA highlight top/bottom depending on negative
+  if(is.na(id)){
+    if(negative==T){
+      id=as.character((df %>% filter(.data[[y]]==min(.data[[y]])) %>% reframe(.data[[x]]))[1])
+      print("No id given - defaulting to lowest value")
+    }
+    else{
+      id=as.character((df %>% filter(.data[[y]]==max(.data[[y]])) %>% reframe(.data[[x]]))[1])
+      print("No id given - defaulting to highest value")
+    }
+  }
 
   # Calculate the reference value based on mean or median
   ref <- ifelse(median == TRUE,

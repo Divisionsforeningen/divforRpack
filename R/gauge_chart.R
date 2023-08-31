@@ -4,7 +4,7 @@
 #'
 #' @param value Percentile value * 100
 #' @param KPI Plot title
-#' @param teams Number of teams in league
+#' @param teams Number of teams in league (default: 12).
 #' @param textCol Text color
 #' @param bestCol Best quantile color
 #' @param secCol Second quantile color
@@ -19,7 +19,6 @@
 #' gauge(50, "Test")
 #' gauge(50, "Test", worstCol = "white", bestCol = "steelblue", secCol = "yellow", thrCol = "lightblue")
 gauge <- function(value, KPI, teams = 12, textCol = NA, bestCol = NA, secCol = NA, thrCol = NA, worstCol = NA) {
-  # TODO Write test battery
   # TODO Adjust annotations if teams>20
 
   # Define quantile breaks for the gauge plot based on the number of teams

@@ -1,13 +1,18 @@
-#' point_chart
+#' Point Chart
 #'
-#' @param df Data frame containing players, the value to compare and facet variable
-#' @param name Column with player names
-#' @param value The value to compare in percentile format
-#' @param facet Variable to use for facet wrap
-#' @param playerCol Highlighted player color
-#' @param otherCol Color for other players
+#' Creates a point chart for comparing players' values using facet wrap for visualization.
 #'
-#' @return Point chart used in the scouting module - depends of row_click()
+#' @param df Data frame containing players, the value to compare, and the facet variable.
+#' @param name Column with player names. (Default: "FullName")
+#' @param value The value to compare in percentile format. (Default: "value")
+#' @param facet Variable to use for facet wrap. (Default: "variable")
+#' @param playerCol Highlighted player color.
+#' @param otherCol Color for other players.
+#' @param replaced Value in "name" column to highlight as replaced player. (Default: "TEST")
+#' @param repCol Color for player to replace.
+#' @param debug Debug mode. (Default: 0)
+#'
+#' @return Point chart used in the scouting module - depends on row_click() being defined.
 #' @export
 #'
 point_chart <- function(df, name = "FullName", value = "value", facet = "variable", replaced = "TEST", playerCol = NA, repCol = NA, otherCol = NA, debug = 0) {

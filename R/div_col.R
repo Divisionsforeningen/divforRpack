@@ -1,11 +1,11 @@
-#' div_col
+#' Div Color helper
 #'
-#' Given either type or custom input checks if the input is a color and returns it for plotting use.
+#' Determines a color for plotting based on either a default type or a custom input.
 #'
 #' @param type String indicating the type for default colors.
-#' @param color Custom color input - either a color from colors() or a color in hex code.
+#' @param color Custom color input - either a color name from colors() or a hex color code.
 #'
-#' @return Color for plotting.
+#' @return A color suitable for plotting.
 #' @import grDevices
 #' @export
 #'
