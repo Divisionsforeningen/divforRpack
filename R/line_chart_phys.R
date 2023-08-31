@@ -1,12 +1,16 @@
-line_chart_phys <- function(df, date="Date", name="TeamName", team=NA, compare=input$sel_phys_overlay) {
+line_chart_phys <- function(df, date="Date", parameter=input$sel_phys_par, name="TeamName", team=NA, match=NA, compare=input$sel_phys_overlay) {
   # TODO Build function & documentation
 
   if(is.na(team)){
     stop("No team chosen!")
   }
 
+  if(is.na(match)){
+    stop("No match chosen!")
+  }
+
   # Create ggplot with date and selected variable as x and y
-  ggplot(df, aes(date, get(input$sel_phys_par), group = 1)) +
+  ggplot(df, aes(.data[[date]], .data[[parameter]], group = 1)) +
     # Add points for selected team
     geom_point(data = df %>%
       filter(.data[[name]] == team), size = 2, alpha = 0.5, color = divforRpack::div_col(type = "fill")) +
@@ -20,9 +24,12 @@ line_chart_phys <- function(df, date="Date", name="TeamName", team=NA, compare=i
     stat_smooth(method = "lm", formula = y ~ x, level = 0.95, size = 2, aes(color = "League progression", fill = "95% confidence interval")) +
     # Add trend for team to compare with
     geom_smooth(data = df %>%
-      filter(.data[[name]] == as.name(compare)), aes(color = "Overlayed team"), size = 2, se = FALSE) +
+      filter(.data[[name]] == compare), aes(color = "Overlayed team"), size = 2, se = FALSE) +
     # Set colors
-    scale_color_manual(NULL, values = c("Overlayed team" = divforRpack::div_col(type = "chosen"), "League progression" = divforRpack::div_col(type = "highlight"), "Team progression" = divforRpack::div_col(type = "reference"), "Game by game" = divforRpack::div_col(type = "fill"))) +
+    scale_color_manual(NULL, values = c("Overlayed team" = divforRpack::div_col(type = "chosen"),
+                                        "League progression" = divforRpack::div_col(type = "highlight"),
+                                        "Team progression" = divforRpack::div_col(type = "reference"),
+                                        "Game by game" = divforRpack::div_col(type = "fill"))) +
     # Set fill color
     scale_fill_manual(NULL, values = ("95% confidence interval" <- divforRpack::div_col(type = "fill"))) +
     # Break by month
@@ -37,10 +44,10 @@ line_chart_phys <- function(df, date="Date", name="TeamName", team=NA, compare=i
     ) +
     # Add point for selected game
     geom_point(data = df %>%
-      filter(.data[[name]] == team & Date == as.Date(d_id)), size = 8, alpha = 0.4, color = divforRpack::div_col(type = "chosen")) +
+      filter(.data[[name]] == team & Date == as.Date(match)), size = 8, alpha = 0.4, color = divforRpack::div_col(type = "chosen")) +
     # Add label for selected game
     geom_text_repel(data = df %>%
-      filter(.data[[name]] == team & Date == as.Date(d_id)), size = 5, nudge_y = -1, aes(label = paste0(round(get(input$sel_phys_par), digits = 1)))) +
+      filter(.data[[name]] == team & Date == as.Date(match)), size = 5, nudge_y = -1, aes(label = paste0(round(.data[[parameter]], digits = 1)))) +
     # Define labels and caption
     labs(
       title = "Progression during season",
