@@ -1,7 +1,10 @@
 #' hc_theme_sparkline_eval
 #'
-#' @param ...
+#' Customize the Highcharter theme for sparkline visualizations.
 #'
+#' @param ... Additional parameters for further customizing the Highcharter theme.
+#'
+#' @return A customized Highcharter theme for sparkline visualizations.
 #' @export
 #' @import highcharter
 #'
