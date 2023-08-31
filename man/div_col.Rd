@@ -2,20 +2,20 @@
 % Please edit documentation in R/div_col.R
 \name{div_col}
 \alias{div_col}
-\title{div_col}
+\title{Div Color helper}
 \usage{
 div_col(type = NA, color = NA)
 }
 \arguments{
 \item{type}{String indicating the type for default colors.}
 
-\item{color}{Custom color input - either a color from colors() or a color in hex code.}
+\item{color}{Custom color input - either a color name from colors() or a hex color code.}
 }
 \value{
-Color for plotting.
+A color suitable for plotting.
 }
 \description{
-Given either type or custom input checks if the input is a color and returns it for plotting use.
+Determines a color for plotting based on either a default type or a custom input.
 }
 \examples{
 div_col(color = "white")

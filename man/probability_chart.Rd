@@ -2,30 +2,30 @@
 % Please edit documentation in R/probability_chart.R
 \name{probability_chart}
 \alias{probability_chart}
-\title{probablity chart}
+\title{Probability Chart}
 \usage{
 probability_chart(
   wp,
   barCol = NA,
   textCol = NA,
   accuracy = 1,
-  provider = "OPTA"
+  provider = "Opta"
 )
 }
 \arguments{
-\item{wp}{Data from win_prob reactive}
+\item{wp}{Data from win_prob reactive.}
 
-\item{barCol}{Color of bars}
+\item{barCol}{Color of the bars. (Default: NA)}
 
-\item{textCol}{Color of text}
+\item{textCol}{Color of the text. (Default: NA)}
 
-\item{accuracy}{Decimals for label}
+\item{accuracy}{Number of decimals for label values. (Default: 1)}
 
-\item{provider}{Provider for caption}
+\item{provider}{Data provider for the caption. (Default: "Opta")}
 }
 \value{
-Win probability chart
+Win probability chart.
 }
 \description{
-probablity chart
+Creates a win probability chart using data from the win_prob reactive.
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/point_chart.R
 \name{point_chart}
 \alias{point_chart}
-\title{point_chart}
+\title{Point Chart}
 \usage{
 point_chart(
   df,
@@ -17,21 +17,27 @@ point_chart(
 )
 }
 \arguments{
-\item{df}{Data frame containing players, the value to compare and facet variable}
+\item{df}{Data frame containing players, the value to compare, and the facet variable.}
 
-\item{name}{Column with player names}
+\item{name}{Column with player names. (Default: "FullName")}
 
-\item{value}{The value to compare in percentile format}
+\item{value}{The value to compare in percentile format. (Default: "value")}
 
-\item{facet}{Variable to use for facet wrap}
+\item{facet}{Variable to use for facet wrap. (Default: "variable")}
 
-\item{playerCol}{Highlighted player color}
+\item{replaced}{Value in "name" column to highlight as replaced player. (Default: "TEST")}
 
-\item{otherCol}{Color for other players}
+\item{playerCol}{Highlighted player color.}
+
+\item{repCol}{Color for player to replace.}
+
+\item{otherCol}{Color for other players.}
+
+\item{debug}{Debug mode. (Default: 0)}
 }
 \value{
-Point chart used in the scouting module - depends of row_click()
+Point chart used in the scouting module - depends on row_click() being defined.
 }
 \description{
-point_chart
+Creates a point chart for comparing players' values using facet wrap for visualization.
 }

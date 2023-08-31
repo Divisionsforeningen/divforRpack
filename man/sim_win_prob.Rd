@@ -2,24 +2,25 @@
 % Please edit documentation in R/sim_win_prob.R
 \name{sim_win_prob}
 \alias{sim_win_prob}
-\title{sim_win_prob}
+\title{Simulate Win Probabilities}
 \usage{
 sim_win_prob(home, away, m = 1e+05)
 }
 \arguments{
-\item{home}{A vector representing the home team's shots.}
+\item{home}{A numeric vector representing the home team's shots.}
 
-\item{away}{A vector representing the away team's shots.}
+\item{away}{A numeric vector representing the away team's shots.}
 
-\item{m}{Number of simulations. Default is 100000.}
+\item{m}{The number of simulations. (Default: 100000)}
 }
 \value{
-A numeric vector with probabilities of home, draw, and away outcomes.
+A numeric vector containing probabilities of home, draw, and away outcomes.
 }
 \description{
-Calculate the win probabilities of home, draw, and away outcomes for a match
-using a Monte Carlo simulation strategy.
+Calculate win probabilities for home, draw, and away outcomes of a match
+using a Monte Carlo simulation approach. This model balances extreme cases
+at the expense of some computation speed.
 }
 \examples{
-sim_win_prob(c(0.6, 0.8), c(0.45, 0.06))
+sim_win_prob(home = c(0.6, 0.8), away = c(0.45, 0.06), m = 50000)
 }

@@ -2,19 +2,19 @@
 % Please edit documentation in R/comp_order.R
 \name{comp_order}
 \alias{comp_order}
-\title{comp_order}
+\title{Competition Order}
 \usage{
 comp_order(competitionId)
 }
 \arguments{
-\item{competitionId}{Wyscout competitionId}
+\item{competitionId}{Wyscout competition ID.}
 }
 \value{
-Integer rank
+An integer rank indicating the order.
 }
 \description{
-Orders divisions age and division level
-Works for Wyscout competition Id's
+Orders divisions by age and division level.
+This function is designed for Wyscout competition IDs.
 }
 \examples{
 

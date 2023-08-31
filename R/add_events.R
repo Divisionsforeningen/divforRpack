@@ -348,7 +348,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       l <- list(geom_segment(
         data = df, aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend),
         color = line_args[["color"]], linetype = line_args[["linetype"]][1],
-        arrow = arrow(length = unit(.25, "cm"), ends = line_args[["direction"]])
+        arrow = arrow(length = unit(.25, "cm"))
       ))
 
       # Append line list to output

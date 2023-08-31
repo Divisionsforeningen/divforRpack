@@ -2,7 +2,7 @@
 % Please edit documentation in R/goal_mouth.R
 \name{goal_mouth}
 \alias{goal_mouth}
-\title{goal_mouth}
+\title{Goal Mouth Plot}
 \usage{
 goal_mouth(
   team = input$sel_team_opp,
@@ -22,37 +22,37 @@ goal_mouth(
 )
 }
 \arguments{
-\item{team}{Selected team - from input variable as default}
+\item{team}{Selected team - taken from input variable as default.}
 
-\item{season}{Selected season - from from input variable as default}
+\item{season}{Selected season - taken from input variable as default.}
 
-\item{start}{Start of period - from from input variable as default}
+\item{start}{Start of the period - taken from input variable as default.}
 
-\item{end}{End of period - from from input variable as default}
+\item{end}{End of the period - taken from input variable as default.}
 
-\item{df}{Data with shots on target}
+\item{df}{Data with shots on target.}
 
-\item{z}{Column with goal mouth z coordinate}
+\item{z}{Column with goal mouth z coordinate.}
 
-\item{y}{Column with goal mouth y coordinate}
+\item{y}{Column with goal mouth y coordinate.}
 
-\item{type}{Column containing event types ("Goal" is used, other types are discounted)}
+\item{type}{Column containing event types ("Goal" is used; other types are discounted).}
 
-\item{goalCol}{Point color for goals}
+\item{goalCol}{Point color for goals.}
 
-\item{saveCol}{Point color for saves}
+\item{saveCol}{Point color for saves.}
 
-\item{provider}{Provider for caption}
+\item{provider}{Data provider for caption.}
 
-\item{keeperDetails}{Binary - if true adds keeper name to plot}
+\item{keeperDetails}{Binary - if true, adds keeper name to the plot.}
 
-\item{teams}{Column containing team names}
+\item{teams}{Column containing team names.}
 
-\item{name}{Column containing keeper names}
+\item{name}{Column containing keeper names.}
 }
 \value{
-Adds shots to the goal_frame plot - highlighting goals
+Adds shots to the goal_frame plot - highlighting goals.
 }
 \description{
-goal_mouth
+Adds shots to the goal frame plot, highlighting goals.
 }

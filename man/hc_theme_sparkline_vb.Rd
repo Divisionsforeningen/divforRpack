@@ -7,8 +7,11 @@
 hc_theme_sparkline_vb(...)
 }
 \arguments{
-\item{...}{}
+\item{...}{Additional parameters for further customizing the Highcharter theme.}
+}
+\value{
+A customized Highcharter theme for sparkline visualizations.
 }
 \description{
-hc_theme_sparkline_vb
+Customize the Highcharter theme for sparkline visualizations.
 }

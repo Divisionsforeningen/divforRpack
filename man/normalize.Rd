@@ -2,20 +2,20 @@
 % Please edit documentation in R/normalize.R
 \name{normalize}
 \alias{normalize}
-\title{normalize}
+\title{Normalize Data}
 \usage{
 normalize(x, type = NA)
 }
 \arguments{
-\item{x}{Series of values or a data frame column}
+\item{x}{Series of values or a data frame column.}
 
-\item{type}{Choose between Z-score ("Z") or 0 to 1 normalization ("1")}
+\item{type}{Choose between Z-score ("Z") or 0 to 1 normalization ("1").}
 }
 \value{
-Series of values scaled between 0 and 1
+Series of values scaled between 0 and 1 or Z-scores.
 }
 \description{
-Normalizes a series of values to be between 0 and 1
+Normalizes a series of values to be between 0 and 1 or computes Z-scores.
 }
 \examples{
 normalize(c(0, 5, 10), type = "Z")

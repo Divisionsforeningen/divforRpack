@@ -31,7 +31,7 @@ vbox(
 
 \item{color}{Color}
 
-\item{width}{Width}
+\item{width}{Width (Default: 4)}
 
 \item{href}{Href}
 }

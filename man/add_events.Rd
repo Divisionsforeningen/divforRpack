@@ -2,7 +2,7 @@
 % Please edit documentation in R/add_events.R
 \name{add_events}
 \alias{add_events}
-\title{add_events}
+\title{Add Events to Pitch Plot}
 \usage{
 add_events(
   df = NA,
@@ -17,6 +17,7 @@ add_events(
   corners = FALSE,
   lines = FALSE,
   passZones = FALSE,
+  goal_kick_helper = FALSE,
   pmCol = "black",
   bgCol = "white",
   textCol = "black",
@@ -31,60 +32,61 @@ add_events(
 )
 }
 \arguments{
-\item{df}{Data frame}
+\item{df}{A data frame containing event data.}
 
-\item{x}{X coordinate}
+\item{x}{Column with X coordinates.}
 
-\item{y}{Y coordinate}
+\item{y}{Column with Y coordinates.}
 
-\item{xend}{X end coordinate}
+\item{xend}{Column with X end coordinates.}
 
-\item{yend}{Y end coordinate}
+\item{yend}{Column with Y end coordinates.}
 
-\item{provider}{Name of data provider}
+\item{provider}{Name of the data provider.}
 
-\item{size}{Point size - defaults to 4, minimum is 3}
+\item{size}{Point size - defaults to 4, minimum is 3.}
 
-\item{heatmap}{Set to "TRUE" to add heatmap based on x,y}
+\item{heatmap}{Set to TRUE to add a heatmap based on x, y.}
 
-\item{shot}{Set to "TRUE" to switch to shot plot}
+\item{shot}{Set to TRUE to switch to a shot plot.}
 
-\item{corners}{Set to "TRUE" to switch to corner plot}
+\item{corners}{Set to TRUE to switch to a corner plot.}
 
-\item{lines}{Set to "TRUE" to add lines from x,y to xend,yend}
+\item{lines}{Set to TRUE to add lines from x, y to xend, yend.}
 
-\item{passZones}{Set to "TRUE" to add counts for passes to each zone}
+\item{passZones}{Set to TRUE to add counts for passes to each zone.}
 
-\item{pmCol}{Pitch marking colors for heatmap use}
+\item{goal_kick_helper}{Set to TRUE in goal_kick_plots while useing passZones.}
 
-\item{bgCol}{Background color - set to shiny theme}
+\item{pmCol}{Pitch marking colors for heatmap use.}
 
-\item{textCol}{Text color}
+\item{bgCol}{Background color - set according to the Shiny theme.}
 
-\item{title}{Title}
+\item{textCol}{Text color.}
 
-\item{explanation}{Chart explanation}
+\item{title}{Title of the plot.}
 
-\item{shirt}{Column with shirt numbers - will be added to events}
+\item{explanation}{Explanation of the chart.}
 
-\item{eventArgs}{Event arguments, usable: color and outcome column (0 or 1)}
+\item{shirt}{Column with shirt numbers - will be added to events.}
 
-\item{shotArgs}{Shot arguments, usable: color and outcome column ("goal" and "other")}
+\item{eventArgs}{Event arguments, including color and outcome column (0 or 1).}
 
-\item{cornerArgs}{Use for Opta tags - arguements: colors, and type coloumn name}
+\item{shotArgs}{Shot arguments, including color and outcome column ("goal" or "other").}
 
-\item{heatmapArgs}{Heat map arguments, usable: alpha, color, fill and type ("start" or "end")}
+\item{cornerArgs}{Use for Opta tags - arguments: colors and type column name.}
 
-\item{lineArgs}{Lines arguments: usable linetype and color}
+\item{heatmapArgs}{Heat map arguments, including alpha, color, fill, and type ("start" or "end").}
+
+\item{lineArgs}{Line arguments, including linetype and color.}
 }
 \value{
-Returns set of ggplot layers to add to a ggplot
+A set of ggplot layers to add to a ggplot.
 }
 \description{
-Add events to pitch plot - does not plot the pitch itself
+Adds events to a pitch plot without plotting the pitch itself.
 }
 \examples{
-
 x <- 100
 df <- data.frame(
   x = runif(x, 20, 75),
@@ -100,11 +102,11 @@ p <- ggplot() +
   add_events(
     df = df, x = "x", y = "y", xend = "xend", yend = "yend",
     provider = "Wyscout",
-    lines = T, passZones = F, textCol = "black", bgCol = "white",
-    corners = F, cornerArgs = list(),
+    lines = TRUE, passZones = FALSE, textCol = "black", bgCol = "white",
+    corners = FALSE, cornerArgs = list(),
     eventArgs = list(outcome = "outcome"),
-    shot = F, shotArgs = list(),
-    heatmap = T, heatmapArgs = list(type = "end", outcome = "outcome")
+    shot = FALSE, shotArgs = list(),
+    heatmap = TRUE, heatmapArgs = list(type = "end", outcome = "outcome")
   ) +
   theme_pitch()
 

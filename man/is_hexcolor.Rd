@@ -2,18 +2,18 @@
 % Please edit documentation in R/is_hexcolor.R
 \name{is_hexcolor}
 \alias{is_hexcolor}
-\title{is_hexcolor}
+\title{Hex Color Code Validation}
 \usage{
 is_hexcolor(text = NA)
 }
 \arguments{
-\item{text}{String to test for hex color code.}
+\item{text}{String to test for a hex color code.}
 }
 \value{
-TRUE if valid hex color code, FALSE otherwise.
+TRUE if the input is a valid hex color code, FALSE otherwise.
 }
 \description{
-Check if the input text is a valid hex color code.
+Checks if the input text is a valid hex color code.
 }
 \examples{
 is_hexcolor("#ffffff")

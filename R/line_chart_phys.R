@@ -1,22 +1,26 @@
-line_chart_phys <- function(df) {
+line_chart_phys <- function(df, date="Date", name="TeamName", team=NA, compare=input$sel_phys_overlay) {
   # TODO Build function & documentation
 
+  if(is.na(team)){
+    stop("No team chosen!")
+  }
+
   # Create ggplot with date and selected variable as x and y
-  ggplot(ss_summary, aes(Date, get(input$sel_phys_par), group = 1)) +
+  ggplot(df, aes(date, get(input$sel_phys_par), group = 1)) +
     # Add points for selected team
-    geom_point(data = ss_summary %>%
-      filter(`Team Name` == as.name(id_name)), size = 2, alpha = 0.5, color = divforRpack::div_col(type = "fill")) +
+    geom_point(data = df %>%
+      filter(.data[[name]] == team), size = 2, alpha = 0.5, color = divforRpack::div_col(type = "fill")) +
     # Add line between points for selected teams
-    geom_line(data = ss_summary %>%
-      filter(`Team Name` == as.name(id_name)), size = 1, alpha = 0.5, aes(color = "Game by game")) +
+    geom_line(data = df %>%
+      filter(.data[[name]] == team), size = 1, alpha = 0.5, aes(color = "Game by game")) +
     # Add trend for selected teams
-    geom_smooth(data = ss_summary %>%
-      filter(`Team Name` == as.name(id_name)), aes(color = "Team progression"), size = 2, se = FALSE) +
+    geom_smooth(data = df %>%
+      filter(.data[[name]] == team), aes(color = "Team progression"), size = 2, se = FALSE) +
     # Add trend for league
     stat_smooth(method = "lm", formula = y ~ x, level = 0.95, size = 2, aes(color = "League progression", fill = "95% confidence interval")) +
     # Add trend for team to compare with
-    geom_smooth(data = ss_summary %>%
-      filter(`Team Name` == as.name(input$sel_phys_overlay)), aes(color = "Overlayed team"), size = 2, se = FALSE) +
+    geom_smooth(data = df %>%
+      filter(.data[[name]] == as.name(compare)), aes(color = "Overlayed team"), size = 2, se = FALSE) +
     # Set colors
     scale_color_manual(NULL, values = c("Overlayed team" = divforRpack::div_col(type = "chosen"), "League progression" = divforRpack::div_col(type = "highlight"), "Team progression" = divforRpack::div_col(type = "reference"), "Game by game" = divforRpack::div_col(type = "fill"))) +
     # Set fill color
@@ -32,15 +36,15 @@ line_chart_phys <- function(df) {
       fill = guide_legend(override.aes = list(color = NA), order = 2)
     ) +
     # Add point for selected game
-    geom_point(data = ss_summary %>%
-      filter(`Team Name` == id_name & Date == as.Date(d_id)), size = 8, alpha = 0.4, color = divforRpack::div_col(type = "chosen")) +
+    geom_point(data = df %>%
+      filter(.data[[name]] == team & Date == as.Date(d_id)), size = 8, alpha = 0.4, color = divforRpack::div_col(type = "chosen")) +
     # Add label for selected game
-    geom_text_repel(data = ss_summary %>%
-      filter(`Team Name` == id_name & Date == as.Date(d_id)), size = 5, nudge_y = -1, aes(label = paste0(round(get(input$sel_phys_par), digits = 1)))) +
+    geom_text_repel(data = df %>%
+      filter(.data[[name]] == team & Date == as.Date(d_id)), size = 5, nudge_y = -1, aes(label = paste0(round(get(input$sel_phys_par), digits = 1)))) +
     # Define labels and caption
     labs(
       title = "Progression during season",
-      subtitle = as.name(id_name),
+      subtitle = team,
       y = input$sel_phys_par,
       x = "",
       caption = "Data from Second Spectrum"

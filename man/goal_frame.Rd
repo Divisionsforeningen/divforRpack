@@ -2,16 +2,39 @@
 % Please edit documentation in R/goal_frame.R
 \name{goal_frame}
 \alias{goal_frame}
-\title{goal_frame}
+\title{Goal Frame}
 \usage{
-goal_frame(lowR = NA, lowM = NA, lowL = NA, upR = NA, upM = NA, upL = NA)
+goal_frame(
+  lowR = NA,
+  lowM = NA,
+  lowL = NA,
+  upR = NA,
+  upM = NA,
+  upL = NA,
+  alpha = 0.25
+)
+}
+\arguments{
+\item{lowR}{Fill color for the lower right 1/6th.}
+
+\item{lowM}{Fill color for the lower middle 1/6th.}
+
+\item{lowL}{Fill color for the lower left 1/6th.}
+
+\item{upR}{Fill color for the upper right 1/6th.}
+
+\item{upM}{Fill color for the upper middle 1/6th.}
+
+\item{upL}{Fill color for the upper left 1/6th.}
+
+\item{alpha}{Alpha for all fill - defaults to 0.25.}
 }
 \value{
-A ggplot with a goal frame
+A ggplot with a goal frame.
 }
 \description{
-Defines a goal frame in ggplot for further use, needs to be printed for the plot to show
+Defines a goal frame in ggplot for further use.
 }
 \examples{
-print(goal_frame())
+goal_frame()
 }

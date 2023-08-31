@@ -2,7 +2,7 @@
 % Please edit documentation in R/player_dev_lines.R
 \name{player_dev_lines}
 \alias{player_dev_lines}
-\title{player_dev_lines}
+\title{Player Development Lines}
 \usage{
 player_dev_lines(
   df,
@@ -15,23 +15,23 @@ player_dev_lines(
 )
 }
 \arguments{
-\item{df}{Data frame with player data}
+\item{df}{Data frame with player data.}
 
-\item{competitionId}{Coloum name of Wyscout competitionId}
+\item{competitionId}{Column name of Wyscout competitionId. (Default: "competitionId")}
 
-\item{season}{Coloum name of x axis}
+\item{season}{Column name of x axis. (Default: "season")}
 
-\item{value}{Coloum name of y axis}
+\item{value}{Column name of y axis. (Default: "value")}
 
-\item{comp}{Coloum name of competition name for facet_wrap}
+\item{comp}{Column name of competition name for facet_wrap. (Default: "comp")}
 
-\item{KPI}{Name of y axis KPI}
+\item{KPI}{Name of y axis KPI. (Default: "Put KPI here")}
 
-\item{provider}{Name of data provider}
+\item{provider}{Name of data provider. (Default: "Put provider here")}
 }
 \value{
-Plot of KPI by season - facet_wrap by competition - order by age and level
+Plot of KPI by season - facet_wrap by competition - ordered by age and level.
 }
 \description{
-player_dev_lines
+Creates a plot of a specific KPI by season, facet-wrapped by competition, and ordered by age and level.
 }

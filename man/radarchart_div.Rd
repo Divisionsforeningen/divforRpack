@@ -2,7 +2,7 @@
 % Please edit documentation in R/radarchart_div.R
 \name{radarchart_div}
 \alias{radarchart_div}
-\title{radarchart_div}
+\title{Radar Chart}
 \usage{
 radarchart_div(
   df = NA,
@@ -11,33 +11,33 @@ radarchart_div(
   lab = NA,
   group = NA,
   col = NA,
-  title = "Put title here",
-  subTitle = "Put subtitle here",
-  provider = "Put provider here"
+  title = "TITLE",
+  subTitle = "SUBTITLE",
+  provider = "Opta"
 )
 }
 \arguments{
-\item{df}{Dataframe containing the data for the radar chart.}
+\item{df}{A data frame containing the data for the radar chart.}
 
-\item{x}{Variable names (e.g., categories or attributes).}
+\item{x}{A character vector of variable names representing categories or attributes.}
 
-\item{y}{Percentile values for each category.}
+\item{y}{A numeric vector of percentile values for each category.}
 
-\item{lab}{Data labels to display on the chart - only writes the first group label.}
+\item{lab}{Data labels to display on the chart (only displayed for the first group). (Default: NA)}
 
-\item{group}{Grouping variable.}
+\item{group}{A grouping variable (e.g., players or teams). (Default: NA)}
 
-\item{col}{Series of colors - up to 4 - c("blue","black","orange","red") etc.}
+\item{col}{A character vector of colors (up to 4) for the radar chart. (Default: NA)}
 
-\item{title}{Title for the radar chart.}
+\item{title}{A character string for the title of the radar chart. (Default: "TITLE")}
 
-\item{subTitle}{Subtitle for the radar chart.}
+\item{subTitle}{A character string for the subtitle of the radar chart. (Default: "SUBTITLE")}
 
-\item{provider}{Data provider for the data source.}
+\item{provider}{A character string indicating the data provider. (Default: "Opta")}
 }
 \value{
-Returns a radar plot for a single team/player.
+A radar chart visualizing data for a single team/player.
 }
 \description{
-Plots a radar chart, up to 4 groups.
+Plots a radar chart to visualize data across multiple categories for up to 4 groups.
 }

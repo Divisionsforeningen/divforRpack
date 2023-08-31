@@ -2,20 +2,22 @@
 % Please edit documentation in R/def_transform.R
 \name{def_transform}
 \alias{def_transform}
-\title{def_transform}
+\title{Default Transformation}
 \usage{
 def_transform(x, y)
 }
 \arguments{
-\item{x}{data}
+\item{x}{Value or list of values.}
+
+\item{y}{Value to use for transformation - either length 1 or same length as x.}
 }
 \value{
-x subtracted from y
+x subtracted from y.
 }
 \description{
-Subtracts x from y
+Subtracts x from y.
 }
 \examples{
 
-def_transform(10)
+def_transform(10, 5)
 }

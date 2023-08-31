@@ -2,7 +2,7 @@
 % Please edit documentation in R/head_to_head.R
 \name{head_to_head}
 \alias{head_to_head}
-\title{head_to_head}
+\title{Head-to-Head Chart}
 \usage{
 head_to_head(
   df,
@@ -12,32 +12,32 @@ head_to_head(
   names = "OfficialName",
   home = NA,
   textCol = NA,
-  provider = "OPTA",
+  provider = "Opta",
   title = "HEAD TO HEAD"
 )
 }
 \arguments{
-\item{df}{Data frame containing the data for the head-to-head chart}
+\item{df}{Data frame containing the data for the head-to-head chart.}
 
-\item{x}{Column with variables (e.g., match statistics or metrics)}
+\item{x}{Column with variables (e.g., match statistics or metrics).}
 
-\item{y}{Column with shares (e.g., share of possession or goals)}
+\item{y}{Column with shares (e.g., share of possession or goals).}
 
-\item{value}{Column with numeric values (e.g., actual values of the metrics)}
+\item{value}{Column with numeric values (e.g., actual values of the metrics).}
 
-\item{names}{Column with team names}
+\item{names}{Column with team names.}
 
-\item{home}{Name of the home team (used for orientation)}
+\item{home}{Name of the home team (used for orientation).}
 
-\item{textCol}{Color used for text labels (optional)}
+\item{textCol}{Color used for text labels (optional).}
 
-\item{provider}{Data provider (default: "OPTA")}
+\item{provider}{Data provider (default: "OPTA").}
 
-\item{title}{Title of the chart (default: "HEAD TO HEAD")}
+\item{title}{Title of the chart (default: "HEAD TO HEAD").}
 }
 \value{
-A head-to-head chart comparing the given data for two teams in a match
+A head-to-head chart comparing the given data for two teams in a match.
 }
 \description{
-head_to_head
+Creates a head-to-head chart comparing the given data for two teams in a match.
 }

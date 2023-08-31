@@ -2,47 +2,46 @@
 % Please edit documentation in R/bar_chart.R
 \name{bar_chart}
 \alias{bar_chart}
-\title{bar_chart}
+\title{Bar Chart}
 \usage{
 bar_chart(
   df,
   x,
   y,
-  id,
+  id = NA,
   KPI = "Name of KPI",
-  negative = c(TRUE, FALSE),
-  median = c(TRUE, FALSE),
+  negative = FALSE,
+  median = FALSE,
   fillCol = NA,
   highCol = NA,
   refCol = NA
 )
 }
 \arguments{
-\item{df}{Data frame containing KPI and Label, x and y}
+\item{df}{A data frame containing KPI and label information.}
 
-\item{x}{Column containing KPI}
+\item{x}{Column containing the KPI values.}
 
-\item{y}{Label}
+\item{y}{Column containing the labels.}
 
-\item{id}{Id to highlight}
+\item{id}{ID of the team to be highlighted (default: NA, no team highlighted).}
 
-\item{KPI}{Selected KPI - from shiny input}
+\item{KPI}{The selected KPI (from Shiny input) - default: "Name of KPI".}
 
-\item{negative}{False if higher is better for KPI}
+\item{negative}{Set to TRUE if lower values are better for the KPI (default: FALSE).}
 
-\item{median}{Use median instead of mean}
+\item{median}{Use median instead of mean for the reference line (default: FALSE).}
 
-\item{fillCol}{Color of non-highlighted ids}
+\item{fillCol}{Color of the bars for non-highlighted IDs (default: NA).}
 
-\item{highCol}{Highlighted id color}
+\item{highCol}{Color for the bars of the highlighted ID (default: NA).}
 
-\item{refCol}{Color of reference line}
+\item{refCol}{Color of the reference line (default: NA).}
 }
 \value{
-A bar plot, chosen id is highlighted, and mean is added as a red line - ordering is done by "negative"
+A bar plot where the chosen ID is highlighted, and the mean (or median) is indicated with a red line.
+The ordering of bars is determined by the "negative" parameter.
 }
 \description{
-Bar chart for comparison across multiple teams - id team will be highlighted
-Reference line with either mean or median is added
-Bar chart can be reordered using negative=true if "lower is better"
+Creates a bar chart for comparing multiple teams, highlighting a specific team with an optional reference line.
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/line_chart_con.R
 \name{line_chart_con}
 \alias{line_chart_con}
-\title{line_chart_con}
+\title{Line Chart on Continuous X Axis}
 \usage{
 line_chart_con(
   df,
@@ -21,35 +21,35 @@ line_chart_con(
 )
 }
 \arguments{
-\item{df}{Data frame}
+\item{df}{Data frame.}
 
-\item{x}{Column with data for x axis}
+\item{x}{Column with data for the x axis.}
 
-\item{y}{Column with data for y axis}
+\item{y}{Column with data for the y axis.}
 
-\item{ref}{Reference value on y axis}
+\item{labels}{Column with point labels.}
 
-\item{trend}{Set to "TRUE" to add smoothed trend}
+\item{ref}{Reference value on the y axis.}
 
-\item{lCol}{Line color}
+\item{trend}{Set to "TRUE" to add smoothed trend.}
 
-\item{KPI}{Y axis label}
+\item{lCol}{Line color.}
 
-\item{Periods}{X axis label}
+\item{KPI}{Y axis label.}
 
-\item{Title}{Title of plot}
+\item{Periods}{X axis label.}
 
-\item{Subtitle}{Subtitle of plot}
+\item{Title}{Title of the plot.}
 
-\item{provider}{Data provider}
+\item{Subtitle}{Subtitle of the plot.}
 
-\item{refCol}{Color of reference line}
+\item{provider}{Data provider.}
 
-\item{opponent}{Column with point labels}
+\item{refCol}{Color of the reference line.}
 }
 \value{
-Line chart on continuous x axis
+A line chart on a continuous x axis.
 }
 \description{
-Line chart on a continuous x axis
+Creates a line chart on a continuous x axis.
 }

@@ -20,7 +20,7 @@ gauge(
 
 \item{KPI}{Plot title}
 
-\item{teams}{Number of teams in league}
+\item{teams}{Number of teams in league (default: 12).}
 
 \item{textCol}{Text color}
 

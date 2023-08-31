@@ -2,20 +2,20 @@
 % Please edit documentation in R/nin.R
 \name{\%nin\%}
 \alias{\%nin\%}
-\title{\%nin\%}
+\title{Not In Operator (\%nin\%)}
 \usage{
 a \%nin\% b
 }
 \arguments{
-\item{a}{Object to search for}
+\item{a}{Object to search for.}
 
-\item{b}{Object to search in}
+\item{b}{Object to search in.}
 }
 \value{
-TRUE if a is in b, else FALSE
+TRUE if 'a' is not in 'b', else FALSE.
 }
 \description{
-\%nin\%
+Checks if an object is not in another object.
 }
 \examples{
 a <- 1

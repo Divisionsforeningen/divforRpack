@@ -2,21 +2,22 @@
 % Please edit documentation in R/poisson_win_prob.R
 \name{poisson_win_prob}
 \alias{poisson_win_prob}
-\title{poisson_win_prob}
+\title{Poisson Win Probability}
 \usage{
 poisson_win_prob(home_xg, away_xg)
 }
 \arguments{
-\item{home_xg}{xG of home team}
+\item{home_xg}{Expected goals (xG) of the home team.}
 
-\item{away_xg}{xG of away team}
+\item{away_xg}{Expected goals (xG) of the away team.}
 }
 \value{
-A set of probabilities HomeWin \%,Draw \%, AwayWin \%
+A set of probabilities: HomeWin \%, Draw \%, AwayWin \%.
 }
 \description{
-Calculates win probability between home and away using stats::dpois()
+Calculates win probability between home and away teams using the stats::dpois() function.
 }
 \examples{
 poisson_win_prob(home_xg = 1.2, away_xg = 1)
+
 }

@@ -2,25 +2,24 @@
 % Please edit documentation in R/normalize_cbind.R
 \name{normalize_cbind}
 \alias{normalize_cbind}
-\title{normalize}
+\title{Normalize Data}
 \usage{
 normalize_cbind(df, x, type = NA)
 }
 \arguments{
-\item{df}{Data frame to work on and return}
+\item{df}{Data frame to work on and return.}
 
-\item{x}{Column to use for normalization}
+\item{x}{Column to use for normalization.}
 
-\item{type}{Choose between Z-score ("Z") or 0 to 1 normalization ("1")}
+\item{type}{Choose between Z-score ("Z") or 0 to 1 normalization ("1").}
 }
 \value{
-Series of values scaled between 0 and 1
+Data frame with normalized or Z-scored values.
 }
 \description{
-Normalizes a series of values to be between 0 and 1
+Normalizes a series of values to be between 0 and 1 or computes Z-scores.
 }
 \examples{
-
 df <- data.frame(
   OfficialName = c("A", "B", "C", "D"),
   mean = runif(4)
