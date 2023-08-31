@@ -12,6 +12,7 @@
 #' @param corners Set to TRUE to switch to a corner plot.
 #' @param lines Set to TRUE to add lines from x, y to xend, yend.
 #' @param passZones Set to TRUE to add counts for passes to each zone.
+#' @param goal_kick_helper Set to TRUE in goal_kick_plots while useing passZones.
 #' @param bgCol Background color - set according to the Shiny theme.
 #' @param shirt Column with shirt numbers - will be added to events.
 #' @param eventArgs Event arguments, including color and outcome column (0 or 1).
@@ -59,7 +60,7 @@
 add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
                        provider = NA, size = 4,
                        heatmap = FALSE, shot = FALSE, corners = FALSE,
-                       lines = FALSE, passZones = FALSE, pmCol = "black",
+                       lines = FALSE, passZones = FALSE, goal_kick_helper=FALSE, pmCol = "black",
                        bgCol = "white", textCol = "black",
                        title = "Put title here", explanation = "Put explanation here",
                        shirt = NA,
@@ -67,7 +68,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
                        shotArgs = list(),
                        cornerArgs = list(),
                        heatmapArgs = list(),
-                       lineArgs = list()) {}
+                       lineArgs = list()) {
   # Comments ----------------------------------------------------------------
 
 
@@ -347,7 +348,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       l <- list(geom_segment(
         data = df, aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend),
         color = line_args[["color"]], linetype = line_args[["linetype"]][1],
-        arrow = arrow(length = unit(.25, "cm"))
+        arrow = arrow(length = unit(.25, "cm"), ends = line_args[["direction"]])
       ))
 
       # Append line list to output
@@ -421,6 +422,8 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
     # Pass zones --------------------------------------------------------------
     if (passZones == T) {
       # Calculated zone values
+
+      if(goal_kick_helper==FALSE){
       leftlow <- df %>%
         filter(ypend > 63.2 & .data[[xend]] < 50) %>%
         summarise(sum(n()))
@@ -444,6 +447,34 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       righthigh <- df %>%
         filter(ypend < 36.8 & .data[[xend]] >= 50) %>%
         summarise(sum(n()))
+      }
+
+      if(goal_kick_helper==TRUE){
+        leftlow <- df %>%
+          filter(yp > 63.2 & .data[[x]] < 50) %>%
+          summarise(sum(Event_type = n()))
+
+        centerlow <- df %>%
+          filter(yp <= 63.2 & yp >= 36.8 & .data[[x]] < 50) %>%
+          summarise(sum(Event_type = n()))
+
+        rightlow <- df %>%
+          filter(yp < 36.8 & .data[[x]] < 50) %>%
+          summarise(sum(Event_type = n()))
+
+        lefthigh <- df %>%
+          filter(yp > 63.2 & .data[[x]] >= 50) %>%
+          summarise(sum(Event_type = n()))
+
+        centerhigh <- df %>%
+          filter(yp <= 63.2 & yp >= 36.8 & .data[[x]] >= 50) %>%
+          summarise(sum(Event_type = n()))
+
+        righthigh <- df %>%
+          filter(yp < 36.8 & .data[[x]] >= 50) %>%
+          summarise(sum(Event_type = n()))
+      }
+
 
       # Create pass zone text
       t <- list(
@@ -577,23 +608,9 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       )
     }
 
-    # Create rest of needed corner geoms
-
-    # if(tolower(provider)=="wyscout"){
-    #   ch <- list(
-    #     coord_flip(xlim = c(50,100), ylim=c(0,100))
-    #   )
-    # }
-    #
-    # if(tolower(provider)!="wyscout"){
-    #   ch <- list(
-    #     coord_flip(xlim = c(50,100), ylim=c(100,0))
-    #   )
-    # }
     ch <- list(
       coord_flip(xlim = c(50, 100), ylim = c(100, 0))
     )
-
 
     # Append to corner
     c <- append(c, ch)
