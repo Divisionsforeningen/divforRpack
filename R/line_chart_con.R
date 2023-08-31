@@ -31,7 +31,7 @@ line_chart_con <- function(df, x, y, labels, ref = NA, trend = NA, lCol = NA, KP
   }
 
   # Calculate the range of the data for the 'x' variable.
-  range <- dat %>%
+  range <- df %>%
     dplyr::ungroup() %>%
     dplyr::summarise(max = max(.data[[x]]), min = min(.data[[x]]))
 
