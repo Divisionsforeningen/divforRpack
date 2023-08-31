@@ -39,9 +39,12 @@ radarchart_div <- function(df = NA, x = NA, y = NA, lab = NA, group = NA, col = 
   }
 
   # Assign standard color
-  if(is.na(col) && is.na(group)){
-    cols <- "#007bff"
-  }
+  if(is.na(group)){
+    if(is.na(col)){
+      cols <- "#007bff"}
+    else{
+      cols <- col}
+    }
 
   # If colors given then use them - if not enough provided add some unlikely colors
   if(!is.na(group)){
