@@ -28,7 +28,7 @@ head_to_head <- function(df, x = "variable", y = "share", value = "value", names
   }
 
   # Calculate the maximum value for 'y' to set the y-axis limits.
-  high <- as.numeric(df %>% mutate(max = max(.data[[y]])) %>% summarise(max = max(max)))
+  high <- as.numeric(df %>% ungroup() %>% mutate(max = max(.data[[y]])) %>% summarise(max = max(max)))
 
   # Create the ggplot chart.
   ggplot(df, aes(x = .data[[x]], y = ifelse(.data[[names]] %in% home, -.data[[y]], .data[[y]]), fill = .data[[names]])) +

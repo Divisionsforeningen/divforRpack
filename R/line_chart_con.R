@@ -35,6 +35,8 @@ line_chart_con <- function(df, x, y, labels, ref = NA, trend = NA, lCol = NA, KP
     dplyr::ungroup() %>%
     dplyr::summarise(max = max(.data[[x]]), min = min(.data[[x]]))
 
+  df <- df %>% arrange(.data[[x]])
+
   # Create a ggplot object 'p'.
   p <- ggplot(
     data = df,
