@@ -353,7 +353,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
         annotate("label",
           x = 55, y = c(25, 50, 75), label = c("in-swinger", "other", "out-swinger"),
           fill = c(corner_args[["color"]][1], corner_args[["color"]][3], corner_args[["color"]][2]),
-          size = lsize
+          size = lSize
         )
       )
 
@@ -559,7 +559,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
         annotate("label",
           x = 55, y = 50, label = c("Goal"),
           fill = shot_args[["color"]][1],
-          size = lsize
+          size = lSize
         )
       )
     }
