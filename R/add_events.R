@@ -110,7 +110,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
   shot_args <- list(color = c(div_col(type = "goal"), div_col(type = "fill")), border = "black", outcome = NA)
   corner_args <- list(color = c(div_col(color = "orange"), div_col(color = "forestgreen"), div_col(color = "red"), div_col(color = "lightgrey")), border = "black", type = NA)
   heatmap_args <- list(alpha = 0.1, fill = "red", type = "start", outcome = NA)
-  line_args <- list(linetype = c("solid", "dashed"), color = "black", direction = "Last", alpha = 0.5)
+  line_args <- list(linetype = c("solid", "dashed"), color = "black", direction = "last", alpha = 0.5)
 
   # Replace standards with user inputs if any
   shot_args <- modifyList(shot_args, shotArgs[intersect(names(shotArgs), names(shot_args))])
@@ -300,13 +300,13 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
           data = df %>% filter(.data[[event_args[["outcome"]]]] == 1),
           aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend),
           color = line_args[["color"]][1], linetype = line_args[["linetype"]][1],
-          arrow = arrow(length = unit(.25, "cm"))
+          arrow = arrow(length = unit(.25, "cm"), ends = line_args[["direction"]][1])
         ),
         geom_segment(
           data = df %>% filter(.data[[event_args[["outcome"]]]] == 0),
           aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend),
           color = line_args[["color"]][1], linetype = line_args[["linetype"]][2],
-          arrow = arrow(length = unit(.25, "cm"))
+          arrow = arrow(length = unit(.25, "cm"), ends = line_args[["direction"]][1])
         )
       )
 
@@ -320,19 +320,19 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "in-swinger"),
           aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend), linewidth = 1,
           color = corner_args[["color"]][1], linetype = line_args[["linetype"]][1],
-          arrow = arrow(length = unit(.25, "cm"), type = "open")
+          arrow = arrow(length = unit(.25, "cm"), type = "open", ends = line_args[["direction"]][1])
         ),
         geom_segment(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "out-swinger"),
           aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend), linewidth = 1,
           color = corner_args[["color"]][2], linetype = line_args[["linetype"]][1],
-          arrow = arrow(length = unit(.25, "cm"), type = "open")
+          arrow = arrow(length = unit(.25, "cm"), type = "open", ends = line_args[["direction"]][1])
         ),
         geom_segment(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) %nin% c("in-swinger", "out-swinger")),
           aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend), linewidth = 1,
           color = corner_args[["color"]][3], linetype = line_args[["linetype"]][1],
-          arrow = arrow(length = unit(.25, "cm"), type = "open")
+          arrow = arrow(length = unit(.25, "cm"), type = "open", ends = line_args[["direction"]][1])
         ),
         annotate("label",
           x = 55, y = c(25, 50, 75), label = c("in-swinger", "other", "out-swinger"),
@@ -348,7 +348,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       l <- list(geom_segment(
         data = df, aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend),
         color = line_args[["color"]], linetype = line_args[["linetype"]][1],
-        arrow = arrow(length = unit(.25, "cm"))
+        arrow = arrow(length = unit(.25, "cm"), ends = line_args[["direction"]][1])
       ))
 
       # Append line list to output
