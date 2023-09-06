@@ -1,11 +1,7 @@
 Package: divforRpack
 Type: Package
 Title: Internal Divisionsforenings Package
-<<<<<<< Updated upstream
-Version: 0.3.1
-=======
 Version: 0.3.2
->>>>>>> Stashed changes
 Authors@R: person("Mikkel", "Keldmann", email = "mikkel.keldmann@hotmail.com",
   role = c("aut", "cre"))
 Description: divforRpack: Internal functions for Divisionsforeningen and Performance Center in Danish Football.
