@@ -12,20 +12,21 @@
 #' @param corners Set to TRUE to switch to a corner plot.
 #' @param lines Set to TRUE to add lines from x, y to xend, yend.
 #' @param passZones Set to TRUE to add counts for passes to each zone.
-#' @param goal_kick_helper Set to TRUE in goal_kick_plots while useing passZones.
+#' @param goal_kick_helper Set to TRUE in goal_kick_plots while using passZones.
 #' @param bgCol Background color - set according to the Shiny theme.
 #' @param shirt Column with shirt numbers - will be added to events.
 #' @param eventArgs Event arguments, including color and outcome column (0 or 1).
 #' @param shotArgs Shot arguments, including color and outcome column ("goal" or "other").
 #' @param heatmapArgs Heat map arguments, including alpha, color, fill, and type ("start" or "end").
-#' @param lineArgs Line arguments, including linetype and color.
+#' @param lineArgs Line arguments, including linetype, alpha and color.
 #' @param cornerArgs Use for Opta tags - arguments: colors and type column name.
-#' @param size Point size - defaults to 4, minimum is 3.
+#' @param size Point size - defaults to 4, minimum is 3 if border is used - otherwise down to 1.
 #' @param provider Name of the data provider.
 #' @param pmCol Pitch marking colors for heatmap use.
 #' @param textCol Text color.
 #' @param title Title of the plot.
 #' @param explanation Explanation of the chart.
+#' @param lSize Explanation label size - used for corner types.
 #'
 #' @return A set of ggplot layers to add to a ggplot.
 #'
@@ -110,7 +111,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
   shot_args <- list(color = c(div_col(type = "goal"), div_col(type = "fill")), border = "black", outcome = NA)
   corner_args <- list(color = c(div_col(color = "orange"), div_col(color = "forestgreen"), div_col(color = "red"), div_col(color = "lightgrey")), border = "black", type = NA)
   heatmap_args <- list(alpha = 0.1, fill = "red", type = "start", outcome = NA)
-  line_args <- list(linetype = c("solid", "dashed"), color = "black", direction = "last", alpha = 0.5)
+  line_args <- list(linetype = c("solid", "dashed"), color = "black", direction = "last", alpha = 1)
 
   # Replace standards with user inputs if any
   shot_args <- modifyList(shot_args, shotArgs[intersect(names(shotArgs), names(shot_args))])
@@ -158,6 +159,14 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       stop("pmCol is not a usable color!")
     }
   )
+
+  tjek = c(event_args[["color"]],shot_args[["color"]], corner_args[["color"]],
+           event_args[["border"]],shot_args[["border"]], corner_args[["border"]])
+
+  for (i in tjek){
+    divforRpack::div_col(color = i)
+  }
+
 
   # Init plot ---------------------------------------------------------------
 
@@ -299,11 +308,13 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
         geom_segment(
           data = df %>% filter(.data[[event_args[["outcome"]]]] == 1),
           aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend),
+          alpha = line_args[["alpha"]][1],
           color = line_args[["color"]][1], linetype = line_args[["linetype"]][1],
           arrow = arrow(length = unit(.25, "cm"), ends = line_args[["direction"]][1])
         ),
         geom_segment(
           data = df %>% filter(.data[[event_args[["outcome"]]]] == 0),
+          alpha = line_args[["alpha"]][1],
           aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend),
           color = line_args[["color"]][1], linetype = line_args[["linetype"]][2],
           arrow = arrow(length = unit(.25, "cm"), ends = line_args[["direction"]][1])
@@ -319,25 +330,28 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
         geom_segment(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "in-swinger"),
           aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend), linewidth = 1,
+          alpha = line_args[["alpha"]][1],
           color = corner_args[["color"]][1], linetype = line_args[["linetype"]][1],
           arrow = arrow(length = unit(.25, "cm"), type = "open", ends = line_args[["direction"]][1])
         ),
         geom_segment(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) == "out-swinger"),
           aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend), linewidth = 1,
+          alpha = line_args[["alpha"]][1],
           color = corner_args[["color"]][2], linetype = line_args[["linetype"]][1],
           arrow = arrow(length = unit(.25, "cm"), type = "open", ends = line_args[["direction"]][1])
         ),
         geom_segment(
           data = df %>% filter(tolower(.data[[corner_args[["type"]]]]) %nin% c("in-swinger", "out-swinger")),
           aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend), linewidth = 1,
+          alpha = line_args[["alpha"]][1],
           color = corner_args[["color"]][3], linetype = line_args[["linetype"]][1],
           arrow = arrow(length = unit(.25, "cm"), type = "open", ends = line_args[["direction"]][1])
         ),
         annotate("label",
           x = 55, y = c(25, 50, 75), label = c("in-swinger", "other", "out-swinger"),
           fill = c(corner_args[["color"]][1], corner_args[["color"]][3], corner_args[["color"]][2]),
-          size = 4
+          size = lsize
         )
       )
 
@@ -348,6 +362,7 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
       l <- list(geom_segment(
         data = df, aes(x = .data[[x]], y = yp, xend = .data[[xend]], yend = ypend),
         color = line_args[["color"]], linetype = line_args[["linetype"]][1],
+        alpha = line_args[["alpha"]][1],
         arrow = arrow(length = unit(.25, "cm"), ends = line_args[["direction"]][1])
       ))
 
@@ -538,6 +553,11 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
         geom_point(
           data = df %>% filter(tolower(.data[[shot_args[["outcome"]]]]) == "goal"),
           aes(x = .data[[x]], y = yp), color = shot_args[["color"]][1], pch = 19, size = ss
+        ),
+        annotate("label",
+                 x = 55, y = 50, label = c("Goal"),
+                 fill = shot_args[["color"]][1],
+                 size = lsize
         )
       )
     }
