@@ -16,14 +16,13 @@
 #'
 #' @export
 radarchart_div <- function(df = NA, x = NA, y = NA, lab = NA, group = NA, col = NA, title = "TITLE", subTitle = "SUBTITLE", provider = "Opta") {
-
   # Initial plot
   p <- ggplot() +
     # Add radial lines
     geom_hline(yintercept = seq(0, 1.1, by = 0.10), colour = divforRpack::div_col(type = "fill"), linewidth = 0.2, alpha = 0.8)
 
   # If groups then get list for loop and check the number of groups
-  if(!is.na(group)){
+  if (!is.na(group)) {
     # Get groups to loop over
     groups <- unique(df %>% reframe(.data[[group]]))
 
@@ -39,59 +38,60 @@ radarchart_div <- function(df = NA, x = NA, y = NA, lab = NA, group = NA, col = 
   }
 
   # Assign standard color
-  if(is.na(group)){
-    if(is.na(col)){
-      cols <- "#007bff"}
-    else{
-      cols <- col}
+  if (is.na(group)) {
+    if (is.na(col)) {
+      cols <- "#007bff"
+    } else {
+      cols <- col
     }
+  }
 
   # If colors given then use them - if not enough provided add some unlikely colors
-  if(!is.na(group)){
+  if (!is.na(group)) {
     cols <- col
     if (length(cols) < nrow(groups)) {
-      cols <- c(cols, c("#4A412A", "purple", "#DD4124","#955251","black","limegreen","yellow"))
+      cols <- c(cols, c("#4A412A", "purple", "#DD4124", "#955251", "black", "limegreen", "yellow"))
       print("Weird colors added - give more colors as argument to avoid these")
     }
   }
 
   # If groups then run plot for all
-  if(!is.na(group)){
-  # Loop over groups
-  for (i in 1:nrow(groups)) {
-    # For each group add bars to radar plot
-    p <- p + geom_bar(
-      data = df %>% dplyr::filter(.data[[group]] == groups[i, 1]),
-      aes(x = .data[[x]], y = as.numeric(.data[[y]])),
-      stat = "identity", show.legend = FALSE, alpha = 0.5,
-      color = "black", fill = divforRpack::div_col(color = cols[i])
-    )
-    if (i == 1) {
-      p <- p +
-        # Add data labels to the bars.
-        geom_text(
-          data = df %>% dplyr::filter(.data[[group]] == groups[i, 1]),
-          aes(x = .data[[x]], y = as.numeric(.data[[y]]), label = round(as.numeric(.data[[lab]]), digits = 1)), size = 5
-        )
-    }
-  }
-  }
-
-  # If no groups run plot a single time
-  if(is.na(group)){
+  if (!is.na(group)) {
+    # Loop over groups
+    for (i in 1:nrow(groups)) {
+      # For each group add bars to radar plot
       p <- p + geom_bar(
-        data = df,
+        data = df %>% dplyr::filter(.data[[group]] == groups[i, 1]),
         aes(x = .data[[x]], y = as.numeric(.data[[y]])),
         stat = "identity", show.legend = FALSE, alpha = 0.5,
-        color = "black", fill = divforRpack::div_col(color = cols[1])
+        color = "black", fill = divforRpack::div_col(color = cols[i])
       )
-      p <- p +
+      if (i == 1) {
+        p <- p +
           # Add data labels to the bars.
           geom_text(
-            data = df,
+            data = df %>% dplyr::filter(.data[[group]] == groups[i, 1]),
             aes(x = .data[[x]], y = as.numeric(.data[[y]]), label = round(as.numeric(.data[[lab]]), digits = 1)), size = 5
           )
       }
+    }
+  }
+
+  # If no groups run plot a single time
+  if (is.na(group)) {
+    p <- p + geom_bar(
+      data = df,
+      aes(x = .data[[x]], y = as.numeric(.data[[y]])),
+      stat = "identity", show.legend = FALSE, alpha = 0.5,
+      color = "black", fill = divforRpack::div_col(color = cols[1])
+    )
+    p <- p +
+      # Add data labels to the bars.
+      geom_text(
+        data = df,
+        aes(x = .data[[x]], y = as.numeric(.data[[y]]), label = round(as.numeric(.data[[lab]]), digits = 1)), size = 5
+      )
+  }
 
   # Add the rest of gglayers
   p <- p +

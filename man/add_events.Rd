@@ -44,7 +44,7 @@ add_events(
 
 \item{provider}{Name of the data provider.}
 
-\item{size}{Point size - defaults to 4, minimum is 3.}
+\item{size}{Point size - defaults to 4, minimum is 3 if border is used - otherwise down to 1.}
 
 \item{heatmap}{Set to TRUE to add a heatmap based on x, y.}
 
@@ -56,7 +56,7 @@ add_events(
 
 \item{passZones}{Set to TRUE to add counts for passes to each zone.}
 
-\item{goal_kick_helper}{Set to TRUE in goal_kick_plots while useing passZones.}
+\item{goal_kick_helper}{Set to TRUE in goal_kick_plots while using passZones.}
 
 \item{pmCol}{Pitch marking colors for heatmap use.}
 
@@ -78,7 +78,9 @@ add_events(
 
 \item{heatmapArgs}{Heat map arguments, including alpha, color, fill, and type ("start" or "end").}
 
-\item{lineArgs}{Line arguments, including linetype and color.}
+\item{lineArgs}{Line arguments, including linetype, alpha and color.}
+
+\item{lSize}{Explanation label size - used for corner types.}
 }
 \value{
 A set of ggplot layers to add to a ggplot.

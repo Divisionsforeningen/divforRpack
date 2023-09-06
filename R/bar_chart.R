@@ -23,26 +23,24 @@
 #'
 #' @export
 #'
-bar_chart <- function(df, x, y, id=NA, KPI = "Name of KPI", negative = FALSE, median = FALSE, fillCol = NA, highCol = NA, refCol = NA){
-
+bar_chart <- function(df, x, y, id = NA, KPI = "Name of KPI", negative = FALSE, median = FALSE, fillCol = NA, highCol = NA, refCol = NA) {
   # Throw error message if negative is not TRUE/FALSE
-  if(negative %nin% c(TRUE,FALSE)){
+  if (negative %nin% c(TRUE, FALSE)) {
     stop("Negative argument needs to be either TRUE or FALSE")
   }
 
   # Throw error message if median is not TRUE/FALSE
-  if(median %nin% c(TRUE,FALSE)){
+  if (median %nin% c(TRUE, FALSE)) {
     stop("Median argument needs to be either TRUE or FALSE")
   }
 
   # If id is NA highlight top/bottom depending on negative
-  if(is.na(id)){
-    if(negative==T){
-      id=as.character((df %>% filter(.data[[y]]==min(.data[[y]])) %>% reframe(.data[[x]]))[1])
+  if (is.na(id)) {
+    if (negative == T) {
+      id <- as.character((df %>% filter(.data[[y]] == min(.data[[y]])) %>% reframe(.data[[x]]))[1])
       print("No id given - defaulting to lowest value")
-    }
-    else{
-      id=as.character((df %>% filter(.data[[y]]==max(.data[[y]])) %>% reframe(.data[[x]]))[1])
+    } else {
+      id <- as.character((df %>% filter(.data[[y]] == max(.data[[y]])) %>% reframe(.data[[x]]))[1])
       print("No id given - defaulting to highest value")
     }
   }

@@ -16,7 +16,7 @@ poisson_win_prob <- function(home_xg, away_xg) {
   # Original simulation model - useful but not the best in extreme cases
 
   # Throw error message if input is not numeric
-  if(!is.numeric(home_xg) || !is.numeric(away_xg)){
+  if (!is.numeric(home_xg) || !is.numeric(away_xg)) {
     stop("Input needs to be numeric!")
   }
 
@@ -39,7 +39,7 @@ poisson_win_prob <- function(home_xg, away_xg) {
   }
 
   # Throw warning if probability is above 100%
-  if(sum(matchResult)>1){
+  if (sum(matchResult) > 1) {
     warning("Something might be wrong...")
   }
 

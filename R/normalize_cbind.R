@@ -18,7 +18,6 @@
 #'
 #' df <- normalize_cbind(df, x = df$mean, type = "Z")
 normalize_cbind <- function(df, x, type = NA) {
-
   # Throw error message if input is not numeric
   if (!is.numeric(x)) {
     stop("Inputs are not numeric")
@@ -34,13 +33,11 @@ normalize_cbind <- function(df, x, type = NA) {
     norm1 <- (x - min(x)) / (max(x) - min(x))
     df <- cbind(df, norm1)
     return(df)
-
   } else if (type == "Z") {
     # Takes a series of values and returns the z-score
     normZ <- (x - mean(x)) / sd(x)
     df <- cbind(df, normZ)
     return(df)
-
   } else {
     stop("Something is not right!")
   }

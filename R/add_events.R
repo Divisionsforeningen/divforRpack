@@ -61,7 +61,7 @@
 add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
                        provider = NA, size = 4,
                        heatmap = FALSE, shot = FALSE, corners = FALSE,
-                       lines = FALSE, passZones = FALSE, goal_kick_helper=FALSE, pmCol = "black",
+                       lines = FALSE, passZones = FALSE, goal_kick_helper = FALSE, pmCol = "black",
                        bgCol = "white", textCol = "black",
                        title = "Put title here", explanation = "Put explanation here",
                        shirt = NA,
@@ -160,10 +160,12 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
     }
   )
 
-  tjek = c(event_args[["color"]],shot_args[["color"]], corner_args[["color"]],
-           event_args[["border"]],shot_args[["border"]], corner_args[["border"]])
+  tjek <- c(
+    event_args[["color"]], shot_args[["color"]], corner_args[["color"]],
+    event_args[["border"]], shot_args[["border"]], corner_args[["border"]]
+  )
 
-  for (i in tjek){
+  for (i in tjek) {
     divforRpack::div_col(color = i)
   }
 
@@ -438,33 +440,33 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
     if (passZones == T) {
       # Calculated zone values
 
-      if(goal_kick_helper==FALSE){
-      leftlow <- df %>%
-        filter(ypend > 63.2 & .data[[xend]] < 50) %>%
-        summarise(sum(n()))
+      if (goal_kick_helper == FALSE) {
+        leftlow <- df %>%
+          filter(ypend > 63.2 & .data[[xend]] < 50) %>%
+          summarise(sum(n()))
 
-      centerlow <- df %>%
-        filter(ypend <= 63.2 & ypend >= 36.8 & .data[[xend]] < 50) %>%
-        summarise(sum(n()))
+        centerlow <- df %>%
+          filter(ypend <= 63.2 & ypend >= 36.8 & .data[[xend]] < 50) %>%
+          summarise(sum(n()))
 
-      rightlow <- df %>%
-        filter(ypend < 36.8 & .data[[xend]] < 50) %>%
-        summarise(sum(n()))
+        rightlow <- df %>%
+          filter(ypend < 36.8 & .data[[xend]] < 50) %>%
+          summarise(sum(n()))
 
-      lefthigh <- df %>%
-        filter(ypend > 63.2 & .data[[xend]] >= 50) %>%
-        summarise(sum(n()))
+        lefthigh <- df %>%
+          filter(ypend > 63.2 & .data[[xend]] >= 50) %>%
+          summarise(sum(n()))
 
-      centerhigh <- df %>%
-        filter(ypend <= 63.2 & ypend >= 36.8 & .data[[xend]] >= 50) %>%
-        summarise(sum(n()))
+        centerhigh <- df %>%
+          filter(ypend <= 63.2 & ypend >= 36.8 & .data[[xend]] >= 50) %>%
+          summarise(sum(n()))
 
-      righthigh <- df %>%
-        filter(ypend < 36.8 & .data[[xend]] >= 50) %>%
-        summarise(sum(n()))
+        righthigh <- df %>%
+          filter(ypend < 36.8 & .data[[xend]] >= 50) %>%
+          summarise(sum(n()))
       }
 
-      if(goal_kick_helper==TRUE){
+      if (goal_kick_helper == TRUE) {
         leftlow <- df %>%
           filter(yp > 63.2 & .data[[x]] < 50) %>%
           summarise(sum(Event_type = n()))
@@ -555,9 +557,9 @@ add_events <- function(df = NA, x = NA, y = NA, xend = NA, yend = NA,
           aes(x = .data[[x]], y = yp), color = shot_args[["color"]][1], pch = 19, size = ss
         ),
         annotate("label",
-                 x = 55, y = 50, label = c("Goal"),
-                 fill = shot_args[["color"]][1],
-                 size = lsize
+          x = 55, y = 50, label = c("Goal"),
+          fill = shot_args[["color"]][1],
+          size = lsize
         )
       )
     }

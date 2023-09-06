@@ -11,7 +11,6 @@
 #' @examples
 #'
 #' def_transform(10, 5)
-
 def_transform <- function(x, y) {
   # Throw error messsage if imputs are not numeric
   if (!is.numeric(x) || !is.numeric(y)) {
